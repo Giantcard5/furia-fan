@@ -79,7 +79,7 @@ export function LandingPage() {
                         <S.Header>
                             <S.LogoWrapper>
                                 <Image
-                                    src='/icon-text.svg'
+                                    src='/icon-text-white.svg'
                                     alt='FURIA Text'
                                     width={70}
                                     height={70}
@@ -110,7 +110,7 @@ export function LandingPage() {
                                 transition={{ duration: 0.5 }}
                             >
                                 <Image
-                                    src='/icon-text.svg'
+                                    src='/icon-text-white.svg'
                                     alt='FURIA Icon'
                                     width={200}
                                     height={200}
@@ -400,7 +400,7 @@ export function LandingPage() {
                     <S.FooterTop>
                         <S.FooterLogo>
                             <Image
-                                src='/icon-text.svg'
+                                src='/icon-text-white.svg'
                                 alt='FURIA Text'
                                 width={70}
                                 height={20}
