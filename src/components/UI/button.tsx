@@ -38,7 +38,7 @@ const getVariantStyles = (variant: ButtonVariant) => {
             return css`
                 background-color: transparent;
                 border: none;
-                color: ${({ theme}) => theme.colors.gray[400]};
+                color: ${({ theme}) => theme.colors.gray[400]};;
                 padding: 0;
                 
                 &:hover {

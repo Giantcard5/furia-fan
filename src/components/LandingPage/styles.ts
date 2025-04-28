@@ -237,7 +237,7 @@ const LiveDotPing = styled.div`
     width: 0.75rem;
     height: 0.75rem;
     border-radius: ${({ theme }) => theme.radii.full};
-    background-color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.gold};
     animation: ${ping} 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
 `;
 
@@ -245,7 +245,7 @@ const LiveDotCore = styled.div`
     width: 0.75rem;
     height: 0.75rem;
     border-radius: ${({ theme }) => theme.radii.full};
-    background-color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.gold};
 `;
 
 const LiveMatchInfo = styled.div``;
@@ -295,11 +295,12 @@ const ScrollDot = styled.div`
     animation: ${bounce} 1.5s infinite;
 `;
 
-const SectionWrapper = styled.div<{ dark?: boolean }>`
-    padding: ${({ theme }) => `${theme.space[20]} 0`};
-    background: ${({ dark, theme }) =>
-        dark ? theme.colors.black : `linear-gradient(to bottom, ${theme.colors.black}, ${theme.colors.gray[900]})`};
+const SectionWrapper = styled.div<{ $isDark?: boolean }>`
     position: relative;
+    padding: 120px 0;
+    color: ${({ theme, $isDark }) => $isDark ? theme.colors.white : theme.colors.black};
+    background: ${({ $isDark, theme }) =>
+        $isDark ? theme.colors.black : `linear-gradient(to bottom, ${theme.colors.black}, ${theme.colors.gray[900]})`};
     overflow: hidden;
 `;
 
@@ -318,6 +319,7 @@ const SectionTitle = styled.h2`
     font-size: ${({ theme }) => theme.fontSizes['3xl']};
     font-weight: ${({ theme }) => theme.fontWeights.bold};
     margin-bottom: ${({ theme }) => theme.space[4]};
+    color: ${({ theme }) => theme.colors.gold};
     
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
         font-size: ${({ theme }) => theme.fontSizes['4xl']};
@@ -393,6 +395,8 @@ const FeatureLink = styled.button`
     padding: 0;
     cursor: pointer;
     font-size: ${({ theme }) => theme.fontSizes.md};
+    font-weight: ${({ theme }) => theme.fontWeights.semibold};
+    color: ${({ theme }) => theme.colors.gold};
     
     &:hover {
         text-decoration: underline;
@@ -432,12 +436,12 @@ const MatchImageOverlay = styled.div`
     background: linear-gradient(to top, ${({ theme }) => theme.colors.black}, transparent);
 `;
 
-const MatchBadge = styled.div<{ variant?: 'live' | 'upcoming' }>`
+const MatchBadge = styled.div<{ variant: 'live' | 'upcoming' }>`
     position: absolute;
     top: ${({ theme }) => theme.space[2]};
     right: ${({ theme }) => theme.space[2]};
-    background-color: ${({ theme }) => theme.colors.white};
-    color: ${({ theme }) => theme.colors.black};
+    background-color: ${({ theme, variant }) => variant === 'live' ? theme.colors.gold : theme.colors.gray[800]};
+    color: ${({ theme }) => theme.colors.white};
     font-size: ${({ theme }) => theme.fontSizes.xs};
     padding: ${({ theme }) => `${theme.space[1]} ${theme.space[2]}`};
     border-radius: ${({ theme }) => theme.radii.md};
