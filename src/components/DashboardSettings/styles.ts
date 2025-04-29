@@ -44,23 +44,23 @@ const SettingsNav = styled.nav`
     overflow: hidden;
 `;
 
-const NavItem = styled.button<{ active?: boolean }>`
+const NavItem = styled.button<{ $active?: boolean }>`
     display: flex;
     align-items: center;
     width: 100%;
     padding: ${({ theme }) => theme.space[4]} ${({ theme }) => theme.space[4]};
-    background-color: ${({ theme, active }) => (active ? theme.colors.backgroundLight : 'transparent')};
+    background-color: ${({ theme, $active }) => ($active ? theme.colors.backgroundLight : 'transparent')};
     border: none;
     text-align: left;
-    color: ${({ theme, active }) => (active ? theme.colors.gold : theme.colors.gray[400])};
+    color: ${({ theme, $active }) => ($active ? theme.colors.gold : theme.colors.gray[400])};
     font-size: .95rem;
     font-weight: ${({ theme }) => theme.fontWeights.medium};
     cursor: pointer;
     transition: all 0.2s ease;
     
     &:hover {
-        background-color: ${({ theme, active }) => (active ? theme.colors.backgroundLight : `${theme.colors.backgroundLight}80`)};
-        color: ${({ theme, active }) => (active ? theme.colors.gold : theme.colors.gray[300])};
+        background-color: ${({ theme, $active }) => ($active ? theme.colors.backgroundLight : `${theme.colors.backgroundLight}80`)};
+        color: ${({ theme, $active }) => ($active ? theme.colors.gold : theme.colors.gray[300])};
     }
     
     svg {
@@ -197,14 +197,14 @@ const ThemeSelector = styled.div`
     margin-top: ${({ theme }) => theme.space[3]};
 `;
 
-const ThemeOption = styled.button<{ active?: boolean }>`
+const ThemeOption = styled.button<{ $active?: boolean }>`
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: ${({ theme }) => theme.space[2]};
     padding: ${({ theme }) => theme.space[3]};
-    background-color: ${({ theme, active }) => (active ? theme.colors.backgroundLight : 'transparent')};
-    border: 1px solid ${({ theme, active }) => (active ? theme.colors.gold : '#333333')};
+    background-color: ${({ theme, $active }) => ($active ? theme.colors.backgroundLight : 'transparent')};
+    border: 1px solid ${({ theme, $active }) => ($active ? theme.colors.gold : '#333333')};
     border-radius: ${({ theme }) => theme.radii.md};
     color: ${({ theme }) => theme.colors.white};
     cursor: pointer;

@@ -338,19 +338,19 @@ export default function SettingsPage() {
                                 <div style={{ marginBottom: '24px' }}>
                                     <Label>Theme</Label>
                                     <S.ThemeSelector>
-                                        <S.ThemeOption active={theme === 'light'} onClick={() => setTheme('light')}>
+                                        <S.ThemeOption $active={theme === 'light'} onClick={() => setTheme('light')}>
                                             <S.ThemeIcon>
                                                 <Sun size={20} />
                                             </S.ThemeIcon>
                                             <S.ThemeName>Light</S.ThemeName>
                                         </S.ThemeOption>
-                                        <S.ThemeOption active={theme === 'dark'} onClick={() => setTheme('dark')}>
+                                        <S.ThemeOption $active={theme === 'dark'} onClick={() => setTheme('dark')}>
                                             <S.ThemeIcon>
                                                 <Moon size={20} />
                                             </S.ThemeIcon>
                                             <S.ThemeName>Dark</S.ThemeName>
                                         </S.ThemeOption>
-                                        <S.ThemeOption active={theme === 'system'} onClick={() => setTheme('system')}>
+                                        <S.ThemeOption $active={theme === 'system'} onClick={() => setTheme('system')}>
                                             <S.ThemeIcon>
                                                 <Smartphone size={20} />
                                             </S.ThemeIcon>
@@ -388,19 +388,19 @@ export default function SettingsPage() {
             <S.SettingsContainer>
                 <S.SettingsSidebar>
                     <S.SettingsNav>
-                        <S.NavItem active={activeSection === 'profile'} onClick={() => setActiveSection('profile')}>
+                        <S.NavItem $active={activeSection === 'profile'} onClick={() => setActiveSection('profile')}>
                             <User size={18} />
                             Profile
                         </S.NavItem>
-                        <S.NavItem active={activeSection === 'notifications'} onClick={() => setActiveSection('notifications')}>
+                        <S.NavItem $active={activeSection === 'notifications'} onClick={() => setActiveSection('notifications')}>
                             <Bell size={18} />
                             Notifications
                         </S.NavItem>
-                        <S.NavItem active={activeSection === 'security'} onClick={() => setActiveSection('security')}>
+                        <S.NavItem $active={activeSection === 'security'} onClick={() => setActiveSection('security')}>
                             <Shield size={18} />
                             Security
                         </S.NavItem>
-                        <S.NavItem active={activeSection === 'preferences'} onClick={() => setActiveSection('preferences')}>
+                        <S.NavItem $active={activeSection === 'preferences'} onClick={() => setActiveSection('preferences')}>
                             <Globe size={18} />
                             Preferences
                         </S.NavItem>
