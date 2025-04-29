@@ -26,7 +26,7 @@ import {
 
 import { 
     Event 
-} from '@/types/events';
+} from '@/types/event';
 
 export default function EventsPage() {
     const [activeFilter, setActiveFilter] = useState('all');

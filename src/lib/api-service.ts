@@ -1,4 +1,4 @@
-import { Event } from '@/types/events';
+import { Event } from '@/types/event';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
