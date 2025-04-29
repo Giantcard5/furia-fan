@@ -54,58 +54,58 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </S.SidebarHeader>
 
                 <S.SidebarContent>
-                    <S.NavItem href='/dashboard' active={isActive('/dashboard')}>
+                    <S.NavItem href='/dashboard' $active={isActive('/dashboard')}>
                         <Home size={18} />
                         Dashboard
                     </S.NavItem>
 
-                    <S.NavItem href='/dashboard/profile' active={isActive('/dashboard/profile')}>
+                    <S.NavItem href='/dashboard/profile' $active={isActive('/dashboard/profile')}>
                         <User size={18} />
                         My Profile
                     </S.NavItem>
 
-                    <S.NavItem href='/dashboard/events' active={isActive('/dashboard/events')}>
+                    <S.NavItem href='/dashboard/events' $active={isActive('/dashboard/events')}>
                         <Calendar size={18} />
                         Events
                     </S.NavItem>
 
-                    <S.NavItemWithSubmenu active={isCommunityActive()}>
-                        <S.NavItemHeader active={isCommunityActive()} onClick={toggleCommunity}>
+                    <S.NavItemWithSubmenu>
+                        <S.NavItemHeader $active={isCommunityActive()} onClick={toggleCommunity}>
                             <S.NavItemContent>
                                 <Users size={18} />
                                 Community
                             </S.NavItemContent>
                             {communityOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
                         </S.NavItemHeader>
-                        <S.SubNavGroup isOpen={communityOpen}>
-                            <S.SubNavItem href='/dashboard/community/forums' active={isActive('/dashboard/community/forums')}>
+                        <S.SubNavGroup $isOpen={communityOpen}>
+                            <S.SubNavItem href='/dashboard/community/forums' $active={isActive('/dashboard/community/forums')}>
                                 <MessageSquare size={16} />
                                 Forums
                             </S.SubNavItem>
-                            <S.SubNavItem href='/dashboard/community/teams' active={isActive('/dashboard/community/teams')}>
+                            <S.SubNavItem href='/dashboard/community/teams' $active={isActive('/dashboard/community/teams')}>
                                 <Trophy size={16} />
                                 Teams
                             </S.SubNavItem>
-                            <S.SubNavItem href='/dashboard/community/games' active={isActive('/dashboard/community/games')}>
+                            <S.SubNavItem href='/dashboard/community/games' $active={isActive('/dashboard/community/games')}>
                                 <Gamepad2 size={16} />
                                 Games
                             </S.SubNavItem>
                         </S.SubNavGroup>
                     </S.NavItemWithSubmenu>
 
-                    <S.NavItem href='/dashboard/shop' active={isActive('/dashboard/shop')}>
+                    <S.NavItem href='/dashboard/shop' $active={isActive('/dashboard/shop')}>
                         <ShoppingBag size={18} />
                         Shop
                     </S.NavItem>
                 </S.SidebarContent>
 
                 <S.SidebarFooter>
-                    <S.NavItem href='/dashboard/settings' active={isActive('/dashboard/settings')}>
+                    <S.NavItem href='/dashboard/settings' $active={isActive('/dashboard/settings')}>
                         <Settings size={18} />
                         Settings
                     </S.NavItem>
 
-                    <S.NavItem href='/dashboard/help' active={isActive('/dashboard/help')}>
+                    <S.NavItem href='/dashboard/help' $active={isActive('/dashboard/help')}>
                         <HelpCircle size={18} />
                         Help & Support
                     </S.NavItem>

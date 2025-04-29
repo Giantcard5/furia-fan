@@ -167,7 +167,7 @@ export default function HelpPage() {
                                     {openFAQ === faq.id ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                                 </S.FAQIcon>
                             </S.FAQHeader>
-                            <S.FAQContent isOpen={openFAQ === faq.id}>
+                            <S.FAQContent $isOpen={openFAQ === faq.id}>
                                 <S.FAQText>{faq.answer}</S.FAQText>
                             </S.FAQContent>
                         </S.FAQCard>

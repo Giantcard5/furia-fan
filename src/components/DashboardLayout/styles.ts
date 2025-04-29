@@ -46,11 +46,11 @@ const SidebarFooter = styled.div`
     border-top: 1px solid #333333;
 `;
 
-const NavItem = styled(Link) <{ active?: boolean }>`
+const NavItem = styled(Link)<{ $active?: boolean }>`
     display: flex;
     align-items: center;
-    padding: ${({ theme }) => theme.space[2]} ${({ theme }) => theme.space[4]};
-    color: ${({ theme, active }) => (active ? theme.colors.gold : theme.colors.gray[400])};
+    padding: ${({ theme }) => `${theme.space[2]} ${theme.space[4]}`};
+    color: ${({ theme, $active }) => ($active ? theme.colors.gold : theme.colors.gray[400])};
     font-size: ${({ theme }) => theme.fontSizes.sm};
     font-weight: ${({ theme }) => theme.fontWeights.medium};
     cursor: pointer;
@@ -59,7 +59,7 @@ const NavItem = styled(Link) <{ active?: boolean }>`
     border-radius: 4px;
     margin: 2px ${({ theme }) => theme.space[2]};
     
-    ${({ active }) => active && `background-color: rgba(255, 255, 255, 0.08);`}
+    ${({ $active }) => $active && `background-color: rgba(255, 255, 255, 0.08);`}
     
     &:hover {
         background-color: rgba(255, 255, 255, 0.1);
@@ -71,23 +71,23 @@ const NavItem = styled(Link) <{ active?: boolean }>`
     }
 `;
 
-const NavItemWithSubmenu = styled.div<{ active?: boolean }>`
+const NavItemWithSubmenu = styled.div<{ $active?: boolean }>`
     margin: 2px ${({ theme }) => theme.space[2]};
     border-radius: 6px;
     
-    ${({ active, theme }) => active && ` background-color: rgba(255, 255, 255, 0.1);`}
+    ${({ $active, theme }) => $active && ` background-color: rgba(255, 255, 255, 0.1);`}
     
     &:hover {
         background-color: rgba(255, 255, 255, 0.1);
     }
 `;
 
-const NavItemHeader = styled.div<{ active?: boolean }>`
+const NavItemHeader = styled.div<{ $active?: boolean }>`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: ${({ theme }) => theme.space[2]} ${({ theme }) => theme.space[4]};
-    color: ${({ theme, active }) => (active ? theme.colors.gold : theme.colors.gray[400])};
+    padding: ${({ theme }) => `${theme.space[2]} ${theme.space[4]}`};
+    color: ${({ theme, $active }) => ($active ? theme.colors.gold : theme.colors.gray[400])};
     font-size: ${({ theme }) => theme.fontSizes.sm};
     font-weight: ${({ theme }) => theme.fontWeights.medium};
     cursor: pointer;
@@ -107,17 +107,17 @@ const NavItemContent = styled.div`
     }
 `;
 
-const SubNavGroup = styled.div<{ isOpen?: boolean }>`
-    display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+const SubNavGroup = styled.div<{ $isOpen?: boolean }>`
+    display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
     margin-top: ${({ theme }) => theme.space[1]};
 `;
 
-const SubNavItem = styled(Link) <{ active?: boolean }>`
+const SubNavItem = styled(Link)<{ $active?: boolean }>`
     display: flex;
     align-items: center;
-    padding: ${({ theme }) => theme.space[2]} ${({ theme }) => theme.space[4]};
+    padding: ${({ theme }) => `${theme.space[2]} ${theme.space[4]}`};
     padding-left: ${({ theme }) => theme.space[10]};
-    color: ${({ theme, active }) => (active ? theme.colors.gold : theme.colors.gray[400])};
+    color: ${({ theme, $active }) => ($active ? theme.colors.gold : theme.colors.gray[400])};
     font-size: ${({ theme }) => theme.fontSizes.sm};
     font-weight: ${({ theme }) => theme.fontWeights.medium};
     cursor: pointer;

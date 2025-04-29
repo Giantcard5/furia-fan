@@ -177,10 +177,10 @@ const FAQIcon = styled.div`
     }
 `;
 
-const FAQContent = styled.div<{ isOpen: boolean }>`
-    padding: ${({ theme, isOpen }) => (isOpen ? theme.space[4] : 0)};
+const FAQContent = styled.div<{ $isOpen: boolean }>`
+    padding: ${({ theme, $isOpen }) => ($isOpen ? theme.space[4] : 0)};
     padding-top: 0;
-    max-height: ${({ isOpen }) => (isOpen ? '500px' : '0')};
+    max-height: ${({ $isOpen }) => ($isOpen ? '500px' : '0')};
     overflow: hidden;
     transition: all 0.3s ease;
 `;
