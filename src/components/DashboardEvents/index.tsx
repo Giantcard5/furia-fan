@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
 import Link from 'next/link';
 
@@ -20,93 +20,46 @@ import * as S from './styles';
 
 import DashboardLayout from '@/components/DashboardLayout';
 
+import { 
+    apiService 
+} from '@/lib/api-service';
+
+import { 
+    Event 
+} from '@/types/events';
+
 export default function EventsPage() {
     const [activeFilter, setActiveFilter] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(true);
+    const [events, setEvents] = useState<Event[]>([]);
+
     const eventsPerPage = 6;
 
-    const allEvents = [
-        {
-            id: 1,
-            title: 'FURIA vs MiBR',
-            type: 'match',
-            date: 'Apr 30, 2025',
-            time: '18:00',
-            location: 'São Paulo, Brazil',
-            image: '',
-            attendees: 156,
-            game: 'CS2',
-        },
-        {
-            id: 2,
-            title: 'CS2 Major Copenhagen',
-            type: 'tournament',
-            date: 'May 14, 2025',
-            time: '10:00',
-            location: 'Copenhagen, Denmark',
-            image: '',
-            attendees: 243,
-            game: 'CS2',
-        },
-        {
-            id: 3,
-            title: 'FURIA Fan Meet',
-            type: 'fan-meet',
-            date: 'Jun 9, 2025',
-            time: '15:00',
-            location: 'Rio de Janeiro, Brazil',
-            image: '',
-            attendees: 89,
-            game: null,
-        },
-        {
-            id: 4,
-            title: 'FURIA vs Liquid',
-            type: 'match',
-            date: 'Jun 15, 2025',
-            time: '19:30',
-            location: 'Los Angeles, USA',
-            image: '',
-            attendees: 112,
-            game: 'CS2',
-        },
-        {
-            id: 5,
-            title: 'Valorant Champions Tour',
-            type: 'tournament',
-            date: 'Jul 5, 2025',
-            time: '12:00',
-            location: 'Berlin, Germany',
-            image: '',
-            attendees: 178,
-            game: 'Valorant',
-        },
-        {
-            id: 6,
-            title: 'FURIA Community Day',
-            type: 'fan-meet',
-            date: 'Jul 20, 2025',
-            time: '14:00',
-            location: 'São Paulo, Brazil',
-            image: '',
-            attendees: 65,
-            game: null,
-        },
-        {
-            id: 7,
-            title: 'FURIA Community Day',
-            type: 'fan-meet',
-            date: 'Jul 20, 2025',
-            time: '14:00',
-            location: 'São Paulo, Brazil',
-            image: '',
-            attendees: 65,
-            game: null,
-        },
-    ]
+    const fetchEvents = async () => {
+        setLoading(true);
 
-    const filteredEvents = allEvents.filter((event) => {
+        try {
+            const response = await apiService.getEventsData();
+
+            if (response.error) {
+                throw new Error(response.error);
+            };
+
+            setEvents(response.data);
+        } catch (err) {
+            console.error('Error fetching messages:', err);
+        } finally {
+            setLoading(false);
+        };
+    };
+
+    useEffect(() => {
+        fetchEvents();
+    }, []);
+
+    const filteredEvents = events.filter((event) => {
         const matchesFilter = activeFilter === 'all' || event.type === activeFilter;
         const matchesSearch =
             event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
