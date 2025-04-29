@@ -17,7 +17,7 @@ export const CardHeader = styled.div`
 export const CardTitle = styled.h3`
     font-size: ${({ theme }) => theme.fontSizes.xl};
     font-weight: ${({ theme }) => theme.fontWeights.bold};
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.gray[200]};
 `;
 
 export const CardDescription = styled.p`

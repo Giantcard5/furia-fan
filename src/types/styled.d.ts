@@ -6,6 +6,7 @@ declare module 'styled-components' {
             black: string
             white: string
             gold: string
+            goldDark: string
             gray: {
                 100: string
                 200: string
@@ -18,6 +19,8 @@ declare module 'styled-components' {
                 900: string
             }
             red: string
+            background: string
+            backgroundLight: string
             transparent: string
         }
         fonts: {

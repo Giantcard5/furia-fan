@@ -16,7 +16,7 @@ const ProgressContainer = styled.div`
 const ProgressIndicator = styled.div<{ value: number }>`
     height: 100%;
     width: ${({ value }) => `${value}%`};
-    background-color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.gray[300]};
     transition: width 0.3s ease;
 `;
 

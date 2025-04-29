@@ -3,6 +3,7 @@ export const theme = {
         black: "#000000",
         white: "#FFFFFF",
         gold: "#D4AF37",
+        goldDark: "#E6B800",
         gray: {
             100: "#F5F5F5",
             200: "#E5E5E5",
@@ -15,6 +16,8 @@ export const theme = {
             900: "#171717",
         },
         red: "#EF4444",
+        background: "#0A0A0A",
+        backgroundLight: "#1A1A1A",
         transparent: "transparent",
     },
     fonts: {
