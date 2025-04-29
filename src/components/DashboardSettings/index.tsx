@@ -83,7 +83,7 @@ export default function SettingsPage() {
                                             name='fullName'
                                             placeholder={formData.fullName}
                                             onChange={handleInputChange}
-                                            fullWidth
+                                            $fullWidth
                                         />
                                     </FormGroup>
                                     <FormGroup>
@@ -93,7 +93,7 @@ export default function SettingsPage() {
                                             name='username'
                                             placeholder={formData.username}
                                             onChange={handleInputChange}
-                                            fullWidth
+                                            $fullWidth
                                         />
                                     </FormGroup>
                                 </S.FormRow>
@@ -106,12 +106,12 @@ export default function SettingsPage() {
                                             type='email'
                                             placeholder={formData.email}
                                             onChange={handleInputChange}
-                                            fullWidth
+                                            $fullWidth
                                         />
                                     </FormGroup>
                                     <FormGroup>
                                         <Label htmlFor='phone'>Phone Number</Label>
-                                        <Input id='phone' name='phone' placeholder={formData.phone} onChange={handleInputChange} fullWidth />
+                                        <Input id='phone' name='phone' placeholder={formData.phone} onChange={handleInputChange} $fullWidth />
                                     </FormGroup>
                                 </S.FormRow>
                                 <S.ButtonContainer>
@@ -230,8 +230,8 @@ export default function SettingsPage() {
                                         id='currentPassword'
                                         name='currentPassword'
                                         type='password'
-                                        placeholder='Enter your current password'
-                                        fullWidth
+                                        placeholder='Enter current password'
+                                        $fullWidth
                                     />
                                 </FormGroup>
                                 <S.FormRow>
@@ -242,7 +242,7 @@ export default function SettingsPage() {
                                             name='newPassword'
                                             type='password'
                                             placeholder='Enter new password'
-                                            fullWidth
+                                            $fullWidth
                                         />
                                     </FormGroup>
                                     <FormGroup>
@@ -252,7 +252,7 @@ export default function SettingsPage() {
                                             name='confirmPassword'
                                             type='password'
                                             placeholder='Confirm new password'
-                                            fullWidth
+                                            $fullWidth
                                         />
                                     </FormGroup>
                                 </S.FormRow>

@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const Input = styled.input<{ fullWidth?: boolean }>`
+export const Input = styled.input<{ $fullWidth?: boolean }>`
     width: 100%;
     padding: ${({ theme }) => `${theme.space[2]} ${theme.space[3]}`};
     background-color: ${({ theme }) => theme.colors.backgroundLight};
@@ -10,7 +10,7 @@ export const Input = styled.input<{ fullWidth?: boolean }>`
     font-size: ${({ theme }) => theme.fontSizes.sm};
     transition: ${({ theme }) => theme.transitions.default};
 
-    ${({ fullWidth }) => fullWidth && css`width: 100%;`}
+    ${({ $fullWidth }) => $fullWidth && css`width: 100%;`}
     
     &:focus {
         outline: none;

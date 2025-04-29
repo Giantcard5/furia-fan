@@ -218,16 +218,16 @@ export default function HelpPage() {
                     <S.FormRow>
                         <FormGroup>
                             <Label htmlFor='name'>Your Name</Label>
-                            <Input id='name' name='name' placeholder='Enter your name' fullWidth />
+                            <Input id='name' name='name' placeholder='Enter your name' $fullWidth />
                         </FormGroup>
                         <FormGroup>
                             <Label htmlFor='email'>Email Address</Label>
-                            <Input id='email' name='email' type='email' placeholder='Enter your email' fullWidth />
+                            <Input id='email' name='email' type='email' placeholder='Enter your email' $fullWidth />
                         </FormGroup>
                     </S.FormRow>
                     <FormGroup>
                         <Label htmlFor='subject'>Subject</Label>
-                        <Input id='subject' name='subject' placeholder='What is your request about?' fullWidth />
+                        <Input id='subject' name='subject' placeholder='What is your request about?' $fullWidth />
                     </FormGroup>
                     <FormGroup>
                         <Label htmlFor='message'>Message</Label>
