@@ -1,4 +1,5 @@
 import { Event } from '@/types/event';
+import { Game } from '@/types/game';
 import { Team } from '@/types/team';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
@@ -39,5 +40,8 @@ export const apiService = {
     },
     getTeamsData: async () => {
         return fetchApi<Team[]>('/teams');
+    },
+    getGamesData: async () => {
+        return fetchApi<Game[]>('/games');
     },
 }; 

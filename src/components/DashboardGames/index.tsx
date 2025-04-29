@@ -1,75 +1,53 @@
 'use client';
 
 import { 
-    Gamepad2 
+    useState, 
+    useEffect 
+} from 'react';
+
+import {
+    Gamepad2
 } from 'lucide-react';
 
 import DashboardLayout from '@/components/DashboardLayout';
 
 import * as S from './styles';
 
+import { 
+    apiService 
+} from '@/lib/api-service';
+
+import { 
+    Game 
+} from '@/types/game';
+
 export default function GamesPage() {
-    const games = [
-        {
-            id: 1,
-            name: 'Counter-Strike 2',
-            image: '/placeholder.svg?height=160&width=300',
-            description:
-                'The iconic first-person shooter game where FURIA competes at the highest level in international tournaments.',
-            teams: 1,
-            players: 5,
-            tournaments: 15,
-        },
-        {
-            id: 2,
-            name: 'Valorant',
-            image: '/placeholder.svg?height=160&width=300',
-            description:
-                'Riot Games tactical shooter where FURIA has established a competitive presence in the Valorant Champions Tour.',
-            teams: 1,
-            players: 5,
-            tournaments: 8,
-        },
-        {
-            id: 3,
-            name: 'League of Legends',
-            image: '/placeholder.svg?height=160&width=300',
-            description:
-                'The popular MOBA game where FURIA competes in the Brazilian Championship of League of Legends (CBLOL).',
-            teams: 1,
-            players: 5,
-            tournaments: 6,
-        },
-        {
-            id: 4,
-            name: 'Rainbow Six Siege',
-            image: '/placeholder.svg?height=160&width=300',
-            description:
-                'Tactical shooter where FURIAs team competes in the Brazilian Championship and international events.',
-            teams: 1,
-            players: 5,
-            tournaments: 7,
-        },
-        {
-            id: 5,
-            name: 'Free Fire',
-            image: '/placeholder.svg?height=160&width=300',
-            description:
-                'Mobile battle royale game where FURIA has a competitive team participating in regional tournaments.',
-            teams: 1,
-            players: 4,
-            tournaments: 5,
-        },
-        {
-            id: 6,
-            name: 'EA FC 24',
-            image: '/placeholder.svg?height=160&width=300',
-            description: 'Football simulation game where FURIAs players compete in individual and team competitions.',
-            teams: 1,
-            players: 2,
-            tournaments: 4,
-        },
-    ];
+    const [loading, setLoading] = useState(true);
+    const [games, setGames] = useState<Game[]>([]);
+
+    const fetchEvents = async () => {
+        setLoading(true);
+
+        try {
+            const response = await apiService.getGamesData();
+
+            if (response.error) {
+                throw new Error(response.error);
+            };
+
+            console.log(response.data);
+
+            setGames(response.data);
+        } catch (err) {
+            console.error('Error fetching messages:', err);
+        } finally {
+            setLoading(false);
+        };
+    };
+
+    useEffect(() => {
+        fetchEvents();
+    }, []);
 
     return (
         <DashboardLayout>
