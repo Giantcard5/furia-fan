@@ -1,6 +1,11 @@
 'use client';
 
 import { 
+    useEffect, 
+    useState 
+} from 'react';
+
+import { 
     Trophy, 
     Users 
 } from 'lucide-react';
@@ -9,47 +14,41 @@ import DashboardLayout from '@/components/DashboardLayout';
 
 import * as S from './styles';
 
+import { 
+    apiService 
+} from '@/lib/api-service';
+
+import { 
+    Team 
+} from '@/types/team';
+
 export default function TeamsPage() {
-    const teams = [
-        {
-            id: 1,
-            name: 'FURIA CS2',
-            image: '/placeholder.svg?height=200&width=400',
-            description:
-                'FURIAs Counter-Strike 2 team is one of the most successful Brazilian esports teams, competing at the highest level in international tournaments.',
-            stats: [
-                { value: 15, label: 'Tournaments' },
-                { value: 78, label: 'Wins' },
-                { value: 3, label: 'Trophies' },
-            ],
-            players: [
-                { name: 'arT', role: 'In-game Leader', image: '/placeholder.svg?height=40&width=40' },
-                { name: 'KSCERATO', role: 'Rifler', image: '/placeholder.svg?height=40&width=40' },
-                { name: 'yuurih', role: 'Rifler', image: '/placeholder.svg?height=40&width=40' },
-                { name: 'saffee', role: 'AWPer', image: '/placeholder.svg?height=40&width=40' },
-                { name: 'chelo', role: 'Support', image: '/placeholder.svg?height=40&width=40' },
-            ],
-        },
-        {
-            id: 2,
-            name: 'FURIA Valorant',
-            image: '/placeholder.svg?height=200&width=400',
-            description:
-                'FURIAs Valorant team competes in the Valorant Champions Tour and other major tournaments, representing Brazil on the international stage.',
-            stats: [
-                { value: 8, label: 'Tournaments' },
-                { value: 42, label: 'Wins' },
-                { value: 1, label: 'Trophies' },
-            ],
-            players: [
-                { name: 'Quick', role: 'In-game Leader', image: '/placeholder.svg?height=40&width=40' },
-                { name: 'Khalil', role: 'Duelist', image: '/placeholder.svg?height=40&width=40' },
-                { name: 'Mazin', role: 'Initiator', image: '/placeholder.svg?height=40&width=40' },
-                { name: 'Nozwerr', role: 'Controller', image: '/placeholder.svg?height=40&width=40' },
-                { name: 'Dgzin', role: 'Sentinel', image: '/placeholder.svg?height=40&width=40' },
-            ],
-        },
-    ];
+    const [loading, setLoading] = useState(true);
+    const [teams, setTeams] = useState<Team[]>([]);
+    
+    const fetchTeams = async () => {
+        setLoading(true);
+
+        try {
+            const response = await apiService.getTeamsData();
+
+            if (response.error) {
+                throw new Error(response.error);
+            };
+
+            console.log(response.data);
+
+            setTeams(response.data);
+        } catch (err) {
+            console.error('Error fetching messages:', err);
+        } finally {
+            setLoading(false);
+        };
+    };
+
+    useEffect(() => {
+        fetchTeams();
+    }, []);
 
     return (
         <DashboardLayout>

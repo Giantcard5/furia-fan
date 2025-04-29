@@ -1,4 +1,5 @@
 import { Event } from '@/types/event';
+import { Team } from '@/types/team';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
@@ -35,5 +36,8 @@ async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise
 export const apiService = {
     getEventsData: async () => {
         return fetchApi<Event[]>('/events');
+    },
+    getTeamsData: async () => {
+        return fetchApi<Team[]>('/teams');
     },
 }; 
