@@ -333,7 +333,7 @@ export default function ShopPage() {
 
                     <S.Pagination>
                         <S.PaginationButton $variant='outline'>«</S.PaginationButton>
-                        <S.PaginationButton $variant='outline' active>1</S.PaginationButton>
+                        <S.PaginationButton $variant='outline' $active>1</S.PaginationButton>
                         <S.PaginationButton $variant='outline'>2</S.PaginationButton>
                         <S.PaginationButton $variant='outline'>3</S.PaginationButton>
                         <S.PaginationButton $variant='outline'>»</S.PaginationButton>

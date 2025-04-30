@@ -51,10 +51,9 @@ export default function Recommendations() {
                     {recommendations.map((recommendation) => (
                         <S.RecommendationItem
                             key={recommendation.id}
-                            completed={recommendation.completed}
-                            active={recommendation.active}
+                            $active={recommendation.active}
                         >
-                            <S.RecommendationIcon completed={recommendation.completed} active={recommendation.active}>
+                            <S.RecommendationIcon $completed={recommendation.completed} $active={recommendation.active}>
                                 {recommendation.completed ? (
                                     <CheckCircle size={16} />
                                 ) : (

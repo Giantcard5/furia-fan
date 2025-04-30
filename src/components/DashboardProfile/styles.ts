@@ -244,14 +244,14 @@ const TabsContainer = styled.div`
     }
 `
 
-const Tab = styled.button<{ active: boolean }>`
+const Tab = styled.button<{ $active: boolean }>`
     padding: ${({ theme }) => theme.space[3]} ${({ theme }) => theme.space[4]};
     background: transparent;
     border: none;
-    border-bottom: 2px solid ${({ theme, active }) => (active ? theme.colors.gold : 'transparent')};
-    color: ${({ theme, active }) => (active ? theme.colors.white : theme.colors.gray[300])};
+    border-bottom: 2px solid ${({ theme, $active }) => ($active ? theme.colors.gold : 'transparent')};
+    color: ${({ theme, $active }) => ($active ? theme.colors.white : theme.colors.gray[300])};
     font-size: ${({ theme }) => theme.fontSizes.md};
-    font-weight: ${({ theme, active }) => (active ? theme.fontWeights.medium : theme.fontWeights.normal)};
+    font-weight: ${({ theme, $active }) => ($active ? theme.fontWeights.medium : theme.fontWeights.normal)};
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;

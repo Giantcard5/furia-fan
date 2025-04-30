@@ -169,11 +169,11 @@ export default function ForumsPage() {
                             {topics.map((topic) => (
                                 <S.TopicItem key={topic.id}>
                                     <S.VoteColumn>
-                                        <S.VoteButton onClick={() => handleUpvote(topic.id)} active={topic.userVote === 'up'}>
+                                        <S.VoteButton onClick={() => handleUpvote(topic.id)} $active={topic.userVote === 'up'}>
                                             <ChevronUp size={20} />
                                         </S.VoteButton>
                                         <S.VoteCount>{topic.votes}</S.VoteCount>
-                                        <S.VoteButton onClick={() => handleDownvote(topic.id)} active={topic.userVote === 'down'}>
+                                        <S.VoteButton onClick={() => handleDownvote(topic.id)} $active={topic.userVote === 'down'}>
                                             <ChevronDown size={20} />
                                         </S.VoteButton>
                                     </S.VoteColumn>
@@ -211,7 +211,7 @@ export default function ForumsPage() {
 
                 <S.Pagination>
                     <S.PaginationButton $variant='outline'>«</S.PaginationButton>
-                    <S.PaginationButton $variant='outline' active>1</S.PaginationButton>
+                    <S.PaginationButton $variant='outline' $active>1</S.PaginationButton>
                     <S.PaginationButton $variant='outline'>2</S.PaginationButton>
                     <S.PaginationButton $variant='outline'>3</S.PaginationButton>
                     <S.PaginationButton $variant='outline'>»</S.PaginationButton>

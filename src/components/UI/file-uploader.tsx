@@ -27,22 +27,22 @@ const UploaderContainer = styled.div`
     width: 100%;
 `;
 
-const DropZone = styled.div<{ isDragActive: boolean; hasError: boolean; disabled: boolean }>`
+const DropZone = styled.div<{ $isDragActive: boolean; hasError: boolean; disabled: boolean }>`
     position: relative;
-    border: 2px dashed ${({ isDragActive, hasError, theme }) =>
-        hasError ? theme.colors.red : isDragActive ? theme.colors.white : theme.colors.gray[700]};
+    border: 2px dashed ${({ $isDragActive, hasError, theme }) =>
+        hasError ? theme.colors.red : $isDragActive ? theme.colors.white : theme.colors.gray[700]};
     border-radius: ${({ theme }) => theme.radii.md};
     padding: ${({ theme }) => theme.space[6]};
     transition: ${({ theme }) => theme.transitions.default};
     cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-    background-color: ${({ isDragActive, hasError, theme }) =>
-        hasError ? `rgba(239, 68, 68, 0.05)` : isDragActive ? `rgba(255, 255, 255, 0.05)` : 'transparent'};
+    background-color: ${({ $isDragActive, hasError }) =>
+        hasError ? `rgba(239, 68, 68, 0.05)` : $isDragActive ? `rgba(255, 255, 255, 0.05)` : 'transparent'};
     opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
     
     &:hover {
         border-color: ${({ hasError, disabled, theme }) =>
         hasError ? theme.colors.red : disabled ? theme.colors.gray[700] : theme.colors.white};
-        background-color: ${({ hasError, disabled, theme }) =>
+        background-color: ${({ hasError, disabled }) =>
         hasError ? `rgba(239, 68, 68, 0.05)` : disabled ? 'transparent' : `rgba(255, 255, 255, 0.05)`};
     }
 `;
@@ -357,7 +357,7 @@ export function FileUploader({
                 </div>
             ) : (
                 <DropZone
-                    isDragActive={dragActive}
+                    $isDragActive={dragActive}
                     hasError={!!error}
                     disabled={disabled}
                     onDragEnter={handleDrag}

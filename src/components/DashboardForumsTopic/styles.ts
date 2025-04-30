@@ -55,10 +55,10 @@ const VoteColumn = styled.div`
     min-width: 50px;
 `;
 
-const VoteButton = styled.button<{ active?: boolean }>`
+const VoteButton = styled.button<{ $active?: boolean }>`
     background: none;
     border: none;
-    color: ${({ theme, active }) => (active ? theme.colors.gold : theme.colors.gray[300])};
+    color: ${({ theme, $active }) => ($active ? theme.colors.gold : theme.colors.gray[300])};
     cursor: pointer;
     transition: color 0.2s ease;
     

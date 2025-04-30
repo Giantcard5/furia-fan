@@ -32,8 +32,8 @@ const RecommendationsList = styled.div`
     gap: ${({ theme }) => theme.space[3]};
 `;
 
-const RecommendationItem = styled.div<{ completed?: boolean; active?: boolean }>`
-    background-color: ${({ theme, active }) => (active ? theme.colors.backgroundLight : 'transparent')};
+const RecommendationItem = styled.div<{ $active?: boolean }>`
+    background-color: ${({ theme, $active }) => ($active ? theme.colors.backgroundLight : 'transparent')};
     border-radius: ${({ theme }) => theme.radii.lg};
     padding: ${({ theme }) => theme.space[3]};
     display: flex;
@@ -41,15 +41,15 @@ const RecommendationItem = styled.div<{ completed?: boolean; active?: boolean }>
     gap: ${({ theme }) => theme.space[3]};
 `;
 
-const RecommendationIcon = styled.div<{ completed?: boolean; active?: boolean }>`
+const RecommendationIcon = styled.div<{ $completed?: boolean; $active?: boolean }>`
     width: 20px;
     height: 20px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: ${({ theme, completed, active }) =>
-            completed ? theme.colors.goldDark : active ? theme.colors.gold : theme.colors.gray[300]};
+    color: ${({ theme, $completed, $active }) =>
+        $completed ? theme.colors.goldDark : $active ? theme.colors.gold : theme.colors.gray[300]};
     flex-shrink: 0;
 `;
 

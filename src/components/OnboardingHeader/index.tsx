@@ -40,13 +40,13 @@ export function OnboardingHeader({ currentStep, totalSteps }: OnboardingHeaderPr
                     <S.StepsWrapper>
                         {steps.map((step) => (
                             <S.StepItem key={step.number}>
-                                <S.StepCircle active={currentStep === step.number} completed={currentStep > step.number}>
+                                <S.StepCircle $active={currentStep === step.number} $completed={currentStep > step.number}>
                                     {step.number}
                                 </S.StepCircle>
-                                <S.StepLabel active={currentStep === step.number} completed={currentStep > step.number}>
+                                <S.StepLabel $active={currentStep === step.number} $completed={currentStep > step.number}>
                                     {step.title}
                                 </S.StepLabel>
-                                {step.number < totalSteps && <S.StepDivider completed={currentStep > step.number} />}
+                                {step.number < totalSteps && <S.StepDivider $completed={currentStep > step.number} />}
                             </S.StepItem>
                         ))}
                     </S.StepsWrapper>

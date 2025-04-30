@@ -79,10 +79,10 @@ const VoteColumn = styled.div`
     min-width: 50px;
 `;
 
-const VoteButton = styled.button<{ active?: boolean }>`
+const VoteButton = styled.button<{ $active?: boolean }>`
     background: none;
     border: none;
-    color: ${({ theme, active }) => (active ? theme.colors.gold : theme.colors.gray[300])};
+    color: ${({ theme, $active }) => ($active ? theme.colors.gold : theme.colors.gray[300])};
     cursor: pointer;
     transition: color 0.2s ease;
     
@@ -173,7 +173,7 @@ const Pagination = styled.div`
     gap: ${({ theme }) => theme.space[2]};
 `;
 
-const PaginationButton = styled(Button) <{ active?: boolean }>`
+const PaginationButton = styled(Button) <{ $active?: boolean }>`
     min-width: 40px;
     height: 40px;
     padding: 0;
@@ -181,7 +181,7 @@ const PaginationButton = styled(Button) <{ active?: boolean }>`
     align-items: center;
     justify-content: center;
     
-    ${({ active, theme }) => active && `
+    ${({ $active, theme }) => $active && `
         background-color: ${theme.colors.gold};
         color: ${theme.colors.background};
         

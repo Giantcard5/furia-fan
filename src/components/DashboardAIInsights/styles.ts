@@ -42,14 +42,14 @@ const TabsContainer = styled.div`
     padding: 2px;
 `;
 
-const Tab = styled.button<{ active: boolean }>`
+const Tab = styled.button<{ $active: boolean }>`
     flex: 1;
     padding: ${({ theme }) => theme.space[2]} ${({ theme }) => theme.space[3]};
-    background: ${({ theme, active }) => (active ? '#141414' : 'transparent')};
+    background: ${({ theme, $active }) => ($active ? '#141414' : 'transparent')};
     border: none;
-    color: ${({ theme, active }) => (active ? theme.colors.white : theme.colors.gray[300])};
+    color: ${({ theme, $active }) => ($active ? theme.colors.white : theme.colors.gray[300])};
     font-size: ${({ theme }) => theme.fontSizes.sm};
-    font-weight: ${({ theme, active }) => (active ? theme.fontWeights.medium : theme.fontWeights.normal)};
+    font-weight: ${({ theme, $active }) => ($active ? theme.fontWeights.medium : theme.fontWeights.normal)};
     cursor: pointer;
     border-radius: ${({ theme }) => theme.radii.md};
     transition: all 0.2s ease;

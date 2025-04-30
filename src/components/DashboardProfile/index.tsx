@@ -232,16 +232,16 @@ export default function ProfilePage() {
                     <S.ProfileCard>
                         <S.ProfileContent>
                             <S.TabsContainer>
-                                <S.Tab active={activeTab === 'activity'} onClick={() => setActiveTab('activity')}>
+                                <S.Tab $active={activeTab === 'activity'} onClick={() => setActiveTab('activity')}>
                                     Activity
                                 </S.Tab>
-                                <S.Tab active={activeTab === 'games'} onClick={() => setActiveTab('games')}>
+                                <S.Tab $active={activeTab === 'games'} onClick={() => setActiveTab('games')}>
                                     Games
                                 </S.Tab>
-                                <S.Tab active={activeTab === 'social'} onClick={() => setActiveTab('social')}>
+                                <S.Tab $active={activeTab === 'social'} onClick={() => setActiveTab('social')}>
                                     Social Connections
                                 </S.Tab>
-                                <S.Tab active={activeTab === 'achievements'} onClick={() => setActiveTab('achievements')}>
+                                <S.Tab $active={activeTab === 'achievements'} onClick={() => setActiveTab('achievements')}>
                                     Achievements
                                 </S.Tab>
                             </S.TabsContainer>

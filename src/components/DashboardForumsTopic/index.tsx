@@ -216,11 +216,11 @@ export default function TopicPage({ topicId }: { topicId: string }) {
                         {topic.posts.map((post) => (
                             <S.PostContainer key={post.id}>
                                 <S.VoteColumn>
-                                    <S.VoteButton onClick={() => handleUpvote(post.id)} active={post.userVote === 'up'}>
+                                    <S.VoteButton onClick={() => handleUpvote(post.id)} $active={post.userVote === 'up'}>
                                         <ChevronUp size={20} />
                                     </S.VoteButton>
                                     <S.VoteCount>{post.votes}</S.VoteCount>
-                                    <S.VoteButton onClick={() => handleDownvote(post.id)} active={post.userVote === 'down'}>
+                                    <S.VoteButton onClick={() => handleDownvote(post.id)} $active={post.userVote === 'down'}>
                                         <ChevronDown size={20} />
                                     </S.VoteButton>
                                 </S.VoteColumn>

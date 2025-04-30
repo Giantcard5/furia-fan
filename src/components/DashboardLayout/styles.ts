@@ -75,7 +75,7 @@ const NavItemWithSubmenu = styled.div<{ $active?: boolean }>`
     margin: 2px ${({ theme }) => theme.space[2]};
     border-radius: 6px;
     
-    ${({ $active, theme }) => $active && ` background-color: rgba(255, 255, 255, 0.1);`}
+    ${({ $active }) => $active && ` background-color: rgba(255, 255, 255, 0.1);`}
     
     &:hover {
         background-color: rgba(255, 255, 255, 0.1);

@@ -56,7 +56,7 @@ const StepItem = styled.div`
     align-items: center;
 `
 
-const StepCircle = styled.div<{ active: boolean; completed: boolean }>`
+const StepCircle = styled.div<{ $active: boolean; $completed: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -66,14 +66,14 @@ const StepCircle = styled.div<{ active: boolean; completed: boolean }>`
     font-size: ${({ theme }) => theme.fontSizes.sm};
     font-weight: ${({ theme }) => theme.fontWeights.medium};
     
-    ${({ active, completed, theme }) => {
-        if (active) {
+    ${({ $active, $completed, theme }) => {
+        if ($active) {
             return `
                 border: none;
                 background-color: ${theme.colors.gold};
                 color: ${theme.colors.black};
             `
-        } else if (completed) {
+        } else if ($completed) {
             return `
                 border: 1px solid ${theme.colors.gold};
                 background-color: transparent;
@@ -89,14 +89,14 @@ const StepCircle = styled.div<{ active: boolean; completed: boolean }>`
     }};
 `;
 
-const StepLabel = styled.span<{ active: boolean; completed: boolean }>`
+const StepLabel = styled.span<{ $active: boolean; $completed: boolean }>`
     margin-left: ${({ theme }) => theme.space[2]};
     font-size: ${({ theme }) => theme.fontSizes.sm};
     
-    ${({ active, completed, theme }) => {
-        if (active) {
+    ${({ $active, $completed, theme }) => {
+        if ($active) {
             return `color: ${theme.colors.white};`
-        } else if (completed) {
+        } else if ($completed) {
             return `color: ${theme.colors.gold};`
         } else {
             return `color: ${theme.colors.gray[600]};`
@@ -108,12 +108,12 @@ const StepLabel = styled.span<{ active: boolean; completed: boolean }>`
     }
 `;
 
-const StepDivider = styled.div<{ completed: boolean }>`
+const StepDivider = styled.div<{ $completed: boolean }>`
     width: 2rem;
     height: 1px;
     
-    ${({ completed, theme }) => {
-        if (completed) {
+    ${({ $completed, theme }) => {
+        if ($completed) {
             return `background-color: ${theme.colors.gold};`
         } else {
             return `background-color: ${theme.colors.gray[600]};`

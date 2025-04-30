@@ -333,7 +333,7 @@ const Pagination = styled.div`
     gap: ${({ theme }) => theme.space[2]};
 `;
 
-const PaginationButton = styled(Button) <{ active?: boolean }>`
+const PaginationButton = styled(Button) <{ $active?: boolean }>`
     min-width: 40px;
     height: 40px;
     padding: 0;
@@ -341,7 +341,7 @@ const PaginationButton = styled(Button) <{ active?: boolean }>`
     align-items: center;
     justify-content: center;
     
-    ${({ active, theme }) => active &&`
+    ${({ $active, theme }) => $active &&`
         background-color: ${theme.colors.gold};
         color: ${theme.colors.background};
         

@@ -56,7 +56,7 @@ export default function AIInsights() {
             <S.InsightsContent>
                 <S.TabsContainer>
                     {tabs.map((tab) => (
-                        <S.Tab key={tab.id} active={activeTab === tab.id} onClick={() => setActiveTab(tab.id)}>
+                        <S.Tab key={tab.id} $active={activeTab === tab.id} onClick={() => setActiveTab(tab.id)}>
                             {tab.label}
                         </S.Tab>
                     ))}
