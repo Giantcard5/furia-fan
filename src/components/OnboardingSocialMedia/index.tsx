@@ -27,18 +27,21 @@ interface SocialMediaFormProps {
 
 export default function SocialMediaForm({ initialData, onNext, onBack }: SocialMediaFormProps) {
     const [formData, setFormData] = useState({
-        twitter: initialData.twitter || false,
-        twitch: initialData.twitch || false,
-        discord: initialData.discord || false,
-        faceit: initialData.faceit || false,
-        hltv: initialData.hltv || false,
+        socialMedia: initialData.socialMedia || [],
     });
 
-    const handleConnect = (platform: keyof typeof formData) => {
-        setFormData((prev) => ({
-            ...prev,
-            [platform]: !prev[platform],
-        }));
+    const handleConnect = (platform: string) => {
+        setFormData((prev) => {
+            const currentArray = prev.socialMedia as string[];
+            const newArray = currentArray.includes(platform)
+                ? currentArray.filter(item => item !== platform)
+                : [...currentArray, platform];
+            
+            return {
+                ...prev,
+                socialMedia: newArray,
+            };
+        });
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -70,17 +73,17 @@ export default function SocialMediaForm({ initialData, onNext, onBack }: SocialM
                                 <S.SocialAccountDetails>
                                     <S.SocialAccountName>Twitter</S.SocialAccountName>
                                     <S.SocialAccountDescription>
-                                        {formData.twitter ? 'Connected' : 'Connect your Twitter account'}
+                                        {formData.socialMedia.includes('twitter') ? 'Connected' : 'Connect your Twitter account'}
                                     </S.SocialAccountDescription>
                                 </S.SocialAccountDetails>
                             </S.SocialAccountInfo>
                             <S.ConnectButton
                                 type='button'
-                                $variant={formData.twitter ? 'outline' : 'primary'}
+                                $variant={formData.socialMedia.includes('twitter') ? 'outline' : 'primary'}
                                 size='sm'
                                 onClick={() => handleConnect('twitter')}
                             >
-                                {formData.twitter ? 'Disconnect' : 'Connect'}
+                                {formData.socialMedia.includes('twitter') ? 'Disconnect' : 'Connect'}
                             </S.ConnectButton>
                         </S.SocialAccountItem>
 
@@ -90,17 +93,17 @@ export default function SocialMediaForm({ initialData, onNext, onBack }: SocialM
                                 <S.SocialAccountDetails>
                                     <S.SocialAccountName>Twitch</S.SocialAccountName>
                                     <S.SocialAccountDescription>
-                                        {formData.twitch ? 'Connected' : 'Connect your Twitch account'}
+                                        {formData.socialMedia.includes('twitch') ? 'Connected' : 'Connect your Twitch account'}
                                     </S.SocialAccountDescription>
                                 </S.SocialAccountDetails>
                             </S.SocialAccountInfo>
                             <S.ConnectButton
                                 type='button'
-                                $variant={formData.twitch ? 'outline' : 'primary'}
+                                $variant={formData.socialMedia.includes('twitch') ? 'outline' : 'primary'}
                                 size='sm'
                                 onClick={() => handleConnect('twitch')}
                             >
-                                {formData.twitch ? 'Disconnect' : 'Connect'}
+                                {formData.socialMedia.includes('twitch') ? 'Disconnect' : 'Connect'}
                             </S.ConnectButton>
                         </S.SocialAccountItem>
 
@@ -110,17 +113,17 @@ export default function SocialMediaForm({ initialData, onNext, onBack }: SocialM
                                 <S.SocialAccountDetails>
                                     <S.SocialAccountName>Discord</S.SocialAccountName>
                                     <S.SocialAccountDescription>
-                                        {formData.discord ? 'Connected' : 'Connect your Discord account'}
+                                        {formData.socialMedia.includes('discord') ? 'Connected' : 'Connect your Discord account'}
                                     </S.SocialAccountDescription>
                                 </S.SocialAccountDetails>
                             </S.SocialAccountInfo>
                             <S.ConnectButton
                                 type='button'
-                                $variant={formData.discord ? 'outline' : 'primary'}
+                                $variant={formData.socialMedia.includes('discord') ? 'outline' : 'primary'}
                                 size='sm'
                                 onClick={() => handleConnect('discord')}
                             >
-                                {formData.discord ? 'Disconnect' : 'Connect'}
+                                {formData.socialMedia.includes('discord') ? 'Disconnect' : 'Connect'}
                             </S.ConnectButton>
                         </S.SocialAccountItem>
                     </S.SocialAccountsList>
@@ -134,17 +137,17 @@ export default function SocialMediaForm({ initialData, onNext, onBack }: SocialM
                                 <S.SocialAccountDetails>
                                     <S.SocialAccountName>FACEIT</S.SocialAccountName>
                                     <S.SocialAccountDescription>
-                                        {formData.faceit ? 'Connected' : 'Connect your FACEIT account'}
+                                        {formData.socialMedia.includes('faceit') ? 'Connected' : 'Connect your FACEIT account'}
                                     </S.SocialAccountDescription>
                                 </S.SocialAccountDetails>
                             </S.SocialAccountInfo>
                             <S.ConnectButton
                                 type='button'
-                                $variant={formData.faceit ? 'outline' : 'primary'}
+                                $variant={formData.socialMedia.includes('faceit') ? 'outline' : 'primary'}
                                 size='sm'
                                 onClick={() => handleConnect('faceit')}
                             >
-                                {formData.faceit ? 'Disconnect' : 'Connect'}
+                                {formData.socialMedia.includes('faceit') ? 'Disconnect' : 'Connect'}
                             </S.ConnectButton>
                         </S.SocialAccountItem>
 
@@ -154,17 +157,17 @@ export default function SocialMediaForm({ initialData, onNext, onBack }: SocialM
                                 <S.SocialAccountDetails>
                                     <S.SocialAccountName>HLTV</S.SocialAccountName>
                                     <S.SocialAccountDescription>
-                                        {formData.hltv ? 'Connected' : 'Connect your HLTV account'}
+                                        {formData.socialMedia.includes('hltv') ? 'Connected' : 'Connect your HLTV account'}
                                     </S.SocialAccountDescription>
                                 </S.SocialAccountDetails>
                             </S.SocialAccountInfo>
                             <S.ConnectButton
                                 type='button'
-                                $variant={formData.hltv ? 'outline' : 'primary'}
+                                $variant={formData.socialMedia.includes('hltv') ? 'outline' : 'primary'}
                                 size='sm'
                                 onClick={() => handleConnect('hltv')}
                             >
-                                {formData.hltv ? 'Disconnect' : 'Connect'}
+                                {formData.socialMedia.includes('hltv') ? 'Disconnect' : 'Connect'}
                             </S.ConnectButton>
                         </S.SocialAccountItem>
                     </S.SocialAccountsList>

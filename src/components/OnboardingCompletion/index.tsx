@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { 
     CheckCircle, 
@@ -19,15 +20,19 @@ import {
 
 import Button from '@/components/UI/button';
 import Progress from '@/components/UI/progress';
+import { apiService } from '@/lib/api-service';
+import { OnboardingFormData } from '@/types/onboarding';
 
 import * as S from './styles';
 
 interface CompletionSummaryProps {
-    formData: any;
+    formData: OnboardingFormData;
     onBack: () => void;
 };
 
 export default function CompletionSummary({ formData, onBack }: CompletionSummaryProps) {
+    const router = useRouter();
+
     const calculateCompletion = () => {
         let completed = 0;
         const total = 4;
@@ -44,7 +49,7 @@ export default function CompletionSummary({ formData, onBack }: CompletionSummar
             completed++;
         };
 
-        if (formData.socialMedia && Object.keys(formData.socialMedia).length > 0) {
+        if (formData.socialMedia && formData.socialMedia.length > 0) {
             completed++;
         };
 
@@ -53,7 +58,14 @@ export default function CompletionSummary({ formData, onBack }: CompletionSummar
 
     const completionPercentage = calculateCompletion();
 
-    const connectedAccounts = Object.values(formData.socialMedia || {}).filter(Boolean).length;
+    const handleGoToDashboard = async () => {
+        try {
+            await apiService.submitDashboardForm(formData);
+            router.push('/dashboard');
+        } catch (error) {
+            console.error('Error submitting dashboard form:', error);
+        }
+    };
 
     return (
         <S.FormContainer>
@@ -108,7 +120,9 @@ export default function CompletionSummary({ formData, onBack }: CompletionSummar
                             <S.SummaryTitle>Gaming Preferences</S.SummaryTitle>
                         </S.SummaryHeader>
                         <S.SummaryContent>
-                            No games selected
+                            {formData.gamingPreferences?.games?.length > 0 
+                                ? `${formData.gamingPreferences.games.length} games selected` 
+                                : 'No games selected'}
                             <br />
                             <S.StatusBadge status='verified'>
                                 <CheckCircle size={12} /> Preferences saved
@@ -140,10 +154,10 @@ export default function CompletionSummary({ formData, onBack }: CompletionSummar
                             <S.SummaryTitle>Social Media</S.SummaryTitle>
                         </S.SummaryHeader>
                         <S.SummaryContent>
-                            {connectedAccounts} accounts connected
+                            {formData.socialMedia?.length || 0} accounts connected
                             <br />
-                            <S.StatusBadge status={connectedAccounts > 0 ? 'connected' : 'not-connected'}>
-                                <CheckCircle size={12} /> {connectedAccounts > 0 ? 'Connected' : 'No accounts connected'}
+                            <S.StatusBadge status={formData.socialMedia?.length > 0 ? 'connected' : 'not-connected'}>
+                                <CheckCircle size={12} /> {formData.socialMedia?.length > 0 ? 'Connected' : 'No accounts connected'}
                             </S.StatusBadge>
                         </S.SummaryContent>
                     </S.SummaryItem>
@@ -153,7 +167,7 @@ export default function CompletionSummary({ formData, onBack }: CompletionSummar
                     <Button type='button' $variant='outline' onClick={onBack}>
                         Back
                     </Button>
-                    <Button as={Link} href='/dashboard' $variant='primary'>
+                    <Button type='button' $variant='primary' onClick={handleGoToDashboard}>
                         Go to Dashboard
                     </Button>
                 </S.ButtonContainer>

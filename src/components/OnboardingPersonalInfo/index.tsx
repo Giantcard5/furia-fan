@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 
 import Link from 'next/link';
+import { z } from 'zod';
 
 import { 
     User, 
@@ -26,15 +27,22 @@ import {
 } from '@/components/UI/input';
 
 import Button from '@/components/UI/button';
+import { 
+    formatCPF, 
+    formatBirthDate, 
+    formatZipCode,
+    personalInfoSchema 
+} from '@/utils/formatters';
 
 import * as S from './styles';
 
 interface PersonalInfoFormProps {
-    initialData: any
-    onNext: (data: any) => void
+    initialData: any;
+    onNext: (data: any) => void;
+    onBack: () => void;
 }
 
-export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFormProps) {
+export default function PersonalInfoForm({ initialData, onNext, onBack }: PersonalInfoFormProps) {
     const [formData, setFormData] = useState({
         fullName: initialData.fullName || '',
         email: initialData.email || '',
@@ -54,7 +62,22 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
+        let formattedValue = value;
+
+        // Apply formatting based on field type
+        switch (name) {
+            case 'cpf':
+                formattedValue = formatCPF(value);
+                break;
+            case 'birthDate':
+                formattedValue = formatBirthDate(value);
+                break;
+            case 'zipCode':
+                formattedValue = formatZipCode(value);
+                break;
+        }
+
+        setFormData((prev) => ({ ...prev, [name]: formattedValue }));
 
         if (errors[name]) {
             setErrors((prev) => {
@@ -80,58 +103,22 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
     };
 
     const validateForm = () => {
-        const newErrors: Record<string, string> = {};
-
-        if (!formData.fullName.trim()) {
-            newErrors.fullName = 'Full name is required';
-        };
-
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'Email is invalid';
-        };
-
-        if (!formData.password.trim()) {
-            newErrors.password = 'Password is required';
-        } else if (formData.password.length < 8) {
-            newErrors.password = 'Password must be at least 8 characters';
-        };
-
-        if (!formData.passwordVerify.trim()) {
-            newErrors.passwordVerify = 'Please verify your password';
-        } else if (formData.password !== formData.passwordVerify) {
-            newErrors.passwordVerify = 'Passwords do not match';
-        };
-
-        if (!formData.cpf.trim()) {
-            newErrors.cpf = 'CPF is required';
-        } else if (!/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(formData.cpf) && !/^\d{11}$/.test(formData.cpf)) {
-            newErrors.cpf = 'CPF format should be 000.000.000-00 or 00000000000';
-        };
-
-        if (!formData.birthDate.trim()) {
-            newErrors.birthDate = 'Birth date is required';
-        };
-
-        if (!formData.address.trim()) {
-            newErrors.address = 'Address is required';
-        };
-
-        if (!formData.city.trim()) {
-            newErrors.city = 'City is required';
-        };
-
-        if (!formData.state.trim()) {
-            newErrors.state = 'State is required';
-        };
-
-        if (!formData.zipCode.trim()) {
-            newErrors.zipCode = 'Zip code is required';
-        };
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        try {
+            personalInfoSchema.parse(formData);
+            setErrors({});
+            return true;
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                const newErrors: Record<string, string> = {};
+                error.errors.forEach((err) => {
+                    if (err.path) {
+                        newErrors[err.path[0]] = err.message;
+                    }
+                });
+                setErrors(newErrors);
+            }
+            return false;
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -257,7 +244,7 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                             <Input
                                 id='birthDate'
                                 name='birthDate'
-                                placeholder='dd/mm/aaaa'
+                                placeholder='DD/MM/YYYY'
                                 value={formData.birthDate}
                                 onChange={handleChange}
                                 $error={!!errors.birthDate}
@@ -272,7 +259,7 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                         <Input
                             id='address'
                             name='address'
-                            placeholder='Your street address'
+                            placeholder='Your address'
                             value={formData.address}
                             onChange={handleChange}
                             $error={!!errors.address}
@@ -301,7 +288,7 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                             <Input
                                 id='state'
                                 name='state'
-                                placeholder='State'
+                                placeholder='Your state'
                                 value={formData.state}
                                 onChange={handleChange}
                                 $error={!!errors.state}
@@ -309,24 +296,24 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                             />
                             {errors.state && <ErrorMessage>{errors.state}</ErrorMessage>}
                         </FormGroup>
+
+                        <FormGroup>
+                            <Label htmlFor='zipCode'>ZIP Code</Label>
+                            <Input
+                                id='zipCode'
+                                name='zipCode'
+                                placeholder='00000-000'
+                                value={formData.zipCode}
+                                onChange={handleChange}
+                                $error={!!errors.zipCode}
+                                $fullWidth
+                            />
+                            {errors.zipCode && <ErrorMessage>{errors.zipCode}</ErrorMessage>}
+                        </FormGroup>
                     </S.FormRow>
 
-                    <FormGroup>
-                        <Label htmlFor='zipCode'>Zip Code</Label>
-                        <Input
-                            id='zipCode'
-                            name='zipCode'
-                            placeholder='00000-000'
-                            value={formData.zipCode}
-                            onChange={handleChange}
-                            $error={!!errors.zipCode}
-                            $fullWidth
-                        />
-                        {errors.zipCode && <ErrorMessage>{errors.zipCode}</ErrorMessage>}
-                    </FormGroup>
-
                     <S.ButtonContainer>
-                        <Button type='button' $variant='outline' as={Link} href='/'>
+                        <Button type='button' $variant='outline' onClick={onBack}>
                             Back
                         </Button>
                         <Button type='submit' $variant='primary'>

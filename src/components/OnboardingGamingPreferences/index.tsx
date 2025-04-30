@@ -27,46 +27,25 @@ interface GamingPreferencesFormProps {
 
 export default function GamingPreferencesForm({ initialData, onNext, onBack }: GamingPreferencesFormProps) {
     const [formData, setFormData] = useState({
-        games: initialData.games || {
-            'counter-strike-2': false,
-            valorant: false,
-            'league-of-legends': false,
-            'dota-2': false,
-            'rainbow-six-siege': false,
-            'apex-legends': false,
-            fortnite: false,
-            'ea-fc-24': false,
-        },
-        events: initialData.events || {
-            'cs2-major': false,
-            'esl-pro-league': false,
-            'iem-worlds': false,
-            'rio-major': false,
-            'blast-premier': false,
-            'vct-champions': false,
-            'the-international': false,
-            'iem-katowice': false,
-        },
+        games: initialData.games || [],
+        events: initialData.events || [],
         playFrequency: initialData.playFrequency || '',
         platform: initialData.platform || '',
-        purchases: initialData.purchases || {
-            'furia-jersey': false,
-            'furia-mousepad': false,
-            'furia-poster': false,
-            'furia-hoodie': false,
-            'furia-cap': false,
-            'furia-mug': false,
-        },
+        purchases: initialData.purchases || [],
     });
 
     const handleCheckboxChange = (category: 'games' | 'events' | 'purchases', name: string) => {
-        setFormData((prev) => ({
-            ...prev,
-            [category]: {
-                ...prev[category],
-                [name]: !prev[category][name],
-            },
-        }));
+        setFormData((prev) => {
+            const currentArray = prev[category] as string[];
+            const newArray = currentArray.includes(name)
+                ? currentArray.filter(item => item !== name)
+                : [...currentArray, name];
+            
+            return {
+                ...prev,
+                [category]: newArray,
+            };
+        });
     };
 
     const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +81,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.games['counter-strike-2']}
+                                    checked={formData.games.includes('counter-strike-2')}
                                     onChange={() => handleCheckboxChange('games', 'counter-strike-2')}
                                 />
                                 Counter-Strike 2
@@ -112,7 +91,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.games['valorant']}
+                                    checked={formData.games.includes('valorant')}
                                     onChange={() => handleCheckboxChange('games', 'valorant')}
                                 />
                                 Valorant
@@ -122,7 +101,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.games['league-of-legends']}
+                                    checked={formData.games.includes('league-of-legends')}
                                     onChange={() => handleCheckboxChange('games', 'league-of-legends')}
                                 />
                                 League of Legends
@@ -132,7 +111,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.games['dota-2']}
+                                    checked={formData.games.includes('dota-2')}
                                     onChange={() => handleCheckboxChange('games', 'dota-2')}
                                 />
                                 Dota 2
@@ -142,7 +121,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.games['rainbow-six-siege']}
+                                    checked={formData.games.includes('rainbow-six-siege')}
                                     onChange={() => handleCheckboxChange('games', 'rainbow-six-siege')}
                                 />
                                 Rainbow Six Siege
@@ -152,7 +131,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.games['apex-legends']}
+                                    checked={formData.games.includes('apex-legends')}
                                     onChange={() => handleCheckboxChange('games', 'apex-legends')}
                                 />
                                 Apex Legends
@@ -162,7 +141,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.games['fortnite']}
+                                    checked={formData.games.includes('fortnite')}
                                     onChange={() => handleCheckboxChange('games', 'fortnite')}
                                 />
                                 Fortnite
@@ -172,7 +151,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.games['ea-fc-24']}
+                                    checked={formData.games.includes('ea-fc-24')}
                                     onChange={() => handleCheckboxChange('games', 'ea-fc-24')}
                                 />
                                 EA FC 24
@@ -186,7 +165,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.events['cs2-major']}
+                                    checked={formData.events.includes('cs2-major')}
                                     onChange={() => handleCheckboxChange('events', 'cs2-major')}
                                 />
                                 CS2 Major
@@ -196,7 +175,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.events['esl-pro-league']}
+                                    checked={formData.events.includes('esl-pro-league')}
                                     onChange={() => handleCheckboxChange('events', 'esl-pro-league')}
                                 />
                                 ESL Pro League
@@ -206,7 +185,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.events['iem-worlds']}
+                                    checked={formData.events.includes('iem-worlds')}
                                     onChange={() => handleCheckboxChange('events', 'iem-worlds')}
                                 />
                                 IEM Worlds
@@ -216,7 +195,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.events['rio-major']}
+                                    checked={formData.events.includes('rio-major')}
                                     onChange={() => handleCheckboxChange('events', 'rio-major')}
                                 />
                                 Rio Major
@@ -226,7 +205,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.events['blast-premier']}
+                                    checked={formData.events.includes('blast-premier')}
                                     onChange={() => handleCheckboxChange('events', 'blast-premier')}
                                 />
                                 BLAST Premier
@@ -236,7 +215,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.events['vct-champions']}
+                                    checked={formData.events.includes('vct-champions')}
                                     onChange={() => handleCheckboxChange('events', 'vct-champions')}
                                 />
                                 VCT Champions
@@ -246,7 +225,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.events['the-international']}
+                                    checked={formData.events.includes('the-international')}
                                     onChange={() => handleCheckboxChange('events', 'the-international')}
                                 />
                                 The International
@@ -256,7 +235,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.events['iem-katowice']}
+                                    checked={formData.events.includes('iem-katowice')}
                                     onChange={() => handleCheckboxChange('events', 'iem-katowice')}
                                 />
                                 IEM Katowice
@@ -374,7 +353,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.purchases['furia-jersey']}
+                                    checked={formData.purchases.includes('furia-jersey')}
                                     onChange={() => handleCheckboxChange('purchases', 'furia-jersey')}
                                 />
                                 FURIA Jersey
@@ -384,7 +363,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.purchases['furia-mousepad']}
+                                    checked={formData.purchases.includes('furia-mousepad')}
                                     onChange={() => handleCheckboxChange('purchases', 'furia-mousepad')}
                                 />
                                 FURIA Mousepad
@@ -394,7 +373,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.purchases['furia-poster']}
+                                    checked={formData.purchases.includes('furia-poster')}
                                     onChange={() => handleCheckboxChange('purchases', 'furia-poster')}
                                 />
                                 FURIA Poster
@@ -404,7 +383,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.purchases['furia-hoodie']}
+                                    checked={formData.purchases.includes('furia-hoodie')}
                                     onChange={() => handleCheckboxChange('purchases', 'furia-hoodie')}
                                 />
                                 FURIA Hoodie
@@ -414,7 +393,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.purchases['furia-cap']}
+                                    checked={formData.purchases.includes('furia-cap')}
                                     onChange={() => handleCheckboxChange('purchases', 'furia-cap')}
                                 />
                                 FURIA Cap
@@ -424,7 +403,7 @@ export default function GamingPreferencesForm({ initialData, onNext, onBack }: G
                             <S.CheckboxLabel>
                                 <S.Checkbox
                                     type='checkbox'
-                                    checked={formData.purchases['furia-mug']}
+                                    checked={formData.purchases.includes('furia-mug')}
                                     onChange={() => handleCheckboxChange('purchases', 'furia-mug')}
                                 />
                                 FURIA Mug
