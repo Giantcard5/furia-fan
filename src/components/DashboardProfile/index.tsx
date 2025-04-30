@@ -218,9 +218,9 @@ export default function ProfilePage() {
                             <S.BadgeGrid>
                                 {user.badges.map((badge, index) => (
                                     <S.BadgeItem key={index}>
-                                        <S.BadgeIcon unlocked={badge.unlocked}>{badge.icon}</S.BadgeIcon>
-                                        <S.BadgeName unlocked={badge.unlocked}>{badge.name}</S.BadgeName>
-                                        <S.BadgeDescription unlocked={badge.unlocked}>{badge.description}</S.BadgeDescription>
+                                        <S.BadgeIcon $unlocked={badge.unlocked}>{badge.icon}</S.BadgeIcon>
+                                        <S.BadgeName $unlocked={badge.unlocked}>{badge.name}</S.BadgeName>
+                                        <S.BadgeDescription $unlocked={badge.unlocked}>{badge.description}</S.BadgeDescription>
                                     </S.BadgeItem>
                                 ))}
                             </S.BadgeGrid>

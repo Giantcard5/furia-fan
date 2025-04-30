@@ -209,27 +209,27 @@ const BadgeItem = styled.div`
     text-align: center;
 `
 
-const BadgeIcon = styled.div<{ unlocked?: boolean }>`
+const BadgeIcon = styled.div<{ $unlocked?: boolean }>`
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background-color: ${({ theme, unlocked }) => (unlocked ? theme.colors.gold + '20' : theme.colors.backgroundLight)};
+    background-color: ${({ theme, $unlocked }) => ($unlocked ? theme.colors.gold + '20' : theme.colors.backgroundLight)};
     display: flex;
     align-items: center;
     justify-content: center;
-    color: ${({ theme, unlocked }) => (unlocked ? theme.colors.gold : theme.colors.gray[500])};
+    color: ${({ theme, $unlocked }) => ($unlocked ? theme.colors.gold : theme.colors.gray[500])};
     margin-bottom: ${({ theme }) => theme.space[2]};
 `
 
-const BadgeName = styled.div<{ unlocked?: boolean }>`
+const BadgeName = styled.div<{ $unlocked?: boolean }>`
     font-size: ${({ theme }) => theme.fontSizes.sm};
     font-weight: ${({ theme }) => theme.fontWeights.medium};
-    color: ${({ theme, unlocked }) => (unlocked ? theme.colors.white : theme.colors.gray[500])};
+    color: ${({ theme, $unlocked }) => ($unlocked ? theme.colors.white : theme.colors.gray[500])};
 `
 
-const BadgeDescription = styled.div<{ unlocked?: boolean }>`
+const BadgeDescription = styled.div<{ $unlocked?: boolean }>`
     font-size: ${({ theme }) => theme.fontSizes.xs};
-    color: ${({ theme, unlocked }) => (unlocked ? theme.colors.gray[300] : theme.colors.gray[500])};
+    color: ${({ theme, $unlocked }) => ($unlocked ? theme.colors.gray[300] : theme.colors.gray[500])};
 `
 
 const TabsContainer = styled.div`
