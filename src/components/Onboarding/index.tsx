@@ -175,7 +175,7 @@ export function Onboarding() {
                     </AnimatePresence>
 
                     <S.ButtonGroup>
-                        <Button variant='outline' onClick={handleBack} disabled={currentStep === 1}>
+                        <Button $variant='outline' onClick={handleBack} disabled={currentStep === 1}>
                             Back
                         </Button>
 

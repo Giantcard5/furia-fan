@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface BadgeProps {
-    variant?: 'default' | 'outline' | 'secondary';
+    $variant?: 'default' | 'outline' | 'secondary';
 };
 
 export const Badge = styled.span<BadgeProps>`
@@ -14,8 +14,8 @@ export const Badge = styled.span<BadgeProps>`
     line-height: 1;
     transition: ${({ theme }) => theme.transitions.default};
     
-    ${({ variant, theme }) => {
-        switch (variant) {
+    ${({ $variant, theme }) => {
+        switch ($variant) {
             case 'outline':
                 return `
                     background-color: transparent;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Alert = styled.div<{ variant?: 'default' | 'success' | 'error' }>`
+export const Alert = styled.div<{ $variant?: 'default' | 'success' | 'error' }>`
     position: relative;
     width: 100%;
     padding: ${({ theme }) => theme.space[4]};
@@ -9,8 +9,8 @@ export const Alert = styled.div<{ variant?: 'default' | 'success' | 'error' }>`
     flex-direction: column;
     gap: ${({ theme }) => theme.space[2]};
   
-    ${({ variant }) => {
-        switch (variant) {
+    ${({ $variant }) => {
+        switch ($variant) {
             case 'success':
                 return `
                     background-color: rgba(34, 197, 94, 0.1);
@@ -30,12 +30,12 @@ export const Alert = styled.div<{ variant?: 'default' | 'success' | 'error' }>`
     }};
 `;
 
-export const AlertTitle = styled.h5<{ variant?: 'default' | 'success' | 'error' }>`
+export const AlertTitle = styled.h5<{ $variant?: 'default' | 'success' | 'error' }>`
     font-size: ${({ theme }) => theme.fontSizes.md};
     font-weight: ${({ theme }) => theme.fontWeights.semibold};
     
-    ${({ variant, theme }) => {
-            switch (variant) {
+    ${({ $variant, theme }) => {
+            switch ($variant) {
                 case 'success':
                     return `color: rgb(34, 197, 94);`
                 case 'error':

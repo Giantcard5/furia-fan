@@ -61,7 +61,7 @@ export default function SocialConnections() {
                                 </div>
                             </S.SocialInfo>
 
-                            <S.ConnectButton variant={account.connected ? 'outline' : 'primary'} size='sm'>
+                            <S.ConnectButton $variant={account.connected ? 'outline' : 'primary'} size='sm'>
                                 {account.connected ? 'Disconnect' : 'Connect'}
                             </S.ConnectButton>
                         </S.SocialItem>

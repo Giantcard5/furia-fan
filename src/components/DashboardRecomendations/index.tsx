@@ -80,7 +80,7 @@ export default function Recommendations() {
                                 <S.RecommendationDescription>{recommendation.description}</S.RecommendationDescription>
 
                                 {recommendation.action && (
-                                    <S.RecommendationAction as={Link} href={recommendation.actionLink || '#'} variant='outline' size='sm'>
+                                    <S.RecommendationAction as={Link} href={recommendation.actionLink || '#'} $variant='outline' size='sm'>
                                         {recommendation.action} ›
                                     </S.RecommendationAction>
                                 )}
@@ -89,7 +89,7 @@ export default function Recommendations() {
                     ))}
                 </S.RecommendationsList>
 
-                <S.ViewAllButton as={Link} href='/dashboard/recommendations' variant='ghost' size='sm'>
+                <S.ViewAllButton as={Link} href='/dashboard/recommendations' $variant='ghost' size='sm'>
                     View All Recommendations
                     <ChevronRight size={16} />
                 </S.ViewAllButton>

@@ -436,11 +436,11 @@ const MatchImageOverlay = styled.div`
     background: linear-gradient(to top, ${({ theme }) => theme.colors.black}, transparent);
 `;
 
-const MatchBadge = styled.div<{ variant: 'live' | 'upcoming' }>`
+const MatchBadge = styled.div<{ $variant: 'live' | 'upcoming' }>`
     position: absolute;
     top: ${({ theme }) => theme.space[2]};
     right: ${({ theme }) => theme.space[2]};
-    background-color: ${({ theme, variant }) => variant === 'live' ? theme.colors.gold : theme.colors.gray[800]};
+    background-color: ${({ theme, $variant }) => $variant === 'live' ? theme.colors.gold : theme.colors.gray[800]};
     color: ${({ theme }) => theme.colors.white};
     font-size: ${({ theme }) => theme.fontSizes.xs};
     padding: ${({ theme }) => `${theme.space[1]} ${theme.space[2]}`};

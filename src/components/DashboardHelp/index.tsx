@@ -183,7 +183,7 @@ export default function HelpPage() {
                             </S.ContactIcon>
                             <S.ContactTitle>Live Chat</S.ContactTitle>
                             <S.ContactDescription>Chat with our support team for immediate assistance.</S.ContactDescription>
-                            <S.ContactButton variant='outline'>
+                            <S.ContactButton $variant='outline'>
                                 <MessageSquare size={16} />
                                 Start Chat
                             </S.ContactButton>
@@ -194,7 +194,7 @@ export default function HelpPage() {
                             </S.ContactIcon>
                             <S.ContactTitle>Phone Support</S.ContactTitle>
                             <S.ContactDescription>Call us for urgent issues or complex problems.</S.ContactDescription>
-                            <S.ContactButton variant='outline'>
+                            <S.ContactButton $variant='outline'>
                                 <Phone size={16} />
                                 +1 (800) 123-4567
                             </S.ContactButton>
@@ -205,7 +205,7 @@ export default function HelpPage() {
                             </S.ContactIcon>
                             <S.ContactTitle>Email Support</S.ContactTitle>
                             <S.ContactDescription>Send us an email and we'll respond within 24 hours.</S.ContactDescription>
-                            <S.ContactButton variant='outline'>
+                            <S.ContactButton $variant='outline'>
                                 <Mail size={16} />
                                 support@furia.org
                             </S.ContactButton>
@@ -233,7 +233,7 @@ export default function HelpPage() {
                         <Label htmlFor='message'>Message</Label>
                         <S.TextArea id='message' name='message' placeholder='Describe your issue or question in detail...' />
                     </FormGroup>
-                    <S.SubmitButton type='submit' variant='primary'>
+                    <S.SubmitButton type='submit' $variant='primary'>
                         <Mail size={16} />
                         Submit Request
                     </S.SubmitButton>

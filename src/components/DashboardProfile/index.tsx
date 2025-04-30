@@ -183,7 +183,7 @@ export default function ProfilePage() {
                                         </S.StatItem>
                                     ))}
                                 </S.UserStats>
-                                <S.EditProfileButton variant='outline'>
+                                <S.EditProfileButton $variant='outline'>
                                     <Edit size={16} />
                                     Edit Profile
                                 </S.EditProfileButton>

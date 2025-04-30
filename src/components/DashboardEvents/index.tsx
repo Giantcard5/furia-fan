@@ -138,37 +138,37 @@ export default function EventsPage() {
             <S.FiltersContainer>
                 <div>
                     <S.FilterButton
-                        variant={activeFilter === 'all' ? 'primary' : 'outline'}
-                        active={activeFilter === 'all'}
+                        $variant={activeFilter === 'all' ? 'primary' : 'outline'}
+                        $active={activeFilter === 'all'}
                         onClick={() => setActiveFilter('all')}
                     >
                         All Events
                     </S.FilterButton>
                     <S.FilterButton
-                        variant={activeFilter === 'match' ? 'primary' : 'outline'}
-                        active={activeFilter === 'match'}
+                        $variant={activeFilter === 'match' ? 'primary' : 'outline'}
+                        $active={activeFilter === 'match'}
                         onClick={() => setActiveFilter('match')}
                     >
                         <Trophy size={16} />
                         Matches
                     </S.FilterButton>
                     <S.FilterButton
-                        variant={activeFilter === 'tournament' ? 'primary' : 'outline'}
-                        active={activeFilter === 'tournament'}
+                        $variant={activeFilter === 'tournament' ? 'primary' : 'outline'}
+                        $active={activeFilter === 'tournament'}
                         onClick={() => setActiveFilter('tournament')}
                     >
                         <Trophy size={16} />
                         Tournaments
                     </S.FilterButton>
                     <S.FilterButton
-                        variant={activeFilter === 'fan-meet' ? 'primary' : 'outline'}
-                        active={activeFilter === 'fan-meet'}
+                        $variant={activeFilter === 'fan-meet' ? 'primary' : 'outline'}
+                        $active={activeFilter === 'fan-meet'}
                         onClick={() => setActiveFilter('fan-meet')}
                     >
                         <Users size={16} />
                         Fan Meets
                     </S.FilterButton>
-                    <S.FilterButton variant='outline'>
+                    <S.FilterButton $variant='outline'>
                         <Filter size={16} />
                         More Filters
                         <ChevronDown size={14} />
@@ -220,7 +220,7 @@ export default function EventsPage() {
                                     </S.EventMeta>
                                 </div>
                                 <S.EventActions>
-                                    <S.ActionButton as={Link} href={`/dashboard/events/${event.id}`} variant='outline'>
+                                    <S.ActionButton as={Link} href={`/dashboard/events/${event.id}`} $variant='outline'>
                                         Details
                                     </S.ActionButton>
                                 </S.EventActions>
@@ -237,7 +237,7 @@ export default function EventsPage() {
             {totalPages > 1 && (
                 <S.Pagination>
                     <S.PaginationButton 
-                        variant='outline' 
+                        $variant='outline' 
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
                     >
@@ -250,8 +250,8 @@ export default function EventsPage() {
                         ) : (
                             <S.PaginationButton 
                                 key={index} 
-                                variant='outline' 
-                                active={currentPage === pageNumber}
+                                $variant='outline' 
+                                $active={currentPage === pageNumber}
                                 onClick={() => handlePageChange(pageNumber as number)}
                             >
                                 {pageNumber}
@@ -260,7 +260,7 @@ export default function EventsPage() {
                     ))}
                     
                     <S.PaginationButton 
-                        variant='outline' 
+                        $variant='outline' 
                         onClick={() => handlePageChange(currentPage + 1)}
                         disabled={currentPage === totalPages}
                     >

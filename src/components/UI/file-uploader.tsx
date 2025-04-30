@@ -349,7 +349,7 @@ export function FileUploader({
                             </FileTextInfo>
                         </FileDetails>
 
-                        <Button variant='ghost' size='sm' onClick={removeFile} disabled={disabled}>
+                        <Button $variant='ghost' size='sm' onClick={removeFile} disabled={disabled}>
                             <X size={16} />
                             <span className='sr-only'>Remove file</span>
                         </Button>

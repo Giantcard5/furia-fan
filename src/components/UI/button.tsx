@@ -6,13 +6,13 @@ type ButtonVariant = 'default' | 'outline' | 'ghost' | 'link' | 'primary' | 'sec
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps {
-    variant?: ButtonVariant
+    $variant?: ButtonVariant
     size?: ButtonSize
     fullWidth?: boolean
 };
 
-const getVariantStyles = (variant: ButtonVariant) => {
-    switch (variant) {
+const getVariantStyles = ($variant: ButtonVariant) => {
+    switch ($variant) {
         case 'primary':
             return css`
                 background-color: ${({ theme }) => theme.colors.gold};
@@ -118,7 +118,7 @@ export const Button = styled.button<ButtonProps>`
     transition: ${({ theme }) => theme.transitions.default};
     cursor: pointer;
     
-    ${({ variant = 'default' }) => getVariantStyles(variant)};
+    ${({ $variant = 'default' }) => getVariantStyles($variant)};
     ${({ size = 'md' }) => getSizeStyles(size)};
     ${({ fullWidth }) => fullWidth && css`width: 100%;`};
     

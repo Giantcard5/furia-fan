@@ -28,7 +28,7 @@ export default function ProfileOverview() {
         <S.ProfileCard>
             <S.ProfileHeader>
                 <S.ProfileTitle>Profile Overview</S.ProfileTitle>
-                <Button variant='ghost' size='sm'>
+                <Button $variant='ghost' size='sm'>
                     <Edit size={16} />
                 </Button>
             </S.ProfileHeader>
@@ -60,7 +60,7 @@ export default function ProfileOverview() {
                             {profile.favoriteGames.map((game) => (
                                 <S.GameTag key={game}>{game}</S.GameTag>
                             ))}
-                            <Button variant='ghost' size='sm' style={{ padding: '0 8px', minWidth: 'auto' }}>
+                            <Button $variant='ghost' size='sm' style={{ padding: '0 8px', minWidth: 'auto' }}>
                                 <Edit size={14} />
                             </Button>
                         </S.ProfileSectionContent>
@@ -75,14 +75,14 @@ export default function ProfileOverview() {
                                     {account.name}
                                 </S.SocialAccount>
                             ))}
-                            <Button variant='ghost' size='sm' style={{ padding: '0 8px', minWidth: 'auto' }}>
+                            <Button $variant='ghost' size='sm' style={{ padding: '0 8px', minWidth: 'auto' }}>
                                 <Edit size={14} />
                             </Button>
                         </S.ProfileSectionContent>
                     </S.ProfileSection>
                 </S.ProfileSections>
 
-                <S.ViewProfileButton as={Link} href='/dashboard/profile' variant='ghost' size='sm'>
+                <S.ViewProfileButton as={Link} href='/dashboard/profile' $variant='ghost' size='sm'>
                     View Full Profile
                     <span>›</span>
                 </S.ViewProfileButton>

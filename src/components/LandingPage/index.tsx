@@ -123,16 +123,16 @@ export function LandingPage() {
                             </S.LogoWrapper>
 
                             <S.NavLinks>
-                                <Button variant='link' onClick={() => router.push('/about')}>
+                                <Button $variant='link' onClick={() => router.push('/about')}>
                                     About
                                 </Button>
-                                <Button variant='link' onClick={() => router.push('/teams')}>
+                                <Button $variant='link' onClick={() => router.push('/teams')}>
                                     Teams
                                 </Button>
-                                <Button variant='link' onClick={() => router.push('/matches')}>
+                                <Button $variant='link' onClick={() => router.push('/matches')}>
                                     Matches
                                 </Button>
-                                <Button variant='link' onClick={() => router.push('/community')}>
+                                <Button $variant='link' onClick={() => router.push('/community')}>
                                     Community
                                 </Button>
                                 <Button onClick={() => router.push('/onboarding')}>Join Now</Button>
@@ -192,7 +192,7 @@ export function LandingPage() {
                                         <S.LiveMatchTitle>FURIA vs MIBR</S.LiveMatchTitle>
                                         <S.LiveMatchSubtitle>PGL Major Copenhagen 2024 - Live Now</S.LiveMatchSubtitle>
                                     </S.LiveMatchInfo>
-                                    <Button variant='ghost' size='sm' onClick={() => router.push('/matches/live')}>
+                                    <Button $variant='ghost' size='sm' onClick={() => router.push('/matches/live')}>
                                         Watch <ChevronRight size={16} />
                                     </Button>
                                 </S.LiveMatchIndicator>
@@ -317,7 +317,7 @@ export function LandingPage() {
                                     <S.MatchCard>
                                         <S.MatchImageWrapper>
                                             <S.MatchImageOverlay />
-                                            <S.MatchBadge variant={match.status}>{match.status.toUpperCase()}</S.MatchBadge>
+                                            <S.MatchBadge $variant={match.status}>{match.status.toUpperCase()}</S.MatchBadge>
                                         </S.MatchImageWrapper>
                                         <S.MatchContent>
                                             <S.MatchMeta>
@@ -327,7 +327,7 @@ export function LandingPage() {
                                             <S.MatchTitle>{match.title}</S.MatchTitle>
                                             <S.MatchFooter>
                                                 <S.MatchType>{match.type}</S.MatchType>
-                                                <Button variant='outline' size='sm'>
+                                                <Button $variant='outline' size='sm'>
                                                     Watch
                                                 </Button>
                                             </S.MatchFooter>

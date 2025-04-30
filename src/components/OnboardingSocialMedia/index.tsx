@@ -121,12 +121,12 @@ export function SocialMediaStep({ data, updateData }: SocialMediaStepProps) {
                     },
                 }))
             } else if (platform === 'hltv') {
-                setSocialStats((prev) => ({
-                    ...prev,
-                    hltv: {
-                        rating: (Math.random() * 1.5 + 0.5).toFixed(2)
-                    },
-                }))
+                // setSocialStats((prev) => ({
+                //     ...prev,
+                //     hltv: {
+                //         rating: (Math.random() * 1.5 + 0.5).toFixed(2)
+                //     },
+                // }))
             };
 
             setConnecting(null);
@@ -175,17 +175,17 @@ export function SocialMediaStep({ data, updateData }: SocialMediaStepProps) {
                                         {form.watch('twitter') ? (
                                             <S.SocialActions>
                                                 <S.BadgeContainer>
-                                                    <Badge variant='outline'>{socialStats.twitter.posts} posts</Badge>
-                                                    <Badge variant='outline'>{socialStats.twitter.furiaRelated} FURIA related</Badge>
+                                                    <Badge $variant='outline'>{socialStats.twitter.posts} posts</Badge>
+                                                    <Badge $variant='outline'>{socialStats.twitter.furiaRelated} FURIA related</Badge>
                                                 </S.BadgeContainer>
-                                                <Button variant='outline' size='sm' onClick={() => handleDisconnect('twitter')}>
+                                                <Button $variant='outline' size='sm' onClick={() => handleDisconnect('twitter')}>
                                                     <XCircle size={16} style={{ marginRight: '0.5rem' }} />
                                                     Disconnect
                                                 </Button>
                                             </S.SocialActions>
                                         ) : (
                                             <Button
-                                                variant='outline'
+                                                $variant='outline'
                                                 size='sm'
                                                 onClick={() => handleConnect('twitter')}
                                                 disabled={connecting === 'twitter'}
@@ -217,17 +217,17 @@ export function SocialMediaStep({ data, updateData }: SocialMediaStepProps) {
                                         {form.watch('twitch') ? (
                                             <S.SocialActions>
                                                 <S.BadgeContainer>
-                                                    <Badge variant='outline'>{socialStats.twitch.watchTime}h watch time</Badge>
-                                                    <Badge variant='outline'>{socialStats.twitch.furiaWatchTime}h FURIA streams</Badge>
+                                                    <Badge $variant='outline'>{socialStats.twitch.watchTime}h watch time</Badge>
+                                                    <Badge $variant='outline'>{socialStats.twitch.furiaWatchTime}h FURIA streams</Badge>
                                                 </S.BadgeContainer>
-                                                <Button variant='outline' size='sm' onClick={() => handleDisconnect('twitch')}>
+                                                <Button $variant='outline' size='sm' onClick={() => handleDisconnect('twitch')}>
                                                     <XCircle size={16} style={{ marginRight: '0.5rem' }} />
                                                     Disconnect
                                                 </Button>
                                             </S.SocialActions>
                                         ) : (
                                             <Button
-                                                variant='outline'
+                                                $variant='outline'
                                                 size='sm'
                                                 onClick={() => handleConnect('twitch')}
                                                 disabled={connecting === 'twitch'}
@@ -259,19 +259,19 @@ export function SocialMediaStep({ data, updateData }: SocialMediaStepProps) {
                                         {form.watch('discord') ? (
                                             <S.SocialActions>
                                                 <S.BadgeContainer>
-                                                    <Badge variant='outline'>{socialStats.discord.messages} messages</Badge>
-                                                    <Badge variant='outline'>
+                                                    <Badge $variant='outline'>{socialStats.discord.messages} messages</Badge>
+                                                    <Badge $variant='outline'>
                                                         {socialStats.discord.furiaServer ? 'FURIA server member' : 'Not in FURIA server'}
                                                     </Badge>
                                                 </S.BadgeContainer>
-                                                <Button variant='outline' size='sm' onClick={() => handleDisconnect('discord')}>
+                                                <Button $variant='outline' size='sm' onClick={() => handleDisconnect('discord')}>
                                                     <XCircle size={16} style={{ marginRight: '0.5rem' }} />
                                                     Disconnect
                                                 </Button>
                                             </S.SocialActions>
                                         ) : (
                                             <Button
-                                                variant='outline'
+                                                $variant='outline'
                                                 size='sm'
                                                 onClick={() => handleConnect('discord')}
                                                 disabled={connecting === 'discord'}
@@ -306,17 +306,17 @@ export function SocialMediaStep({ data, updateData }: SocialMediaStepProps) {
                                         {form.watch('faceit') ? (
                                             <S.SocialActions>
                                                 <S.BadgeContainer>
-                                                    <Badge variant='outline'>Level {socialStats.faceit.level}</Badge>
-                                                    <Badge variant='outline'>{socialStats.faceit.matches} matches</Badge>
+                                                    <Badge $variant='outline'>Level {socialStats.faceit.level}</Badge>
+                                                    <Badge $variant='outline'>{socialStats.faceit.matches} matches</Badge>
                                                 </S.BadgeContainer>
-                                                <Button variant='outline' size='sm' onClick={() => handleDisconnect('faceit')}>
+                                                <Button $variant='outline' size='sm' onClick={() => handleDisconnect('faceit')}>
                                                     <XCircle size={16} style={{ marginRight: '0.5rem' }} />
                                                     Disconnect
                                                 </Button>
                                             </S.SocialActions>
                                         ) : (
                                             <Button
-                                                variant='outline'
+                                                $variant='outline'
                                                 size='sm'
                                                 onClick={() => handleConnect('faceit')}
                                                 disabled={connecting === 'faceit'}
@@ -348,16 +348,16 @@ export function SocialMediaStep({ data, updateData }: SocialMediaStepProps) {
                                         {form.watch('hltv') ? (
                                             <S.SocialActions>
                                                 <S.BadgeContainer>
-                                                    <Badge variant='outline'>Rating {socialStats.hltv.rating}</Badge>
+                                                    <Badge $variant='outline'>Rating {socialStats.hltv.rating}</Badge>
                                                 </S.BadgeContainer>
-                                                <Button variant='outline' size='sm' onClick={() => handleDisconnect('hltv')}>
+                                                <Button $variant='outline' size='sm' onClick={() => handleDisconnect('hltv')}>
                                                     <XCircle size={16} style={{ marginRight: '0.5rem' }} />
                                                     Disconnect
                                                 </Button>
                                             </S.SocialActions>
                                         ) : (
                                             <Button
-                                                variant='outline'
+                                                $variant='outline'
                                                 size='sm'
                                                 onClick={() => handleConnect('hltv')}
                                                 disabled={connecting === 'hltv'}

@@ -115,10 +115,10 @@ export default function SettingsPage() {
                                     </FormGroup>
                                 </S.FormRow>
                                 <S.ButtonContainer>
-                                    <Button type='button' variant='outline'>
+                                    <Button type='button' $variant='outline'>
                                         Cancel
                                     </Button>
-                                    <S.SaveButton type='submit' variant='primary'>
+                                    <S.SaveButton type='submit' $variant='primary'>
                                         <Save size={16} />
                                         Save Changes
                                     </S.SaveButton>
@@ -200,10 +200,10 @@ export default function SettingsPage() {
                                     </S.Switch>
                                 </S.SwitchContainer>
                                 <S.ButtonContainer>
-                                    <Button type='button' variant='outline'>
+                                    <Button type='button' $variant='outline'>
                                         Cancel
                                     </Button>
-                                    <S.SaveButton type='submit' variant='primary'>
+                                    <S.SaveButton type='submit' $variant='primary'>
                                         <Save size={16} />
                                         Save Changes
                                     </S.SaveButton>
@@ -287,10 +287,10 @@ export default function SettingsPage() {
                                     </S.Switch>
                                 </S.SwitchContainer>
                                 <S.ButtonContainer>
-                                    <Button type='button' variant='outline'>
+                                    <Button type='button' $variant='outline'>
                                         Cancel
                                     </Button>
-                                    <S.SaveButton type='submit' variant='primary'>
+                                    <S.SaveButton type='submit' $variant='primary'>
                                         <Save size={16} />
                                         Save Changes
                                     </S.SaveButton>
@@ -359,10 +359,10 @@ export default function SettingsPage() {
                                     </S.ThemeSelector>
                                 </div>
                                 <S.ButtonContainer>
-                                    <Button type='button' variant='outline'>
+                                    <Button type='button' $variant='outline'>
                                         Cancel
                                     </Button>
-                                    <S.SaveButton type='submit' variant='primary'>
+                                    <S.SaveButton type='submit' $variant='primary'>
                                         <Save size={16} />
                                         Save Changes
                                     </S.SaveButton>

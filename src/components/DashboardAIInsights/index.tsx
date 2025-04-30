@@ -48,7 +48,7 @@ export default function AIInsights() {
                     <BrainCircuit size={20} />
                     AI Insights
                 </S.InsightsTitle>
-                <S.InfoButton variant='ghost' size='sm'>
+                <S.InfoButton $variant='ghost' size='sm'>
                     <Info size={16} />
                 </S.InfoButton>
             </S.InsightsHeader>

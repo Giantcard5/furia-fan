@@ -63,19 +63,19 @@ const FiltersContainer = styled.div`
     }
 `
 
-const FilterButton = styled(Button) <{ active?: boolean }>`
+const FilterButton = styled(Button) <{ $active?: boolean }>`
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.space[2]};
     font-size: ${({ theme }) => theme.fontSizes.sm};
     font-weight: ${({ theme }) => theme.fontWeights.medium};
     letter-spacing: .01rem;
-    background-color: ${({ theme, active }) => (active ? theme.colors.gold : theme.colors.backgroundLight)};
-    color: ${({ theme, active }) => (active ? theme.colors.background : theme.colors.white)};
+    background-color: ${({ theme, $active }) => ($active ? theme.colors.gold : theme.colors.backgroundLight)};
+    color: ${({ theme, $active }) => ($active ? theme.colors.background : theme.colors.white)};
     
     &:hover {
-        background-color: ${({ theme, active }) => (active ? theme.colors.gold : '#333333')};
-        color: ${({ theme, active }) => (active ? theme.colors.background : theme.colors.gold)};
+        background-color: ${({ theme, $active }) => ($active ? theme.colors.gold : '#333333')};
+        color: ${({ theme, $active }) => ($active ? theme.colors.background : theme.colors.gold)};
     }
 `
 
@@ -180,7 +180,7 @@ const Pagination = styled.div`
     gap: ${({ theme }) => theme.space[2]};
 `
 
-const PaginationButton = styled(Button) <{ active?: boolean }>`
+const PaginationButton = styled(Button) <{ $active?: boolean }>`
     min-width: 40px;
     height: 40px;
     padding: 0;
@@ -188,7 +188,7 @@ const PaginationButton = styled(Button) <{ active?: boolean }>`
     align-items: center;
     justify-content: center;
     
-    ${({ active, theme }) => active && `
+    ${({ $active, theme }) => $active && `
         background-color: ${theme.colors.gold};
         color: ${theme.colors.background};  
         

@@ -264,7 +264,7 @@ export default function ShopPage() {
                             </S.CheckboxGroup>
                         </S.FilterGroup>
 
-                        <Button variant='outline' style={{ width: '100%', marginTop: '16px' }}>
+                        <Button $variant='outline' style={{ width: '100%', marginTop: '16px' }}>
                             Apply Filters
                         </Button>
                     </S.FilterCard>
@@ -273,7 +273,7 @@ export default function ShopPage() {
                 <S.ShopContent>
                     <S.FiltersContainer>
                         <div>
-                            <S.FilterButton variant='outline'>
+                            <S.FilterButton $variant='outline'>
                                 <Filter size={16} />
                                 Filter
                                 <ChevronDown size={14} />
@@ -322,7 +322,7 @@ export default function ShopPage() {
                                             </>
                                         )}
                                     </S.ProductPricing>
-                                    <S.AddToCartButton variant='primary'>
+                                    <S.AddToCartButton $variant='primary'>
                                         <ShoppingCart size={16} />
                                         Add to Cart
                                     </S.AddToCartButton>
@@ -332,11 +332,11 @@ export default function ShopPage() {
                     </S.ProductsGrid>
 
                     <S.Pagination>
-                        <S.PaginationButton variant='outline'>«</S.PaginationButton>
-                        <S.PaginationButton variant='outline' active>1</S.PaginationButton>
-                        <S.PaginationButton variant='outline'>2</S.PaginationButton>
-                        <S.PaginationButton variant='outline'>3</S.PaginationButton>
-                        <S.PaginationButton variant='outline'>»</S.PaginationButton>
+                        <S.PaginationButton $variant='outline'>«</S.PaginationButton>
+                        <S.PaginationButton $variant='outline' active>1</S.PaginationButton>
+                        <S.PaginationButton $variant='outline'>2</S.PaginationButton>
+                        <S.PaginationButton $variant='outline'>3</S.PaginationButton>
+                        <S.PaginationButton $variant='outline'>»</S.PaginationButton>
                     </S.Pagination>
                 </S.ShopContent>
             </S.ShopContainer>

@@ -203,7 +203,7 @@ export default function TopicPage({ topicId }: { topicId: string }) {
     return (
         <DashboardLayout>
             <S.PageHeader>
-                <S.BackButton as={Link} href='/dashboard/community/forums' variant='outline'>
+                <S.BackButton as={Link} href='/dashboard/community/forums' $variant='outline'>
                     <ArrowLeft size={16} />
                     Back to Forums
                 </S.BackButton>
@@ -240,11 +240,11 @@ export default function TopicPage({ topicId }: { topicId: string }) {
                                             </div>
                                         </S.AuthorInfo>
                                         <S.PostActions>
-                                            <S.ActionButton variant='ghost' size='sm'>
+                                            <S.ActionButton $variant='ghost' size='sm'>
                                                 <Reply size={14} />
                                                 Quote
                                             </S.ActionButton>
-                                            <S.ActionButton variant='ghost' size='sm'>
+                                            <S.ActionButton $variant='ghost' size='sm'>
                                                 <Flag size={14} />
                                                 Report
                                             </S.ActionButton>
@@ -275,7 +275,7 @@ export default function TopicPage({ topicId }: { topicId: string }) {
                         />
                         {error && <ErrorMessage>{error}</ErrorMessage>}
                     </FormGroup>
-                    <S.SubmitButton type='submit' variant='primary'>
+                    <S.SubmitButton type='submit' $variant='primary'>
                         <MessageSquare size={16} />
                         Post Reply
                     </S.SubmitButton>

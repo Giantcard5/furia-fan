@@ -61,7 +61,7 @@ export default function UpcomingEvents() {
                                     <MapPin size={12} />
                                     {event.location}
                                 </S.EventLocation>
-                                <S.ViewDetailsButton as={Link} href={`/dashboard/events/${event.id}`} variant='outline' size='sm'>
+                                <S.ViewDetailsButton as={Link} href={`/dashboard/events/${event.id}`} $variant='outline' size='sm'>
                                     View Details
                                 </S.ViewDetailsButton>
                             </S.EventContent>
@@ -69,7 +69,7 @@ export default function UpcomingEvents() {
                     ))}
                 </S.EventsGrid>
 
-                <S.ViewAllButton as={Link} href='/dashboard/events' variant='ghost' size='sm'>
+                <S.ViewAllButton as={Link} href='/dashboard/events' $variant='ghost' size='sm'>
                     View All Events
                     <ChevronRight size={16} />
                 </S.ViewAllButton>

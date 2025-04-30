@@ -194,9 +194,9 @@ export function DocumentUploadStep({ data, updateData }: DocumentUploadStepProps
 
                             <S.AlertContainer>
                                 {validationStatus === 'success' && (
-                                    <Alert variant='success'>
+                                    <Alert $variant='success'>
                                         <FileCheck size={16} />
-                                        <AlertTitle variant='success'>Verification Successful</AlertTitle>
+                                        <AlertTitle $variant='success'>Verification Successful</AlertTitle>
                                         <AlertDescription>
                                             Your documents have been successfully verified. You can proceed to the next step.
                                         </AlertDescription>
@@ -204,9 +204,9 @@ export function DocumentUploadStep({ data, updateData }: DocumentUploadStepProps
                                 )}
 
                                 {validationStatus === 'failed' && (
-                                    <Alert variant='error'>
+                                    <Alert $variant='error'>
                                         <FileWarning size={16} />
-                                        <AlertTitle variant='error'>Verification Failed</AlertTitle>
+                                        <AlertTitle $variant='error'>Verification Failed</AlertTitle>
                                         <AlertDescription>
                                             We couldn't verify your documents. Please make sure your ID is clearly visible and matches your
                                             selfie. You can still proceed with the onboarding, but some features may be limited.
