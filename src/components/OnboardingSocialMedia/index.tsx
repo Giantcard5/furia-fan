@@ -163,7 +163,7 @@ export function SocialMediaStep({ data, updateData }: SocialMediaStepProps) {
                                     {/* Twitter */}
                                     <S.SocialCard>
                                         <S.SocialInfo>
-                                            <S.SocialIconCircle bgColor='rgba(29, 161, 242, 0.2)' textColor='#1DA1F2'>
+                                            <S.SocialIconCircle $bgColor='rgba(29, 161, 242, 0.2)' textColor='#1DA1F2'>
                                                 <Twitter size={20} />
                                             </S.SocialIconCircle>
                                             <S.SocialDetails>
@@ -205,7 +205,7 @@ export function SocialMediaStep({ data, updateData }: SocialMediaStepProps) {
                                     {/* Twitch */}
                                     <S.SocialCard>
                                         <S.SocialInfo>
-                                            <S.SocialIconCircle bgColor='rgba(145, 70, 255, 0.2)' textColor='#9146FF'>
+                                            <S.SocialIconCircle $bgColor='rgba(145, 70, 255, 0.2)' textColor='#9146FF'>
                                                 <Twitch size={20} />
                                             </S.SocialIconCircle>
                                             <S.SocialDetails>
@@ -247,7 +247,7 @@ export function SocialMediaStep({ data, updateData }: SocialMediaStepProps) {
                                     {/* Discord */}
                                     <S.SocialCard>
                                         <S.SocialInfo>
-                                            <S.SocialIconCircle bgColor='rgba(88, 101, 242, 0.2)' textColor='#5865F2'>
+                                            <S.SocialIconCircle $bgColor='rgba(88, 101, 242, 0.2)' textColor='#5865F2'>
                                                 <Discord size={20} />
                                             </S.SocialIconCircle>
                                             <S.SocialDetails>
@@ -294,7 +294,7 @@ export function SocialMediaStep({ data, updateData }: SocialMediaStepProps) {
                                     {/* FACEIT */}
                                     <S.SocialCard>
                                         <S.SocialInfo>
-                                            <S.SocialIconCircle bgColor='rgba(255, 85, 0, 0.2)' textColor='#FF5500'>
+                                            <S.SocialIconCircle $bgColor='rgba(255, 85, 0, 0.2)' textColor='#FF5500'>
                                                 <span style={{ fontWeight: 'bold' }}>F</span>
                                             </S.SocialIconCircle>
                                             <S.SocialDetails>
@@ -336,7 +336,7 @@ export function SocialMediaStep({ data, updateData }: SocialMediaStepProps) {
                                     {/* HLTV */}
                                     <S.SocialCard>
                                         <S.SocialInfo>
-                                            <S.SocialIconCircle bgColor='rgba(128, 128, 128, 0.2)' textColor='white'>
+                                            <S.SocialIconCircle $bgColor='rgba(128, 128, 128, 0.2)' textColor='white'>
                                                 <span style={{ fontWeight: 'bold' }}>H</span>
                                             </S.SocialIconCircle>
                                             <S.SocialDetails>

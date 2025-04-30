@@ -85,11 +85,11 @@ const SocialInfo = styled.div`
     }
 `;
 
-const SocialIconCircle = styled.div<{ bgColor: string; textColor: string }>`
+const SocialIconCircle = styled.div<{ $bgColor: string; textColor: string }>`
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
-    background-color: ${({ bgColor }) => bgColor};
+    background-color: ${({ $bgColor }) => $bgColor};
     display: flex;
     align-items: center;
     justify-content: center;

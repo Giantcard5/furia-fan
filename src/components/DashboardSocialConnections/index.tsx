@@ -52,10 +52,10 @@ export default function SocialConnections() {
                     {socialAccounts.map((account) => (
                         <S.SocialItem key={account.id}>
                             <S.SocialInfo>
-                                <S.SocialIcon bgColor={account.color}>{account.icon}</S.SocialIcon>
+                                <S.SocialIcon $bgColor={account.color}>{account.icon}</S.SocialIcon>
                                 <div>
                                     <S.SocialName>{account.name}</S.SocialName>
-                                    <S.SocialStatus connected={account.connected}>
+                                    <S.SocialStatus $connected={account.connected}>
                                         {account.connected ? 'Connected' : 'Not connected'}
                                     </S.SocialStatus>
                                 </div>

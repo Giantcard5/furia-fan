@@ -71,7 +71,7 @@ export default function ProfileOverview() {
                         <S.ProfileSectionContent>
                             {profile.connectedAccounts.map((account) => (
                                 <S.SocialAccount key={account.name}>
-                                    <S.SocialIcon bgColor={account.color}>{account.icon}</S.SocialIcon>
+                                    <S.SocialIcon $bgColor={account.color}>{account.icon}</S.SocialIcon>
                                     {account.name}
                                 </S.SocialAccount>
                             ))}

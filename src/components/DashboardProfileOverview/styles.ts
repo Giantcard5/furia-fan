@@ -125,11 +125,11 @@ const SocialAccount = styled.div`
     color: ${({ theme }) => theme.colors.gray[300]};
 `;
 
-const SocialIcon = styled.div<{ bgColor?: string }>`
+const SocialIcon = styled.div<{ $bgColor?: string }>`
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background-color: ${({ bgColor }) => bgColor || '#333'};
+    background-color: ${({ $bgColor }) => $bgColor || '#333'};
     display: flex;
     align-items: center;
     justify-content: center;

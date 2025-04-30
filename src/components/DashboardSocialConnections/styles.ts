@@ -52,11 +52,11 @@ const SocialInfo = styled.div`
     gap: ${({ theme }) => theme.space[3]};
 `;
 
-const SocialIcon = styled.div<{ bgColor?: string }>`
+const SocialIcon = styled.div<{ $bgColor?: string }>`
     width: 28px;
     height: 28px;
     border-radius: ${({ theme }) => theme.radii.md};
-    background-color: ${({ bgColor }) => bgColor || '#333'};
+    background-color: ${({ $bgColor }) => $bgColor || '#333'};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,9 +70,9 @@ const SocialName = styled.div`
     font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 
-const SocialStatus = styled.div<{ connected: boolean }>`
+const SocialStatus = styled.div<{ $connected: boolean }>`
     font-size: ${({ theme }) => theme.fontSizes.xs};
-    color: ${({ theme, connected }) => (connected ? theme.colors.gold : theme.colors.gray[500])};
+    color: ${({ theme, $connected }) => ($connected ? theme.colors.gold : theme.colors.gray[500])};
 `;
 
 const ConnectButton = styled(Button)`

@@ -287,13 +287,13 @@ export default function ProfilePage() {
                                     {user.socialConnections.map((connection, index) => (
                                         <S.SocialItem key={index}>
                                             <S.SocialInfo>
-                                                <S.SocialIcon bgColor={connection.color}>{connection.icon}</S.SocialIcon>
+                                                <S.SocialIcon $bgColor={connection.color}>{connection.icon}</S.SocialIcon>
                                                 <div>
                                                     <S.SocialName>{connection.name}</S.SocialName>
                                                     <S.SocialUsername>{connection.username}</S.SocialUsername>
                                                 </div>
                                             </S.SocialInfo>
-                                            <S.SocialStatus connected={connection.connected}>
+                                            <S.SocialStatus $connected={connection.connected}>
                                                 {connection.connected ? 'Connected' : 'Not Connected'}
                                             </S.SocialStatus>
                                         </S.SocialItem>
