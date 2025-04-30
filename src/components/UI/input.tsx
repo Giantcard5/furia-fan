@@ -5,8 +5,8 @@ import styled, {
 } from 'styled-components';
 
 interface InputProps {
-    error?: boolean
-    fullWidth?: boolean
+    $error?: boolean
+    $fullWidth?: boolean
 };
 
 export const Input = styled.input<InputProps>`
@@ -14,17 +14,17 @@ export const Input = styled.input<InputProps>`
     padding: 0 ${({ theme }) => theme.space[4]};
     background-color: ${({ theme }) => theme.colors.backgroundLight};
     color: ${({ theme }) => theme.colors.white};
-    border: 1px solid ${({ theme, error }) => (error ? theme.colors.red : '#333333')};
+    border: 1px solid ${({ theme, $error }) => ($error ? theme.colors.red : '#333333')};
     border-radius: ${({ theme }) => theme.radii.md};
     font-size: ${({ theme }) => theme.fontSizes.md};
     transition: all 0.2s ${({ theme }) => theme.transitions.default};
     
-    ${({ fullWidth }) => fullWidth && css`width: 100%;`}
+    ${({ $fullWidth }) => $fullWidth && css`width: 100%;`}
     
     &:focus {
         outline: none;
-        border-color: ${({ theme, error }) => (error ? theme.colors.red : theme.colors.gold)};
-        box-shadow: ${({ theme, error }) => (error ? `0 0 0 2px ${theme.colors.red}33` : '0 0 0 3px rgba(255, 204, 0, 0.5)')};
+        border-color: ${({ theme, $error }) => ($error ? theme.colors.red : theme.colors.gold)};
+        box-shadow: ${({ theme, $error }) => ($error ? `0 0 0 2px ${theme.colors.red}33` : '0 0 0 3px rgba(255, 204, 0, 0.5)')};
     }
     
     &::placeholder {

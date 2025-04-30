@@ -8,7 +8,7 @@ type ButtonSize = 'sm' | 'md' | 'lg';
 interface ButtonProps {
     $variant?: ButtonVariant
     size?: ButtonSize
-    fullWidth?: boolean
+    $fullWidth?: boolean
 };
 
 const getVariantStyles = ($variant: ButtonVariant) => {
@@ -120,7 +120,7 @@ export const Button = styled.button<ButtonProps>`
     
     ${({ $variant = 'default' }) => getVariantStyles($variant)};
     ${({ size = 'md' }) => getSizeStyles(size)};
-    ${({ fullWidth }) => fullWidth && css`width: 100%;`};
+    ${({ $fullWidth }) => $fullWidth && css`width: 100%;`};
     
     &:disabled {
         opacity: 0.5;

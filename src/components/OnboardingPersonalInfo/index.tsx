@@ -186,8 +186,8 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                             placeholder='Your full name'
                             value={formData.fullName}
                             onChange={handleChange}
-                            error={!!errors.fullName}
-                            fullWidth
+                            $error={!!errors.fullName}
+                            $fullWidth
                         />
                         {errors.fullName && <ErrorMessage>{errors.fullName}</ErrorMessage>}
                     </FormGroup>
@@ -201,8 +201,8 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                             placeholder='your.email@example.com'
                             value={formData.email}
                             onChange={handleChange}
-                            error={!!errors.email}
-                            fullWidth
+                            $error={!!errors.email}
+                            $fullWidth
                         />
                         {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
                     </FormGroup>
@@ -216,8 +216,8 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                             placeholder='Create a secure password'
                             value={formData.password}
                             onChange={handleChange}
-                            error={!!errors.password}
-                            fullWidth
+                            $error={!!errors.password}
+                            $fullWidth
                         />
                         {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
                     </FormGroup>
@@ -231,8 +231,8 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                             placeholder='Verify your password'
                             value={formData.passwordVerify}
                             onChange={handleChange}
-                            error={!!errors.passwordVerify}
-                            fullWidth
+                            $error={!!errors.passwordVerify}
+                            $fullWidth
                         />
                         {errors.passwordVerify && <ErrorMessage>{errors.passwordVerify}</ErrorMessage>}
                     </FormGroup>
@@ -246,8 +246,8 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                                 placeholder='000.000.000-00'
                                 value={formData.cpf}
                                 onChange={handleChange}
-                                error={!!errors.cpf}
-                                fullWidth
+                                $error={!!errors.cpf}
+                                $fullWidth
                             />
                             {errors.cpf && <ErrorMessage>{errors.cpf}</ErrorMessage>}
                         </FormGroup>
@@ -260,8 +260,8 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                                 placeholder='dd/mm/aaaa'
                                 value={formData.birthDate}
                                 onChange={handleChange}
-                                error={!!errors.birthDate}
-                                fullWidth
+                                $error={!!errors.birthDate}
+                                $fullWidth
                             />
                             {errors.birthDate && <ErrorMessage>{errors.birthDate}</ErrorMessage>}
                         </FormGroup>
@@ -275,8 +275,8 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                             placeholder='Your street address'
                             value={formData.address}
                             onChange={handleChange}
-                            error={!!errors.address}
-                            fullWidth
+                            $error={!!errors.address}
+                            $fullWidth
                         />
                         {errors.address && <ErrorMessage>{errors.address}</ErrorMessage>}
                     </FormGroup>
@@ -290,8 +290,8 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                                 placeholder='Your city'
                                 value={formData.city}
                                 onChange={handleChange}
-                                error={!!errors.city}
-                                fullWidth
+                                $error={!!errors.city}
+                                $fullWidth
                             />
                             {errors.city && <ErrorMessage>{errors.city}</ErrorMessage>}
                         </FormGroup>
@@ -304,8 +304,8 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                                 placeholder='State'
                                 value={formData.state}
                                 onChange={handleChange}
-                                error={!!errors.state}
-                                fullWidth
+                                $error={!!errors.state}
+                                $fullWidth
                             />
                             {errors.state && <ErrorMessage>{errors.state}</ErrorMessage>}
                         </FormGroup>
@@ -319,8 +319,8 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                             placeholder='00000-000'
                             value={formData.zipCode}
                             onChange={handleChange}
-                            error={!!errors.zipCode}
-                            fullWidth
+                            $error={!!errors.zipCode}
+                            $fullWidth
                         />
                         {errors.zipCode && <ErrorMessage>{errors.zipCode}</ErrorMessage>}
                     </FormGroup>
