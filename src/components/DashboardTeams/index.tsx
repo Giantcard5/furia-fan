@@ -70,7 +70,7 @@ export default function TeamsPage() {
                         </S.TeamHeader>
 
                         <S.TeamContent>
-                            <S.TeamImage image={team.image} />
+                            <S.TeamImage $image={team.image} />
                             <S.TeamDescription>{team.description}</S.TeamDescription>
 
                             <S.TeamStats>
@@ -90,7 +90,7 @@ export default function TeamsPage() {
                                 <S.PlayersList>
                                     {team.players.map((player, index) => (
                                         <S.PlayerItem key={index}>
-                                            <S.PlayerAvatar image={player.image} />
+                                            <S.PlayerAvatar $image={player.image} />
                                             <S.PlayerInfo>
                                                 <S.PlayerName>{player.name}</S.PlayerName>
                                                 <S.PlayerRole>{player.role}</S.PlayerRole>

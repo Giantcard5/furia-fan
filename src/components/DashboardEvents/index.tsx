@@ -190,7 +190,7 @@ export default function EventsPage() {
                 {currentEvents.length > 0 ? (
                     currentEvents.map((event) => (
                         <S.EventCard key={event.id}>
-                            <S.EventImage image={event.image}>
+                            <S.EventImage $image={event.image}>
                                 <S.EventTag type={event.type}>
                                     {event.type === 'match' ? 'Match' : event.type === 'tournament' ? 'Tournament' : 'Fan Meet'}
                                 </S.EventTag>

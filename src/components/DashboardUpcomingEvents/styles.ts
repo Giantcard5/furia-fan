@@ -43,9 +43,9 @@ const EventCard = styled.div`
     overflow: hidden;
 `;
 
-const EventImage = styled.div<{ image?: string }>`
+const EventImage = styled.div<{ $image?: string }>`
     height: 120px;
-    background-image: url(${({ image }) => image || '/placeholder.svg?height=120&width=300'});
+    background-image: url(${({ $image }) => $image || '/placeholder.svg?height=120&width=300'});
     background-size: cover;
     background-position: center;
     position: relative;

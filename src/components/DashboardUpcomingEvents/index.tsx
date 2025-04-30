@@ -48,7 +48,7 @@ export default function UpcomingEvents() {
                 <S.EventsGrid>
                     {events.map((event) => (
                         <S.EventCard key={event.id}>
-                            <S.EventImage image={event.image}>
+                            <S.EventImage $image={event.image}>
                                 <S.EventTag>{event.tag}</S.EventTag>
                             </S.EventImage>
                             <S.EventContent>

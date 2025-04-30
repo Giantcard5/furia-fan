@@ -51,9 +51,9 @@ const TeamContent = styled(CardContent)`
     padding-top: 0;
 `
 
-const TeamImage = styled.div<{ image?: string }>`
+const TeamImage = styled.div<{ $image?: string }>`
     height: 200px;
-    background-image: url(${({ image }) => image || '/placeholder.svg?height=200&width=400'});
+    background-image: url(${({ $image }) => $image || '/placeholder.svg?height=200&width=400'});
     background-size: cover;
     background-position: center;
     border-radius: ${({ theme }) => theme.radii.md};
@@ -119,11 +119,11 @@ const PlayerItem = styled.div`
     border-radius: ${({ theme }) => theme.radii.md};
 `
 
-const PlayerAvatar = styled.div<{ image?: string }>`
+const PlayerAvatar = styled.div<{ $image?: string }>`
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-image: url(${({ image }) => image || '/placeholder.svg?height=40&width=40'});
+    background-image: url(${({ $image }) => $image || '/placeholder.svg?height=40&width=40'});
     background-size: cover;
     background-position: center;
 `

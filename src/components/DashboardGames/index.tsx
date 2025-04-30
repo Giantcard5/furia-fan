@@ -61,7 +61,7 @@ export default function GamesPage() {
             <S.GamesGrid>
                 {games.map((game) => (
                     <S.GameCard key={game.id}>
-                        <S.GameImage image={game.image} />
+                        <S.GameImage $image={game.image} />
                         <S.GameHeader>
                             <S.GameTitle>{game.name}</S.GameTitle>
                         </S.GameHeader>

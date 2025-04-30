@@ -103,9 +103,9 @@ const EventCard = styled(Card)`
     }
 `
 
-const EventImage = styled.div<{ image?: string }>`
+const EventImage = styled.div<{ $image?: string }>`
     height: 180px;
-    background-image: url(${({ image }) => image || '/placeholder.svg?height=180&width=400'});
+    background-image: url(${({ $image }) => $image || '/placeholder.svg?height=180&width=400'});
     background-size: cover;
     background-position: center;
     position: relative;

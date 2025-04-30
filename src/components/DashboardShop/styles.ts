@@ -207,9 +207,9 @@ const ProductCard = styled(Card)`
     }
 `;
 
-const ProductImage = styled.div<{ image?: string }>`
+const ProductImage = styled.div<{ $image?: string }>`
     height: 240px;
-    background-image: url(${({ image }) => image || '/placeholder.svg?height=240&width=240'});
+    background-image: url(${({ $image }) => $image || '/placeholder.svg?height=240&width=240'});
     background-size: cover;
     background-position: center;
     position: relative;

@@ -293,7 +293,7 @@ export default function ShopPage() {
                     <S.ProductsGrid>
                         {filteredProducts.map((product) => (
                             <S.ProductCard key={product.id}>
-                                <S.ProductImage image={product.image}>
+                                <S.ProductImage $image={product.image}>
                                     {product.tag && (
                                         <S.ProductTag type={product.tag}>
                                             {product.tag === 'new' ? 'New' : product.tag === 'sale' ? 'Sale' : product.tag}

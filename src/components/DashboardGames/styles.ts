@@ -40,9 +40,9 @@ const GameCard = styled(Card)`
     }
 `;
 
-const GameImage = styled.div<{ image?: string }>`
+const GameImage = styled.div<{ $image?: string }>`
     height: 160px;
-    background-image: url(${({ image }) => image || '/placeholder.svg?height=160&width=300'});
+    background-image: url(${({ $image }) => $image || '/placeholder.svg?height=160&width=300'});
     background-size: cover;
     background-position: center;
 `;
