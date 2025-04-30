@@ -1,31 +1,40 @@
-import styled, { css } from 'styled-components';
+'use client';
 
-export const Input = styled.input<{ $fullWidth?: boolean }>`
-    width: 100%;
-    padding: ${({ theme }) => `${theme.space[2]} ${theme.space[3]}`};
+import styled, { 
+    css 
+} from 'styled-components';
+
+interface InputProps {
+    error?: boolean
+    fullWidth?: boolean
+};
+
+export const Input = styled.input<InputProps>`
+    height: 40px;
+    padding: 0 ${({ theme }) => theme.space[4]};
     background-color: ${({ theme }) => theme.colors.backgroundLight};
-    color: ${({ theme }) => theme.colors.gray[200]};
-    border: 1px solid ${({ theme }) => theme.colors.gray[700]};
+    color: ${({ theme }) => theme.colors.white};
+    border: 1px solid ${({ theme, error }) => (error ? theme.colors.red : '#333333')};
     border-radius: ${({ theme }) => theme.radii.md};
-    font-size: ${({ theme }) => theme.fontSizes.sm};
-    transition: ${({ theme }) => theme.transitions.default};
-
-    ${({ $fullWidth }) => $fullWidth && css`width: 100%;`}
+    font-size: ${({ theme }) => theme.fontSizes.md};
+    transition: all 0.2s ${({ theme }) => theme.transitions.default};
+    
+    ${({ fullWidth }) => fullWidth && css`width: 100%;`}
     
     &:focus {
         outline: none;
-        border-color: ${({ theme }) => theme.colors.gold};
-        box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.gold};
-    }
-    
-    &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
+        border-color: ${({ theme, error }) => (error ? theme.colors.red : theme.colors.gold)};
+        box-shadow: ${({ theme, error }) => (error ? `0 0 0 2px ${theme.colors.red}33` : '0 0 0 3px rgba(255, 204, 0, 0.5)')};
     }
     
     &::placeholder {
         color: ${({ theme }) => theme.colors.gray[500]};
         font-size: ${({ theme }) => theme.fontSizes.sm};
+    }
+    
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
     }
 `;
 
@@ -45,3 +54,5 @@ export const ErrorMessage = styled.p`
     font-size: ${({ theme }) => theme.fontSizes.sm};
     margin-top: ${({ theme }) => theme.space[1]};
 `;
+
+export default Input;

@@ -1,171 +1,163 @@
-'use client';
+'use client'
 
-import {
-    useState,
-    useEffect
-} from 'react';
+import Link from 'next/link';
 
-import {
-    User,
-    Gamepad2,
-    FileCheck,
-    Share2,
-    CheckIcon
+import { 
+    CheckCircle, 
+    User, 
+    GamepadIcon as GameController, 
+    FileCheck, 
+    Share2 
 } from 'lucide-react';
 
-import { Card, CardContent } from '@/components/UI/card'
-import { Progress } from '@/components/UI/progress';
+import { 
+    CardHeader,
+    CardTitle, 
+    CardDescription, 
+    CardContent
+} from '@/components/UI/card';
+
+import Button from '@/components/UI/button';
+import Progress from '@/components/UI/progress';
 
 import * as S from './styles';
 
-interface CompletionStepProps {
+interface CompletionSummaryProps {
     formData: any;
+    onBack: () => void;
 };
 
-export function CompletionStep({ formData }: CompletionStepProps) {
-    const [progress, setProgress] = useState(0);
-    const [showConfetti, setShowConfetti] = useState(false);
+export default function CompletionSummary({ formData, onBack }: CompletionSummaryProps) {
+    const calculateCompletion = () => {
+        let completed = 0;
+        const total = 4;
 
-    useEffect(() => {
-        let score = 0;
-
-        if (formData.personalInfo.name) score += 5;
-        if (formData.personalInfo.email) score += 5;
-        if (formData.personalInfo.cpf) score += 5;
-        if (formData.personalInfo.birthDate) score += 5;
-        if (formData.personalInfo.address) score += 5;
-        if (formData.personalInfo.city && formData.personalInfo.state) score += 5;
-
-        if (formData.gamingPreferences.favoriteGames?.length > 0) score += 10;
-        if (formData.gamingPreferences.playTime) score += 5;
-        if (formData.gamingPreferences.platform) score += 5;
-        if (formData.gamingPreferences.eventsAttended?.length > 0) score += 5;
-
-        if (formData.documents.idDocument) score += 10;
-        if (formData.documents.selfie) score += 10;
-
-        const connectedAccounts = Object.values(formData.socialMedia).filter(Boolean).length;
-        score += connectedAccounts * 5;
-
-        setProgress(score);
-
-        if (score >= 70) {
-            setShowConfetti(true);
+        if (formData.personalInfo && Object.keys(formData.personalInfo).length > 0) {
+            completed++;
         };
-    }, [formData]);
+
+        if (formData.gamingPreferences && Object.keys(formData.gamingPreferences).length > 0) {
+            completed++;
+        };
+
+        if (formData.documents && Object.keys(formData.documents).length > 0) {
+            completed++;
+        };
+
+        if (formData.socialMedia && Object.keys(formData.socialMedia).length > 0) {
+            completed++;
+        };
+
+        return Math.round((completed / total) * 100);
+    };
+
+    const completionPercentage = calculateCompletion();
+
+    const connectedAccounts = Object.values(formData.socialMedia || {}).filter(Boolean).length;
 
     return (
-        <S.StepContainer>
-            <S.HeaderContainer>
-                <S.StepTitle>Profile Completed!</S.StepTitle>
-                <S.StepDescription>
+        <S.FormContainer>
+            <CardHeader>
+                <CardTitle>Profile Completed!</CardTitle>
+                <CardDescription>
                     Your FURIA fan profile has been created. You're now ready to access your personalized dashboard.
-                </S.StepDescription>
-            </S.HeaderContainer>
+                </CardDescription>
+            </CardHeader>
 
-            <Card>
-                <CardContent>
-                    <S.LogoContainer>
-                        <S.LogoCircle>
-                            {/* <FuriaLogo className='w-12 h-12' /> */}
-                        </S.LogoCircle>
-                    </S.LogoContainer>
+            <CardContent>
+                <S.WelcomeContainer>
+                    <S.AvatarContainer>
+                        <S.Avatar>
+                            <User size={40} />
+                        </S.Avatar>
+                    </S.AvatarContainer>
+                    <S.WelcomeTitle>Welcome to the FURIA Family!</S.WelcomeTitle>
+                    <S.WelcomeSubtitle>Your profile is {completionPercentage}% complete</S.WelcomeSubtitle>
 
-                    <S.WelcomeContainer>
-                        <S.WelcomeTitle>Welcome to the FURIA Family!</S.WelcomeTitle>
-                        <S.ProgressText>Your profile is {progress}% complete</S.ProgressText>
-                        <S.ProgressContainer>
-                            <Progress value={progress} />
-                        </S.ProgressContainer>
-                    </S.WelcomeContainer>
+                    <S.ProgressContainer>
+                        <S.ProgressLabel>
+                            <span>Profile Completion</span>
+                            <span>{completionPercentage}%</span>
+                        </S.ProgressLabel>
+                        <Progress value={completionPercentage} />
+                    </S.ProgressContainer>
+                </S.WelcomeContainer>
 
-                    <S.InfoGrid>
-                        <S.InfoCard initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-                            <S.IconCircle>
-                                <S.IconWrapper>
-                                    <User size={20} />
-                                </S.IconWrapper>
-                            </S.IconCircle>
-                            <S.InfoContent>
-                                <S.InfoTitle>Personal Information</S.InfoTitle>
-                                <S.InfoDescription>
-                                    {formData.personalInfo.name ? formData.personalInfo.name : 'Name not provided'}
-                                </S.InfoDescription>
-                                <S.VerificationStatus>
-                                    <CheckIcon />
-                                    Verified
-                                </S.VerificationStatus>
-                            </S.InfoContent>
-                        </S.InfoCard>
+                <S.SummaryGrid>
+                    <S.SummaryItem>
+                        <S.SummaryHeader>
+                            <S.SummaryIcon>
+                                <User size={20} />
+                            </S.SummaryIcon>
+                            <S.SummaryTitle>Personal Information</S.SummaryTitle>
+                        </S.SummaryHeader>
+                        <S.SummaryContent>
+                            {formData.personalInfo.fullName ? <>Name: {formData.personalInfo.fullName}</> : <>Name not provided</>}
+                            <br />
+                            <S.StatusBadge status='verified'>
+                                <CheckCircle size={12} /> Verified
+                            </S.StatusBadge>
+                        </S.SummaryContent>
+                    </S.SummaryItem>
 
-                        <S.InfoCard initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-                            <S.IconCircle>
-                                <S.IconWrapper>
-                                    <Gamepad2 size={20} />
-                                </S.IconWrapper>
-                            </S.IconCircle>
-                            <S.InfoContent>
-                                <S.InfoTitle>Gaming Preferences</S.InfoTitle>
-                                <S.InfoDescription>
-                                    {formData.gamingPreferences.favoriteGames?.length > 0
-                                        ? `${formData.gamingPreferences.favoriteGames.length} games selected`
-                                        : 'No games selected'}
-                                </S.InfoDescription>
-                                <S.VerificationStatus>
-                                    <CheckIcon />
-                                    Preferences saved
-                                </S.VerificationStatus>
-                            </S.InfoContent>
-                        </S.InfoCard>
+                    <S.SummaryItem>
+                        <S.SummaryHeader>
+                            <S.SummaryIcon>
+                                <GameController size={20} />
+                            </S.SummaryIcon>
+                            <S.SummaryTitle>Gaming Preferences</S.SummaryTitle>
+                        </S.SummaryHeader>
+                        <S.SummaryContent>
+                            No games selected
+                            <br />
+                            <S.StatusBadge status='verified'>
+                                <CheckCircle size={12} /> Preferences saved
+                            </S.StatusBadge>
+                        </S.SummaryContent>
+                    </S.SummaryItem>
 
-                        <S.InfoCard initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-                            <S.IconCircle>
-                                <S.IconWrapper>
-                                    <FileCheck size={20} />
-                                </S.IconWrapper>
-                            </S.IconCircle>
-                            <S.InfoContent>
-                                <S.InfoTitle>Document Verification</S.InfoTitle>
-                                <S.InfoDescription>
-                                    {formData.documents.validationStatus === 'success'
-                                        ? 'Documents verified successfully'
-                                        : formData.documents.validationStatus === 'failed'
-                                            ? 'Verification failed'
-                                            : 'Pending verification'}
-                                </S.InfoDescription>
-                                <S.VerificationStatus>
-                                    <CheckIcon />
-                                    {formData.documents.idDocument && formData.documents.selfie ? '2 documents uploaded' : 'Incomplete'}
-                                </S.VerificationStatus>
-                            </S.InfoContent>
-                        </S.InfoCard>
+                    <S.SummaryItem>
+                        <S.SummaryHeader>
+                            <S.SummaryIcon>
+                                <FileCheck size={20} />
+                            </S.SummaryIcon>
+                            <S.SummaryTitle>Document Verification</S.SummaryTitle>
+                        </S.SummaryHeader>
+                        <S.SummaryContent>
+                            Pending verification
+                            <br />
+                            <S.StatusBadge status='incomplete'>
+                                <CheckCircle size={12} /> Incomplete
+                            </S.StatusBadge>
+                        </S.SummaryContent>
+                    </S.SummaryItem>
 
-                        <S.InfoCard initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-                            <S.IconCircle>
-                                <S.IconWrapper>
-                                    <Share2 size={20} />
-                                </S.IconWrapper>
-                            </S.IconCircle>
-                            <S.InfoContent>
-                                <S.InfoTitle>Social Media</S.InfoTitle>
-                                <S.InfoDescription>
-                                    {Object.values(formData.socialMedia).filter(Boolean).length} accounts connected
-                                </S.InfoDescription>
-                                <S.VerificationStatus>
-                                    <CheckIcon />
-                                    {Object.values(formData.socialMedia).filter(Boolean).length > 0
-                                        ? 'Social profiles linked'
-                                        : 'No accounts connected'}
-                                </S.VerificationStatus>
-                            </S.InfoContent>
-                        </S.InfoCard>
-                    </S.InfoGrid>
+                    <S.SummaryItem>
+                        <S.SummaryHeader>
+                            <S.SummaryIcon>
+                                <Share2 size={20} />
+                            </S.SummaryIcon>
+                            <S.SummaryTitle>Social Media</S.SummaryTitle>
+                        </S.SummaryHeader>
+                        <S.SummaryContent>
+                            {connectedAccounts} accounts connected
+                            <br />
+                            <S.StatusBadge status={connectedAccounts > 0 ? 'connected' : 'not-connected'}>
+                                <CheckCircle size={12} /> {connectedAccounts > 0 ? 'Connected' : 'No accounts connected'}
+                            </S.StatusBadge>
+                        </S.SummaryContent>
+                    </S.SummaryItem>
+                </S.SummaryGrid>
 
-                    {showConfetti && (
-                        <div className='absolute inset-0 pointer-events-none'>{/* Confetti animation would go here */}</div>
-                    )}
-                </CardContent>
-            </Card>
-        </S.StepContainer>
+                <S.ButtonContainer>
+                    <Button type='button' $variant='outline' onClick={onBack}>
+                        Back
+                    </Button>
+                    <Button as={Link} href='/dashboard' $variant='primary'>
+                        Go to Dashboard
+                    </Button>
+                </S.ButtonContainer>
+            </CardContent>
+        </S.FormContainer>
     );
 };

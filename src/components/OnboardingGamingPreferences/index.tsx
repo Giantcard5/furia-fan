@@ -1,332 +1,447 @@
 'use client';
 
-import {
-    useState,
-    useEffect
+import React, { 
+    useState 
 } from 'react';
 
-import {
-    useForm
-} from 'react-hook-form';
-
-import {
-    zodResolver
-} from '@hookform/resolvers/zod';
-
-import * as z from 'zod';
-import * as S from './styles';
-
-import {
-    Gamepad2
+import { 
+    GamepadIcon as GameController 
 } from 'lucide-react';
 
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
-} from '@/components/UI/form';
-import {
-    Card,
-    CardContent
+import { 
+    CardHeader, 
+    CardTitle,
+    CardDescription, 
+    CardContent 
 } from '@/components/UI/card';
-import {
-    Checkbox
-} from '@/components/UI/checkbox';
-import {
-    RadioGroup,
-    RadioGroupItem
-} from '@/components/UI/RadioGroup';
-import {
-    Label
-} from '@/components/UI/label';
 
-const gamingPreferencesSchema = z.object({
-    favoriteGames: z.array(z.string()).min(1, { message: 'Select at least one game' }),
-    eventsAttended: z.array(z.string()),
-    playTime: z.string().min(1, { message: 'Select your play time' }),
-    platform: z.string().min(1, { message: 'Select your platform' }),
-    recentPurchases: z.array(z.string()),
-});
+import Button from '@/components/UI/button';
 
-const games = [
-    { id: 'cs2', label: 'Counter-Strike 2' },
-    { id: 'valorant', label: 'Valorant' },
-    { id: 'lol', label: 'League of Legends' },
-    { id: 'dota2', label: 'Dota 2' },
-    { id: 'r6', label: 'Rainbow Six Siege' },
-    { id: 'apex', label: 'Apex Legends' },
-    { id: 'fortnite', label: 'Fortnite' },
-    { id: 'fifa', label: 'EA FC 24' },
-];
+import * as S from './styles';
 
-const events = [
-    { id: 'major', label: 'CS2 Major' },
-    { id: 'blast', label: 'BLAST Premier' },
-    { id: 'esl', label: 'ESL Pro League' },
-    { id: 'vct', label: 'VCT Champions' },
-    { id: 'worlds', label: 'LoL Worlds' },
-    { id: 'ti', label: 'The International' },
-    { id: 'rio', label: 'Rio Major' },
-    { id: 'iem', label: 'IEM Katowice' },
-];
+interface GamingPreferencesFormProps {
+    initialData: any;
+    onNext: (data: any) => void;
+    onBack: () => void;
+};
 
-const merchandise = [
-    { id: 'jersey', label: 'FURIA Jersey' },
-    { id: 'hoodie', label: 'FURIA Hoodie' },
-    { id: 'mousepad', label: 'FURIA Mousepad' },
-    { id: 'cap', label: 'FURIA Cap' },
-    { id: 'poster', label: 'FURIA Poster' },
-    { id: 'mug', label: 'FURIA Mug' },
-];
-
-interface GamingPreferencesStepProps {
-    data: any
-    updateData: (data: any) => void
-}
-
-export function GamingPreferencesStep({ data, updateData }: GamingPreferencesStepProps) {
-    const [isMounted, setIsMounted] = useState(false);
-
-    const form = useForm<z.infer<typeof gamingPreferencesSchema>>({
-        resolver: zodResolver(gamingPreferencesSchema),
-        defaultValues: {
-            favoriteGames: data.favoriteGames || [],
-            eventsAttended: data.eventsAttended || [],
-            playTime: data.playTime || '',
-            platform: data.platform || '',
-            recentPurchases: data.recentPurchases || [],
+export default function GamingPreferencesForm({ initialData, onNext, onBack }: GamingPreferencesFormProps) {
+    const [formData, setFormData] = useState({
+        games: initialData.games || {
+            'counter-strike-2': false,
+            valorant: false,
+            'league-of-legends': false,
+            'dota-2': false,
+            'rainbow-six-siege': false,
+            'apex-legends': false,
+            fortnite: false,
+            'ea-fc-24': false,
+        },
+        events: initialData.events || {
+            'cs2-major': false,
+            'esl-pro-league': false,
+            'iem-worlds': false,
+            'rio-major': false,
+            'blast-premier': false,
+            'vct-champions': false,
+            'the-international': false,
+            'iem-katowice': false,
+        },
+        playFrequency: initialData.playFrequency || '',
+        platform: initialData.platform || '',
+        purchases: initialData.purchases || {
+            'furia-jersey': false,
+            'furia-mousepad': false,
+            'furia-poster': false,
+            'furia-hoodie': false,
+            'furia-cap': false,
+            'furia-mug': false,
         },
     });
 
-    useEffect(() => {
-        setIsMounted(true)
-    }, []);
-
-    const onSubmit = (values: z.infer<typeof gamingPreferencesSchema>) => {
-        updateData(values);
+    const handleCheckboxChange = (category: 'games' | 'events' | 'purchases', name: string) => {
+        setFormData((prev) => ({
+            ...prev,
+            [category]: {
+                ...prev[category],
+                [name]: !prev[category][name],
+            },
+        }));
     };
 
-    useEffect(() => {
-        if (isMounted) {
-            const subscription = form.watch((value) => {
-                updateData(value);
-            });
-            return () => subscription.unsubscribe();
-        };
-    }, [form, updateData, isMounted]);
+    const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        onNext(formData);
+    };
 
     return (
-        <S.StepContainer>
-            <S.StepHeader>
-                <S.StepTitle>Gaming Preferences</S.StepTitle>
-                <S.StepDescription>
+        <S.FormContainer>
+            <CardHeader>
+                <CardTitle>Gaming Preferences</CardTitle>
+                <CardDescription>
                     Tell us about your gaming habits and preferences to enhance your fan experience.
-                </S.StepDescription>
-            </S.StepHeader>
+                </CardDescription>
+            </CardHeader>
 
-            <Card>
-                <CardContent>
+            <CardContent>
+                <form onSubmit={handleSubmit}>
                     <S.IconContainer>
-                        <S.IconWrapper>
-                            <Gamepad2 size={32} color='#FFFFFF' />
-                        </S.IconWrapper>
+                        <S.Icon>
+                            <GameController size={40} />
+                        </S.Icon>
                     </S.IconContainer>
 
-                    <Form {...form}>
-                        <form onChange={form.handleSubmit(onSubmit)}>
-                            <S.FormSection>
-                                <FormField
-                                    control={form.control}
-                                    name='favoriteGames'
-                                    render={() => (
-                                        <FormItem>
-                                            <S.SectionLabel>
-                                                <FormLabel>Favorite Games</FormLabel>
-                                            </S.SectionLabel>
-                                            <S.CheckboxGrid>
-                                                {games.map((game) => (
-                                                    <FormField
-                                                        key={game.id}
-                                                        control={form.control}
-                                                        name='favoriteGames'
-                                                        render={({ field }) => {
-                                                            return (
-                                                                <S.CheckboxItem key={game.id}>
-                                                                    <FormControl>
-                                                                        <Checkbox
-                                                                            checked={field.value?.includes(game.id)}
-                                                                            onChange={(checked) => {
-                                                                                return checked
-                                                                                    ? field.onChange([...field.value, game.id])
-                                                                                    : field.onChange(field.value?.filter((value: any) => value !== game.id))
-                                                                            }}
-                                                                        />
-                                                                    </FormControl>
-                                                                    <S.CheckboxLabel>{game.label}</S.CheckboxLabel>
-                                                                </S.CheckboxItem>
-                                                            )
-                                                        }}
-                                                    />
-                                                ))}
-                                            </S.CheckboxGrid>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                    <S.SectionTitle>Favorite Games</S.SectionTitle>
+                    <S.CheckboxGrid>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.games['counter-strike-2']}
+                                    onChange={() => handleCheckboxChange('games', 'counter-strike-2')}
                                 />
-                            </S.FormSection>
-
-                            <S.FormSection>
-                                <FormField
-                                    control={form.control}
-                                    name='eventsAttended'
-                                    render={() => (
-                                        <FormItem>
-                                            <S.SectionLabel>
-                                                <FormLabel>Events Attended</FormLabel>
-                                            </S.SectionLabel>
-                                            <S.CheckboxGrid>
-                                                {events.map((event) => (
-                                                    <FormField
-                                                        key={event.id}
-                                                        control={form.control}
-                                                        name='eventsAttended'
-                                                        render={({ field }) => {
-                                                            return (
-                                                                <S.CheckboxItem key={event.id}>
-                                                                    <FormControl>
-                                                                        <Checkbox
-                                                                            checked={field.value?.includes(event.id)}
-                                                                            onChange={(checked) => {
-                                                                                return checked
-                                                                                    ? field.onChange([...field.value, event.id])
-                                                                                    : field.onChange(field.value?.filter((value: any) => value !== event.id))
-                                                                            }}
-                                                                        />
-                                                                    </FormControl>
-                                                                    <S.CheckboxLabel>{event.label}</S.CheckboxLabel>
-                                                                </S.CheckboxItem>
-                                                            )
-                                                        }}
-                                                    />
-                                                ))}
-                                            </S.CheckboxGrid>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                Counter-Strike 2
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.games['valorant']}
+                                    onChange={() => handleCheckboxChange('games', 'valorant')}
                                 />
-                            </S.FormSection>
-
-                            <S.TwoColumnGrid>
-                                <FormField
-                                    control={form.control}
-                                    name='playTime'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>How often do you play games?</FormLabel>
-                                            <FormControl>
-                                                <RadioGroup onValueChange={field.onChange} value={field.value}>
-                                                    <S.RadioItem>
-                                                        <RadioGroupItem value='daily' id='daily' />
-                                                        <Label htmlFor='daily'>Daily</Label>
-                                                    </S.RadioItem>
-                                                    <S.RadioItem>
-                                                        <RadioGroupItem value='weekly' id='weekly' />
-                                                        <Label htmlFor='weekly'>Few times a week</Label>
-                                                    </S.RadioItem>
-                                                    <S.RadioItem>
-                                                        <RadioGroupItem value='monthly' id='monthly' />
-                                                        <Label htmlFor='monthly'>Few times a month</Label>
-                                                    </S.RadioItem>
-                                                    <S.RadioItem>
-                                                        <RadioGroupItem value='rarely' id='rarely' />
-                                                        <Label htmlFor='rarely'>Rarely</Label>
-                                                    </S.RadioItem>
-                                                </RadioGroup>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                Valorant
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.games['league-of-legends']}
+                                    onChange={() => handleCheckboxChange('games', 'league-of-legends')}
                                 />
+                                League of Legends
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.games['dota-2']}
+                                    onChange={() => handleCheckboxChange('games', 'dota-2')}
+                                />
+                                Dota 2
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.games['rainbow-six-siege']}
+                                    onChange={() => handleCheckboxChange('games', 'rainbow-six-siege')}
+                                />
+                                Rainbow Six Siege
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.games['apex-legends']}
+                                    onChange={() => handleCheckboxChange('games', 'apex-legends')}
+                                />
+                                Apex Legends
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.games['fortnite']}
+                                    onChange={() => handleCheckboxChange('games', 'fortnite')}
+                                />
+                                Fortnite
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.games['ea-fc-24']}
+                                    onChange={() => handleCheckboxChange('games', 'ea-fc-24')}
+                                />
+                                EA FC 24
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                    </S.CheckboxGrid>
 
-                                <FormField
-                                    control={form.control}
+                    <S.SectionTitle>Events Attended</S.SectionTitle>
+                    <S.CheckboxGrid>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.events['cs2-major']}
+                                    onChange={() => handleCheckboxChange('events', 'cs2-major')}
+                                />
+                                CS2 Major
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.events['esl-pro-league']}
+                                    onChange={() => handleCheckboxChange('events', 'esl-pro-league')}
+                                />
+                                ESL Pro League
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.events['iem-worlds']}
+                                    onChange={() => handleCheckboxChange('events', 'iem-worlds')}
+                                />
+                                IEM Worlds
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.events['rio-major']}
+                                    onChange={() => handleCheckboxChange('events', 'rio-major')}
+                                />
+                                Rio Major
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.events['blast-premier']}
+                                    onChange={() => handleCheckboxChange('events', 'blast-premier')}
+                                />
+                                BLAST Premier
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.events['vct-champions']}
+                                    onChange={() => handleCheckboxChange('events', 'vct-champions')}
+                                />
+                                VCT Champions
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.events['the-international']}
+                                    onChange={() => handleCheckboxChange('events', 'the-international')}
+                                />
+                                The International
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.events['iem-katowice']}
+                                    onChange={() => handleCheckboxChange('events', 'iem-katowice')}
+                                />
+                                IEM Katowice
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                    </S.CheckboxGrid>
+
+                    <S.SectionTitle>How often do you play games?</S.SectionTitle>
+                    <S.RadioGroup>
+                        <S.RadioItem>
+                            <S.RadioLabel>
+                                <S.Radio
+                                    type='radio'
+                                    name='playFrequency'
+                                    value='daily'
+                                    checked={formData.playFrequency === 'daily'}
+                                    onChange={handleRadioChange}
+                                />
+                                Daily
+                            </S.RadioLabel>
+                        </S.RadioItem>
+                        <S.RadioItem>
+                            <S.RadioLabel>
+                                <S.Radio
+                                    type='radio'
+                                    name='playFrequency'
+                                    value='few-times-a-week'
+                                    checked={formData.playFrequency === 'few-times-a-week'}
+                                    onChange={handleRadioChange}
+                                />
+                                Few times a week
+                            </S.RadioLabel>
+                        </S.RadioItem>
+                        <S.RadioItem>
+                            <S.RadioLabel>
+                                <S.Radio
+                                    type='radio'
+                                    name='playFrequency'
+                                    value='few-times-a-month'
+                                    checked={formData.playFrequency === 'few-times-a-month'}
+                                    onChange={handleRadioChange}
+                                />
+                                Few times a month
+                            </S.RadioLabel>
+                        </S.RadioItem>
+                        <S.RadioItem>
+                            <S.RadioLabel>
+                                <S.Radio
+                                    type='radio'
+                                    name='playFrequency'
+                                    value='rarely'
+                                    checked={formData.playFrequency === 'rarely'}
+                                    onChange={handleRadioChange}
+                                />
+                                Rarely
+                            </S.RadioLabel>
+                        </S.RadioItem>
+                    </S.RadioGroup>
+
+                    <S.SectionTitle>What platform do you primarily use?</S.SectionTitle>
+                    <S.RadioGroup>
+                        <S.RadioItem>
+                            <S.RadioLabel>
+                                <S.Radio
+                                    type='radio'
                                     name='platform'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>What platform do you primarily use?</FormLabel>
-                                            <FormControl>
-                                                <RadioGroup onValueChange={field.onChange} value={field.value}>
-                                                    <S.RadioItem>
-                                                        <RadioGroupItem value='pc' id='pc' />
-                                                        <Label htmlFor='pc'>PC</Label>
-                                                    </S.RadioItem>
-                                                    <S.RadioItem>
-                                                        <RadioGroupItem value='playstation' id='playstation' />
-                                                        <Label htmlFor='playstation'>PlayStation</Label>
-                                                    </S.RadioItem>
-                                                    <S.RadioItem>
-                                                        <RadioGroupItem value='xbox' id='xbox' />
-                                                        <Label htmlFor='xbox'>Xbox</Label>
-                                                    </S.RadioItem>
-                                                    <S.RadioItem>
-                                                        <RadioGroupItem value='mobile' id='mobile' />
-                                                        <Label htmlFor='mobile'>Mobile</Label>
-                                                    </S.RadioItem>
-                                                </RadioGroup>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                    value='pc'
+                                    checked={formData.platform === 'pc'}
+                                    onChange={handleRadioChange}
                                 />
-                            </S.TwoColumnGrid>
+                                PC
+                            </S.RadioLabel>
+                        </S.RadioItem>
+                        <S.RadioItem>
+                            <S.RadioLabel>
+                                <S.Radio
+                                    type='radio'
+                                    name='platform'
+                                    value='playstation'
+                                    checked={formData.platform === 'playstation'}
+                                    onChange={handleRadioChange}
+                                />
+                                PlayStation
+                            </S.RadioLabel>
+                        </S.RadioItem>
+                        <S.RadioItem>
+                            <S.RadioLabel>
+                                <S.Radio
+                                    type='radio'
+                                    name='platform'
+                                    value='xbox'
+                                    checked={formData.platform === 'xbox'}
+                                    onChange={handleRadioChange}
+                                />
+                                Xbox
+                            </S.RadioLabel>
+                        </S.RadioItem>
+                        <S.RadioItem>
+                            <S.RadioLabel>
+                                <S.Radio
+                                    type='radio'
+                                    name='platform'
+                                    value='mobile'
+                                    checked={formData.platform === 'mobile'}
+                                    onChange={handleRadioChange}
+                                />
+                                Mobile
+                            </S.RadioLabel>
+                        </S.RadioItem>
+                    </S.RadioGroup>
 
-                            <S.FormSection>
-                                <FormField
-                                    control={form.control}
-                                    name='recentPurchases'
-                                    render={() => (
-                                        <FormItem>
-                                            <S.SectionLabel>
-                                                <FormLabel>Recent FURIA Purchases</FormLabel>
-                                            </S.SectionLabel>
-                                            <S.CheckboxGrid>
-                                                {merchandise.map((item) => (
-                                                    <FormField
-                                                        key={item.id}
-                                                        control={form.control}
-                                                        name='recentPurchases'
-                                                        render={({ field }) => {
-                                                            return (
-                                                                <S.CheckboxItem key={item.id}>
-                                                                    <FormControl>
-                                                                        <Checkbox
-                                                                            checked={field.value?.includes(item.id)}
-                                                                            onChange={(checked) => {
-                                                                                return checked
-                                                                                    ? field.onChange([...field.value, item.id])
-                                                                                    : field.onChange(field.value?.filter((value: any) => value !== item.id))
-                                                                            }}
-                                                                        />
-                                                                    </FormControl>
-                                                                    <S.CheckboxLabel>{item.label}</S.CheckboxLabel>
-                                                                </S.CheckboxItem>
-                                                            )
-                                                        }}
-                                                    />
-                                                ))}
-                                            </S.CheckboxGrid>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                    <S.SectionTitle>Recent FURIA Purchases</S.SectionTitle>
+                    <S.CheckboxGrid>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.purchases['furia-jersey']}
+                                    onChange={() => handleCheckboxChange('purchases', 'furia-jersey')}
                                 />
-                            </S.FormSection>
-                        </form>
-                    </Form>
-                </CardContent>
-            </Card>
-        </S.StepContainer>
+                                FURIA Jersey
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.purchases['furia-mousepad']}
+                                    onChange={() => handleCheckboxChange('purchases', 'furia-mousepad')}
+                                />
+                                FURIA Mousepad
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.purchases['furia-poster']}
+                                    onChange={() => handleCheckboxChange('purchases', 'furia-poster')}
+                                />
+                                FURIA Poster
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.purchases['furia-hoodie']}
+                                    onChange={() => handleCheckboxChange('purchases', 'furia-hoodie')}
+                                />
+                                FURIA Hoodie
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.purchases['furia-cap']}
+                                    onChange={() => handleCheckboxChange('purchases', 'furia-cap')}
+                                />
+                                FURIA Cap
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                        <S.CheckboxItem>
+                            <S.CheckboxLabel>
+                                <S.Checkbox
+                                    type='checkbox'
+                                    checked={formData.purchases['furia-mug']}
+                                    onChange={() => handleCheckboxChange('purchases', 'furia-mug')}
+                                />
+                                FURIA Mug
+                            </S.CheckboxLabel>
+                        </S.CheckboxItem>
+                    </S.CheckboxGrid>
+
+                    <S.ButtonContainer>
+                        <Button type='button' $variant='outline' onClick={onBack}>
+                            Back
+                        </Button>
+                        <Button type='submit' $variant='primary'>
+                            Next
+                        </Button>
+                    </S.ButtonContainer>
+                </form>
+            </CardContent>
+        </S.FormContainer>
     );
 };

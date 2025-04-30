@@ -1,75 +1,100 @@
 import styled from 'styled-components';
 
 import { 
-    FormItem 
-} from '../UI/form';
+    Card 
+} from '@/components/UI/card';
 
-const StepContainer = styled.div`
-    width: 100%;
-`;
-
-const StepHeader = styled.div`
+const FormContainer = styled(Card)`
     margin-bottom: ${({ theme }) => theme.space[6]};
 `;
 
-const StepTitle = styled.h2`
-    font-size: ${({ theme }) => theme.fontSizes['2xl']};
-    font-weight: ${({ theme }) => theme.fontWeights.bold};
-    color: ${({ theme }) => theme.colors.white};
-    margin-bottom: ${({ theme }) => theme.space[2]};
-`;
-
-const StepDescription = styled.p`
-    color: ${({ theme }) => theme.colors.gray[400]};
-`;
-
-const IconContainer = styled.div`
+const AvatarContainer = styled.div`
     display: flex;
-    align-items: center;
     justify-content: center;
     margin-bottom: ${({ theme }) => theme.space[6]};
+    position: relative;
+    width: 80px;
+    margin-left: auto;
+    margin-right: auto;
 `;
 
-const IconWrapper = styled.div`
-    width: 4rem;
-    height: 4rem;
-    border-radius: ${({ theme }) => theme.radii.full};
-    background-color: rgba(255, 255, 255, 0.1);
+const Avatar = styled.div`
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #141414;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: ${({ theme }) => theme.colors.gray[300]};
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+        opacity: 0.9;
+    }
 `;
 
-const FormGrid = styled.div`
+const AvatarOverlay = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    
+    &:hover {
+        opacity: 1;
+    }
+`;
+
+const EditButton = styled.div`
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    background-color: ${({ theme }) => theme.colors.gold};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: ${({ theme }) => theme.colors.gray[900]};
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+`;
+
+const FormRow = styled.div`
     display: grid;
     grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.space[6]};
+    gap: ${({ theme }) => theme.space[4]};
     
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr 1fr;
     }
 `;
 
-const FullWidthFormItem = styled(FormItem)`
-    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-        grid-column: span 2;
-    }
-`;
-
-const TwoColumnGrid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: ${({ theme }) => theme.space[4]};
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top: ${({ theme }) => theme.space[6]};
 `;
 
 export {
-    StepContainer,
-    StepHeader,
-    StepTitle,
-    StepDescription,
-    IconContainer,
-    IconWrapper,
-    FormGrid,
-    FullWidthFormItem,
-    TwoColumnGrid
+    FormContainer,
+    AvatarContainer,
+    Avatar,
+    AvatarOverlay,
+    EditButton,
+    FormRow,
+    ButtonContainer
 };

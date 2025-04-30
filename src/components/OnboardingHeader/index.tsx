@@ -1,65 +1,53 @@
 'use client';
 
-import {
-    Container
-} from '@/components/UI/container';
-
+import Link from 'next/link';
 import Image from 'next/image';
 
 import * as S from './styles';
 
+import Progress from '../UI/progress';
 interface OnboardingHeaderProps {
-    currentStep: number;
-    totalSteps: number;
+    currentStep: number
 };
 
-export function OnboardingHeader({ currentStep, totalSteps }: OnboardingHeaderProps) {
+export default function OnboardingHeader({ currentStep }: OnboardingHeaderProps) {
     const steps = [
-        { number: 1, title: 'Personal Info' },
-        { number: 2, title: 'Gaming Preferences' },
-        { number: 3, title: 'Document Upload' },
-        { number: 4, title: 'Social Media' },
-        { number: 5, title: 'Completion' },
+        { label: 'Personal Info', step: 1 },
+        { label: 'Gaming Preferences', step: 2 },
+        { label: 'Document Upload', step: 3 },
+        { label: 'Social Media', step: 4 },
+        { label: 'Completion', step: 5 },
     ];
 
+    const progressValue = ((currentStep - 1) / (steps.length - 1)) * 100;
+
     return (
-        <S.HeaderWrapper>
-            <Container>
-                <S.HeaderContent>
-                    <S.LogoLink href='/'>
-                        <S.LogoWrapper>
-                            <Image
-                                src='/icon-text-white.svg'
-                                alt='FURIA Text'
-                                width={70}
-                                height={70}
-                            />
-                        </S.LogoWrapper>
-                    </S.LogoLink>
+        <S.Header>
+            <S.Logo>
+                <Link href='/'>
+                    <Image 
+                        src='/icon-text-white.svg' 
+                        alt='logo' 
+                        width={140} 
+                        height={80} 
+                    />
+                </Link>
+            </S.Logo>
 
-                    <S.StepsWrapper>
-                        {steps.map((step) => (
-                            <S.StepItem key={step.number}>
-                                <S.StepCircle $active={currentStep === step.number} $completed={currentStep > step.number}>
-                                    {step.number}
-                                </S.StepCircle>
-                                <S.StepLabel $active={currentStep === step.number} $completed={currentStep > step.number}>
-                                    {step.title}
-                                </S.StepLabel>
-                                {step.number < totalSteps && <S.StepDivider $completed={currentStep > step.number} />}
-                            </S.StepItem>
-                        ))}
-                    </S.StepsWrapper>
+            <S.StepsContainer>
+                <S.Steps>
+                    {steps.map((step) => (
+                        <S.Step key={step.step} $active={currentStep === step.step} $completed={currentStep > step.step}>
+                            <div className='step-number'>{step.step}</div>
+                            <div className='step-label'>{step.label}</div>
+                        </S.Step>
+                    ))}
+                </S.Steps>
 
-                    <S.MobileStepInfo>
-                        <S.MobileStepText>
-                            Step {currentStep} of {totalSteps}: {steps.find((s) => s.number === currentStep)?.title}
-                        </S.MobileStepText>
-                    </S.MobileStepInfo>
-                </S.HeaderContent>
-            </Container>
-        </S.HeaderWrapper>
+                <S.ProgressContainer>
+                    <Progress value={progressValue} />
+                </S.ProgressContainer>
+            </S.StepsContainer>
+        </S.Header>
     );
 };
-
-export default OnboardingHeader;

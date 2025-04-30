@@ -1,152 +1,165 @@
 import styled from 'styled-components';
 
 import {
-    motion
-} from 'framer-motion';
+    Card
+} from '@/components/UI/card';
 
-import {
-    CheckCircle2 
-} from 'lucide-react';
-
-const StepContainer = styled.div`
-    width: 100%;
-`;
-
-const HeaderContainer = styled.div`
-    margin-bottom: 1.5rem;
-`;
-
-const StepTitle = styled.h2`
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: ${({ theme }) => theme.colors.white};
-    margin-bottom: 0.5rem;
-`;
-
-const StepDescription = styled.p`
-    color: ${({ theme }) => theme.colors.gray[400]};
-`;
-
-const LogoContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-`;
-
-const LogoCircle = styled.div`
-    width: 5rem;
-    height: 5rem;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+const FormContainer = styled(Card)`
+    margin-bottom: ${({ theme }) => theme.space[6]};
 `;
 
 const WelcomeContainer = styled.div`
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: ${({ theme }) => theme.space[8]};
 `;
 
-const WelcomeTitle = styled.h3`
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: ${({ theme }) => theme.colors.white};
-    margin-bottom: 0.5rem;
-`;
-
-const ProgressText = styled.p`
-    color: ${({ theme }) => theme.colors.gray[400]};
-`;
-
-const ProgressContainer = styled.div`
-    margin-top: 1rem;
-`;
-
-const InfoGrid = styled.div`
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-top: 2rem;
-
-    @media (min-width: 768px) {
-        grid-template-columns: 1fr 1fr;
-    }
-`;
-
-const InfoCard = styled(motion.div)`
+const AvatarContainer = styled.div`
     display: flex;
-    align-items: flex-start;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid ${({ theme }) => theme.colors.gray[800]};
+    justify-content: center;
+    margin-bottom: ${({ theme }) => theme.space[4]};
 `;
 
-const IconCircle = styled.div`
-    width: 2.5rem;
-    height: 2.5rem;
+const Avatar = styled.div`
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: ${({ theme }) => theme.colors.backgroundLight};
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 1rem;
-    margin-top: 0.25rem;
+    color: ${({ theme }) => theme.colors.gray[300]};
 `;
 
-const IconWrapper = styled.div`
-    color: ${({ theme }) => theme.colors.white};
+const WelcomeTitle = styled.h2`
+    font-size: ${({ theme }) => theme.fontSizes['2xl']};
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+    margin-bottom: ${({ theme }) => theme.space[2]};
 `;
 
-const InfoContent = styled.div`
-    flex: 1;
+const WelcomeSubtitle = styled.p`
+    font-size: ${({ theme }) => theme.fontSizes.md};
+    color: ${({ theme }) => theme.colors.gray[300]};
+    margin-bottom: ${({ theme }) => theme.space[4]};
 `;
 
-const InfoTitle = styled.h4`
-    color: ${({ theme }) => theme.colors.white};
-    font-weight: 500;
-    margin-bottom: 0.25rem;
+const ProgressContainer = styled.div`
+    margin-bottom: ${({ theme }) => theme.space[6]};
 `;
 
-const InfoDescription = styled.p`
-    color: ${({ theme }) => theme.colors.gray[400]};
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
+const ProgressLabel = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: ${({ theme }) => theme.space[2]};
+    
+    span {
+        font-size: ${({ theme }) => theme.fontSizes.sm};
+        color: ${({ theme }) => theme.colors.gray[300]};
+    }
 `;
 
-const VerificationStatus = styled.div`
+const SummaryGrid = styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.space[4]};
+    
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+`;
+
+const SummaryItem = styled.div`
+    background-color: ${({ theme }) => theme.colors.backgroundLight};
+    border-radius: ${({ theme }) => theme.radii.lg};
+    padding: ${({ theme }) => theme.space[4]};
+`;
+
+const SummaryHeader = styled.div`
     display: flex;
     align-items: center;
-    font-size: 0.75rem;
-    color: ${({ theme }) => theme.colors.gray[500]};
+    gap: ${({ theme }) => theme.space[3]};
+    margin-bottom: ${({ theme }) => theme.space[3]};
 `;
 
-const CheckIcon = styled(CheckCircle2)`
-    width: 0.75rem;
-    height: 0.75rem;
-    margin-right: 0.25rem;
-    color: ${({ theme }) => theme.colors.white};
+const SummaryIcon = styled.div`
+    width: 40px;
+    height: 40px;
+    border-radius: ${({ theme }) => theme.radii.md};
+    background-color: #141414;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: ${({ theme }) => theme.colors.gray[300]};
+`;
+
+const SummaryTitle = styled.h3`
+    font-size: ${({ theme }) => theme.fontSizes.lg};
+    font-weight: ${({ theme }) => theme.fontWeights.semibold};
+`;
+
+const SummaryContent = styled.div`
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+    color: ${({ theme }) => theme.colors.gray[300]};
+`;
+
+const StatusBadge = styled.span<{ status: 'verified' | 'incomplete' | 'connected' | 'not-connected' }>`
+    display: inline-flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.space[1]};
+    padding: ${({ theme }) => theme.space[1]} ${({ theme }) => theme.space[2]};
+    border-radius: ${({ theme }) => theme.radii.full};
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+    font-weight: ${({ theme }) => theme.fontWeights.medium};
+    
+    // Update this latter
+    ${({ status, theme }) => {
+        switch (status) {
+            case 'verified':
+                return `
+                    background-color: ${theme.colors.gold}20;
+                    color: ${theme.colors.gold};
+                `;
+            case 'incomplete':
+                return `
+                    background-color: ${theme.colors.gold}20;
+                    color: ${theme.colors.gold};
+                `;
+            case 'connected':
+                return `
+                    background-color: ${theme.colors.gold}20;
+                    color: ${theme.colors.gold};
+                `;
+            case 'not-connected':
+                return `
+                    background-color: ${theme.colors.gold}20;
+                    color: ${theme.colors.gold};
+                `;
+            default:
+                return '';
+        };
+    }};
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top: ${({ theme }) => theme.space[6]};
 `;
 
 export {
-    StepContainer,
-    HeaderContainer,
-    StepTitle,
-    StepDescription,
-    LogoCircle,
-    LogoContainer,
+    FormContainer,
     WelcomeContainer,
+    AvatarContainer,
+    Avatar,
     WelcomeTitle,
+    WelcomeSubtitle,
     ProgressContainer,
-    ProgressText,
-    InfoCard,
-    InfoGrid,
-    IconCircle,
-    IconWrapper,
-    InfoContent,
-    InfoTitle,
-    InfoDescription,
-    VerificationStatus,
-    CheckIcon
+    ProgressLabel,
+    SummaryGrid,
+    SummaryItem,
+    SummaryHeader,
+    SummaryIcon,
+    SummaryTitle,
+    SummaryContent,
+    StatusBadge,
+    ButtonContainer
 };

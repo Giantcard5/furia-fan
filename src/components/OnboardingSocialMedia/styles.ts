@@ -1,154 +1,110 @@
 import styled from 'styled-components';
 
-const StepContainer = styled.div`
-    width: 100%;
-`;
+import { 
+    Card 
+} from '@/components/UI/card';
 
-const HeaderContainer = styled.div`
-    margin-bottom: 1.5rem;
-`;
+import Button from '@/components/UI/button';
 
-const StepTitle = styled.h2`
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: ${({ theme }) => theme.colors.white};
-    margin-bottom: 0.5rem;
-`;
-
-const StepDescription = styled.p`
-    color: ${({ theme }) => theme.colors.gray[400]};
+const FormContainer = styled(Card)`
+    margin-bottom: ${({ theme }) => theme.space[6]};
 `;
 
 const IconContainer = styled.div`
     display: flex;
-    align-items: center;
     justify-content: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: ${({ theme }) => theme.space[6]};
 `;
 
-const IconCircle = styled.div`
-    width: 4rem;
-    height: 4rem;
+const Icon = styled.div`
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: ${({ theme }) => theme.colors.backgroundLight};
     display: flex;
     align-items: center;
     justify-content: center;
-`;
-
-const FormContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-`;
-
-const SocialGrid = styled.div`
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    color: ${({ theme }) => theme.colors.gray[300]};
 `;
 
 const SectionTitle = styled.h3`
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: ${({ theme }) => theme.colors.white};
-    margin-top: 1rem;
+    font-size: ${({ theme }) => theme.fontSizes.lg};
+    font-weight: ${({ theme }) => theme.fontWeights.semibold};
+    margin-bottom: ${({ theme }) => theme.space[4]};
+    margin-top: ${({ theme }) => theme.space[6]};
+    
+    &:first-of-type {
+        margin-top: 0;
+    }
 `;
 
-const SocialCard = styled.div`
+const SocialAccountsList = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid ${({ theme }) => theme.colors.gray[800]};
-    transition: border-color 0.2s ease;
-
-    &:hover {
-        border-color: rgba(255, 255, 255, 0.5);
-    }
-
-    @media (min-width: 768px) {
-        flex-direction: row;
-        align-items: center;
-    }
+    gap: ${({ theme }) => theme.space[4]};
 `;
 
-const SocialInfo = styled.div`
+const SocialAccountItem = styled.div`
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
-
-    @media (min-width: 768px) {
-        margin-bottom: 0;
-    }
+    justify-content: space-between;
+    padding: ${({ theme }) => theme.space[4]};
+    background-color: ${({ theme }) => theme.colors.backgroundLight};
+    border-radius: ${({ theme }) => theme.radii.lg};
 `;
 
-const SocialIconCircle = styled.div<{ $bgColor: string; textColor: string }>`
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    background-color: ${({ $bgColor }) => $bgColor};
+const SocialAccountInfo = styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.space[3]};
+`;
+
+const SocialIcon = styled.div<{ $bgColor?: string }>`
+    width: 40px;
+    height: 40px;
+    border-radius: ${({ theme }) => theme.radii.md};
+    background-color: ${({ $bgColor }) => $bgColor || "#333"};
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 1rem;
-    color: ${({ textColor }) => textColor};
+    color: white;
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
 `;
 
-const SocialDetails = styled.div`
+const SocialAccountDetails = styled.div``;
+
+const SocialAccountName = styled.div`
+    font-size: ${({ theme }) => theme.fontSizes.md};
+    font-weight: ${({ theme }) => theme.fontWeights.medium};
+`;
+
+const SocialAccountDescription = styled.div`
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+    color: ${({ theme }) => theme.colors.gray[300]};
+`;
+
+const ConnectButton = styled(Button)`
+    min-width: 100px;
+`;
+
+const ButtonContainer = styled.div`
     display: flex;
-    flex-direction: column;
-`;
-
-const SocialTitle = styled.h3`
-    color: ${({ theme }) => theme.colors.white};
-    font-weight: 500;
-`;
-
-const SocialSubtitle = styled.p`
-    color: ${({ theme }) => theme.colors.gray[400]};
-    font-size: 0.875rem;
-`;
-
-const SocialActions = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-    width: 100%;
-
-    @media (min-width: 768px) {
-        flex-direction: row;
-        align-items: center;
-        width: auto;
-    }
-`;
-
-const BadgeContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-right: 1rem;
+    justify-content: space-between;
+    margin-top: ${({ theme }) => theme.space[6]};
 `;
 
 export {
-    StepContainer,
-    HeaderContainer,
-    StepTitle,
-    StepDescription,
-    IconCircle,
-    IconContainer,
     FormContainer,
-    SocialActions,
-    SocialGrid,
+    IconContainer,
+    Icon,
     SectionTitle,
-    SocialCard,
-    SocialInfo,
-    SocialIconCircle,
-    SocialDetails,
-    SocialTitle,
-    SocialSubtitle,
-    BadgeContainer
+    SocialAccountsList,
+    SocialAccountItem,
+    SocialAccountInfo,
+    SocialIcon,
+    SocialAccountDetails,
+    SocialAccountName,
+    SocialAccountDescription,
+    ConnectButton,
+    ButtonContainer    
 };

@@ -1,273 +1,340 @@
 'use client';
 
-import { 
+import React, { 
     useState, 
-    useEffect 
+    useRef 
 } from 'react';
 
-import { 
-    useForm 
-} from 'react-hook-form';
+import Link from 'next/link';
 
 import { 
-    zodResolver 
-} from '@hookform/resolvers/zod'
-
-import * as z from 'zod';
-import * as S from './styles';
-
-import { 
-    UserRound 
+    User, 
+    PenSquare 
 } from 'lucide-react';
 
 import { 
-    Input 
-} from '@/components/UI/input';
-import { 
-    Form, 
-    FormControl, 
-    FormField, 
-    FormItem, 
-    FormLabel, 
-    FormMessage 
-} from '@/components/UI/form';
-import { 
-    Card, 
+    CardHeader, 
+    CardTitle, 
+    CardDescription,
     CardContent 
 } from '@/components/UI/card';
+import { 
+    FormGroup, 
+    Label, 
+    Input, 
+    ErrorMessage 
+} from '@/components/UI/input';
 
-const personalInfoSchema = z.object({
-    name: z.string().min(3, { 
-        message: 'Name must be at least 3 characters' 
-    }),
-    email: z.string().email({ 
-        message: 'Please enter a valid email address' 
-    }),
-    cpf: z.string().regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, {
-        message: 'CPF must be in format 000.000.000-00',
-    }),
-    birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
-        message: 'Birth date must be in format YYYY-MM-DD',
-    }),
-    address: z.string().min(5, { 
-        message: 'Address must be at least 5 characters' 
-    }),
-    city: z.string().min(2, { 
-        message: 'City must be at least 2 characters' 
-    }),
-    state: z.string().min(2, { 
-        message: 'State must be at least 2 characters' 
-    }),
-    zipCode: z.string().regex(/^\d{5}-\d{3}$/, {
-        message: 'Zip code must be in format 00000-000',
-    }),
-});
+import Button from '@/components/UI/button';
 
-interface PersonalInfoStepProps {
-    data: any;
-    updateData: (data: any) => void;
-};
+import * as S from './styles';
 
-export function PersonalInfoStep({ data, updateData }: PersonalInfoStepProps) {
-    const [isMounted, setIsMounted] = useState(false);
+interface PersonalInfoFormProps {
+    initialData: any
+    onNext: (data: any) => void
+}
 
-    const form = useForm<z.infer<typeof personalInfoSchema>>({
-        resolver: zodResolver(personalInfoSchema),
-        defaultValues: {
-            name: data.name || '',
-            email: data.email || '',
-            cpf: data.cpf || '',
-            birthDate: data.birthDate || '',
-            address: data.address || '',
-            city: data.city || '',
-            state: data.state || '',
-            zipCode: data.zipCode || '',
-        },
+export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFormProps) {
+    const [formData, setFormData] = useState({
+        fullName: initialData.fullName || '',
+        email: initialData.email || '',
+        cpf: initialData.cpf || '',
+        birthDate: initialData.birthDate || '',
+        address: initialData.address || '',
+        city: initialData.city || '',
+        state: initialData.state || '',
+        zipCode: initialData.zipCode || '',
+        password: initialData.password || '',
+        passwordVerify: initialData.passwordVerify || '',
     });
+    const [profileImage, setProfileImage] = useState<string | null>(initialData.profileImage || null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
-    useEffect(() => {
-        setIsMounted(true)
-    }, []);
+    const [errors, setErrors] = useState<Record<string, string>>({});
 
-    const onSubmit = (values: z.infer<typeof personalInfoSchema>) => {
-        updateData(values);
-    };
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
 
-    useEffect(() => {
-        if (isMounted) {
-            const subscription = form.watch((value) => {
-                updateData(value)
-            })
-            return () => subscription.unsubscribe()
+        if (errors[name]) {
+            setErrors((prev) => {
+                const newErrors = { ...prev }
+                delete newErrors[name]
+                return newErrors
+            });
         };
-    }, [form, updateData, isMounted]);
-
-    const formatCPF = (value: string) => {
-        return value
-            .replace(/\D/g, '')
-            .replace(/(\d{3})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d{1,2})/, '$1-$2')
-            .replace(/(-\d{2})\d+?$/, '$1')
     };
 
-    const formatZipCode = (value: string) => {
-        return value
-            .replace(/\D/g, '')
-            .replace(/(\d{5})(\d)/, '$1-$2')
-            .replace(/(-\d{3})\d+?$/, '$1')
+    const handleImageClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setProfileImage(event.target?.result as string);
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        };
+    };
+
+    const validateForm = () => {
+        const newErrors: Record<string, string> = {};
+
+        if (!formData.fullName.trim()) {
+            newErrors.fullName = 'Full name is required';
+        };
+
+        if (!formData.email.trim()) {
+            newErrors.email = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            newErrors.email = 'Email is invalid';
+        };
+
+        if (!formData.password.trim()) {
+            newErrors.password = 'Password is required';
+        } else if (formData.password.length < 8) {
+            newErrors.password = 'Password must be at least 8 characters';
+        };
+
+        if (!formData.passwordVerify.trim()) {
+            newErrors.passwordVerify = 'Please verify your password';
+        } else if (formData.password !== formData.passwordVerify) {
+            newErrors.passwordVerify = 'Passwords do not match';
+        };
+
+        if (!formData.cpf.trim()) {
+            newErrors.cpf = 'CPF is required';
+        } else if (!/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(formData.cpf) && !/^\d{11}$/.test(formData.cpf)) {
+            newErrors.cpf = 'CPF format should be 000.000.000-00 or 00000000000';
+        };
+
+        if (!formData.birthDate.trim()) {
+            newErrors.birthDate = 'Birth date is required';
+        };
+
+        if (!formData.address.trim()) {
+            newErrors.address = 'Address is required';
+        };
+
+        if (!formData.city.trim()) {
+            newErrors.city = 'City is required';
+        };
+
+        if (!formData.state.trim()) {
+            newErrors.state = 'State is required';
+        };
+
+        if (!formData.zipCode.trim()) {
+            newErrors.zipCode = 'Zip code is required';
+        };
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (validateForm()) {
+            onNext({
+                ...formData,
+                profileImage,
+            });
+        };
     };
 
     return (
-        <S.StepContainer>
-            <S.StepHeader>
-                <S.StepTitle>Personal Information</S.StepTitle>
-                <S.StepDescription>Tell us about yourself so we can personalize your FURIA fan experience.</S.StepDescription>
-            </S.StepHeader>
+        <S.FormContainer>
+            <CardHeader>
+                <CardTitle>Personal Information</CardTitle>
+                <CardDescription>Tell us about yourself so we can personalize your FURIA fan experience.</CardDescription>
+            </CardHeader>
 
-            <Card>
-                <CardContent>
-                    <S.IconContainer>
-                        <S.IconWrapper>
-                            <UserRound size={32} color='#FFFFFF' />
-                        </S.IconWrapper>
-                    </S.IconContainer>
+            <CardContent>
+                <form onSubmit={handleSubmit}>
+                    <S.AvatarContainer>
+                        <S.Avatar
+                            onClick={handleImageClick}
+                            style={{
+                                backgroundImage: profileImage ? `url(${profileImage})` : 'none',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                            }}
+                        >
+                            {!profileImage && <User size={40} color='#AAAAAA' />}
+                            <S.AvatarOverlay />
+                        </S.Avatar>
+                        <S.EditButton onClick={handleImageClick}>
+                            <PenSquare size={14} />
+                        </S.EditButton>
+                        <input
+                            type='file'
+                            ref={fileInputRef}
+                            onChange={handleImageChange}
+                            accept='image/*'
+                            style={{ display: 'none' }}
+                        />
+                    </S.AvatarContainer>
 
-                    <Form {...form}>
-                        <form onChange={form.handleSubmit(onSubmit)}>
-                            <S.FormGrid>
-                                <FormField
-                                    control={form.control}
-                                    name='name'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Full Name</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder='Your full name' {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                    <FormGroup>
+                        <Label htmlFor='fullName'>Full Name</Label>
+                        <Input
+                            id='fullName'
+                            name='fullName'
+                            placeholder='Your full name'
+                            value={formData.fullName}
+                            onChange={handleChange}
+                            error={!!errors.fullName}
+                            fullWidth
+                        />
+                        {errors.fullName && <ErrorMessage>{errors.fullName}</ErrorMessage>}
+                    </FormGroup>
 
-                                <FormField
-                                    control={form.control}
-                                    name='email'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Email</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder='your.email@example.com' {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                    <FormGroup>
+                        <Label htmlFor='email'>Email</Label>
+                        <Input
+                            id='email'
+                            name='email'
+                            type='email'
+                            placeholder='your.email@example.com'
+                            value={formData.email}
+                            onChange={handleChange}
+                            error={!!errors.email}
+                            fullWidth
+                        />
+                        {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
+                    </FormGroup>
 
-                                <FormField
-                                    control={form.control}
-                                    name='cpf'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>CPF</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder='000.000.000-00'
-                                                    {...field}
-                                                    onChange={(e: any) => {
-                                                        field.onChange(formatCPF(e.target.value))
-                                                    }}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                    <FormGroup>
+                        <Label htmlFor='password'>Password</Label>
+                        <Input
+                            id='password'
+                            name='password'
+                            type='password'
+                            placeholder='Create a secure password'
+                            value={formData.password}
+                            onChange={handleChange}
+                            error={!!errors.password}
+                            fullWidth
+                        />
+                        {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
+                    </FormGroup>
 
-                                <FormField
-                                    control={form.control}
-                                    name='birthDate'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Birth Date</FormLabel>
-                                            <FormControl>
-                                                <Input type='date' {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                    <FormGroup>
+                        <Label htmlFor='passwordVerify'>Verify Password</Label>
+                        <Input
+                            id='passwordVerify'
+                            name='passwordVerify'
+                            type='password'
+                            placeholder='Verify your password'
+                            value={formData.passwordVerify}
+                            onChange={handleChange}
+                            error={!!errors.passwordVerify}
+                            fullWidth
+                        />
+                        {errors.passwordVerify && <ErrorMessage>{errors.passwordVerify}</ErrorMessage>}
+                    </FormGroup>
 
-                                <S.FullWidthFormItem>
-                                    <FormField
-                                        control={form.control}
-                                        name='address'
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Address</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder='Your street address' {...field} />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </S.FullWidthFormItem>
+                    <S.FormRow>
+                        <FormGroup>
+                            <Label htmlFor='cpf'>CPF</Label>
+                            <Input
+                                id='cpf'
+                                name='cpf'
+                                placeholder='000.000.000-00'
+                                value={formData.cpf}
+                                onChange={handleChange}
+                                error={!!errors.cpf}
+                                fullWidth
+                            />
+                            {errors.cpf && <ErrorMessage>{errors.cpf}</ErrorMessage>}
+                        </FormGroup>
 
-                                <FormField
-                                    control={form.control}
-                                    name='city'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>City</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder='Your city' {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                        <FormGroup>
+                            <Label htmlFor='birthDate'>Birth Date</Label>
+                            <Input
+                                id='birthDate'
+                                name='birthDate'
+                                placeholder='dd/mm/aaaa'
+                                value={formData.birthDate}
+                                onChange={handleChange}
+                                error={!!errors.birthDate}
+                                fullWidth
+                            />
+                            {errors.birthDate && <ErrorMessage>{errors.birthDate}</ErrorMessage>}
+                        </FormGroup>
+                    </S.FormRow>
 
-                                <S.TwoColumnGrid>
-                                    <FormField
-                                        control={form.control}
-                                        name='state'
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>State</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder='State' {...field} />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
+                    <FormGroup>
+                        <Label htmlFor='address'>Address</Label>
+                        <Input
+                            id='address'
+                            name='address'
+                            placeholder='Your street address'
+                            value={formData.address}
+                            onChange={handleChange}
+                            error={!!errors.address}
+                            fullWidth
+                        />
+                        {errors.address && <ErrorMessage>{errors.address}</ErrorMessage>}
+                    </FormGroup>
 
-                                    <FormField
-                                        control={form.control}
-                                        name='zipCode'
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Zip Code</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder='00000-000'
-                                                        {...field}
-                                                        onChange={(e: any) => {
-                                                            field.onChange(formatZipCode(e.target.value))
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </S.TwoColumnGrid>
-                            </S.FormGrid>
-                        </form>
-                    </Form>
-                </CardContent>
-            </Card>
-        </S.StepContainer>
+                    <S.FormRow>
+                        <FormGroup>
+                            <Label htmlFor='city'>City</Label>
+                            <Input
+                                id='city'
+                                name='city'
+                                placeholder='Your city'
+                                value={formData.city}
+                                onChange={handleChange}
+                                error={!!errors.city}
+                                fullWidth
+                            />
+                            {errors.city && <ErrorMessage>{errors.city}</ErrorMessage>}
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label htmlFor='state'>State</Label>
+                            <Input
+                                id='state'
+                                name='state'
+                                placeholder='State'
+                                value={formData.state}
+                                onChange={handleChange}
+                                error={!!errors.state}
+                                fullWidth
+                            />
+                            {errors.state && <ErrorMessage>{errors.state}</ErrorMessage>}
+                        </FormGroup>
+                    </S.FormRow>
+
+                    <FormGroup>
+                        <Label htmlFor='zipCode'>Zip Code</Label>
+                        <Input
+                            id='zipCode'
+                            name='zipCode'
+                            placeholder='00000-000'
+                            value={formData.zipCode}
+                            onChange={handleChange}
+                            error={!!errors.zipCode}
+                            fullWidth
+                        />
+                        {errors.zipCode && <ErrorMessage>{errors.zipCode}</ErrorMessage>}
+                    </FormGroup>
+
+                    <S.ButtonContainer>
+                        <Button type='button' $variant='outline' as={Link} href='/'>
+                            Back
+                        </Button>
+                        <Button type='submit' $variant='primary'>
+                            Next
+                        </Button>
+                    </S.ButtonContainer>
+                </form>
+            </CardContent>
+        </S.FormContainer>
     );
 };

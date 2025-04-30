@@ -22,11 +22,21 @@ import {
     Play 
 } from 'lucide-react';
 
-import { Button } from '@/components/UI/button';
-import { Container } from '@/components/UI/container';
+import { 
+    Button 
+} from '@/components/UI/button';
+import { 
+    Container 
+} from '@/components/UI/container';
+
+import Header from '../Header';
 
 import * as S from './styles';
-import { theme } from '@/styles/theme';
+
+import { 
+    theme 
+} from '@/styles/theme';
+import Footer from '../Footer';
 
 const container = {
     hidden: { opacity: 0 },
@@ -112,32 +122,7 @@ export function LandingPage() {
 
                 <Container>
                     <S.ContentWrapper>
-                        <S.Header>
-                            <S.LogoWrapper>
-                                <Image
-                                    src='/icon-text-white.svg'
-                                    alt='FURIA Text'
-                                    width={70}
-                                    height={70}
-                                />
-                            </S.LogoWrapper>
-
-                            <S.NavLinks>
-                                <Button $variant='link' onClick={() => router.push('/about')}>
-                                    About
-                                </Button>
-                                <Button $variant='link' onClick={() => router.push('/teams')}>
-                                    Teams
-                                </Button>
-                                <Button $variant='link' onClick={() => router.push('/matches')}>
-                                    Matches
-                                </Button>
-                                <Button $variant='link' onClick={() => router.push('/community')}>
-                                    Community
-                                </Button>
-                                <Button onClick={() => router.push('/onboarding')}>Join Now</Button>
-                            </S.NavLinks>
-                        </S.Header>
+                        <Header/>
 
                         <S.HeroContent>
                             <motion.div
@@ -344,38 +329,7 @@ export function LandingPage() {
                 </Container>
             </S.SectionWrapper>
 
-            <S.Footer>
-                <Container>
-                    <S.FooterTop>
-                        <S.FooterLogo>
-                            <Image
-                                src='/icon-text-white.svg'
-                                alt='FURIA Text'
-                                width={70}
-                                height={20}
-                            />
-                        </S.FooterLogo>
-
-                        <S.SponsorsWrapper>
-                            <S.SponsorText>Adidas</S.SponsorText>
-                            <S.SponsorText>Cruzeiro do Sul</S.SponsorText>
-                            <S.SponsorText>Hellmann's</S.SponsorText>
-                            <S.SponsorText>POKERSTARS</S.SponsorText>
-                            <S.SponsorText>Lenovo LEGION</S.SponsorText>
-                            <S.SponsorText>RedBull</S.SponsorText>
-                        </S.SponsorsWrapper>
-                    </S.FooterTop>
-
-                    <S.FooterBottom>
-                        <S.Copyright>© 2025 FURIA Esports. All rights reserved.</S.Copyright>
-                        <S.FooterLinks>
-                            <S.FooterLink onClick={() => router.push('/privacy')}>Privacy Policy</S.FooterLink>
-                            <S.FooterLink onClick={() => router.push('/terms')}>Terms of Service</S.FooterLink>
-                            <S.FooterLink onClick={() => router.push('/contact')}>Contact Us</S.FooterLink>
-                        </S.FooterLinks>
-                    </S.FooterBottom>
-                </Container>
-            </S.Footer>
+            <Footer />
         </S.PageWrapper>
     );
 };
