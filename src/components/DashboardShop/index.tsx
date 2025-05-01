@@ -17,175 +17,23 @@ import {
 
 import DashboardLayout from '@/components/DashboardLayout';
 
-import Button from '@/components/UI/button';
-
 import * as S from './styles';
-import { currencyFormatter, currencySchema } from '@/utils/formatters';
 
-const allProducts = [
-    {
-        id: 1,
-        title: 'FURIA Pro Jersey 2025',
-        category: 'Apparel',
-        price: 89.99,
-        oldPrice: 99.99,
-        discount: 10,
-        rating: 4.8,
-        ratingCount: 124,
-        image: '/placeholder.svg?height=240&width=240',
-        tag: 'new',
-        availability: 'In Stock',
-    },
-    {
-        id: 2,
-        title: 'FURIA Hoodie Black',
-        category: 'Apparel',
-        price: 69.99,
-        oldPrice: null,
-        discount: null,
-        rating: 4.6,
-        ratingCount: 98,
-        image: '/placeholder.svg?height=240&width=240',
-        tag: null,
-        availability: 'In Stock',
-    },
-    {
-        id: 3,
-        title: 'FURIA Gaming Mouse',
-        category: 'Accessories',
-        price: 59.99,
-        oldPrice: 79.99,
-        discount: 25,
-        rating: 4.5,
-        ratingCount: 76,
-        image: '/placeholder.svg?height=240&width=240',
-        tag: 'sale',
-        availability: 'In Stock',
-    },
-    {
-        id: 4,
-        title: 'FURIA Cap',
-        category: 'Apparel',
-        price: 29.99,
-        oldPrice: null,
-        discount: null,
-        rating: 4.7,
-        ratingCount: 112,
-        image: '/placeholder.svg?height=240&width=240',
-        tag: null,
-        availability: 'In Stock',
-    },
-    {
-        id: 5,
-        title: 'FURIA Mousepad XL',
-        category: 'Accessories',
-        price: 24.99,
-        oldPrice: 34.99,
-        discount: 29,
-        rating: 4.9,
-        ratingCount: 87,
-        image: '/placeholder.svg?height=240&width=240',
-        tag: 'sale',
-        availability: 'In Stock',
-    },
-    {
-        id: 6,
-        title: 'FURIA T-Shirt Gold Edition',
-        category: 'Apparel',
-        price: 39.99,
-        oldPrice: null,
-        discount: null,
-        rating: 4.8,
-        ratingCount: 65,
-        image: '/placeholder.svg?height=240&width=240',
-        tag: 'new',
-        availability: 'Pre-order',
-    },
-    {
-        id: 7,
-        title: 'FURIA Backpack',
-        category: 'Accessories',
-        price: 49.99,
-        oldPrice: null,
-        discount: null,
-        rating: 4.6,
-        ratingCount: 43,
-        image: '/placeholder.svg?height=240&width=240',
-        tag: null,
-        availability: 'In Stock',
-    },
-    {
-        id: 8,
-        title: 'FURIA Mug',
-        category: 'Accessories',
-        price: 14.99,
-        oldPrice: null,
-        discount: null,
-        rating: 4.7,
-        ratingCount: 58,
-        image: '/placeholder.svg?height=240&width=240',
-        tag: null,
-        availability: 'Out of Stock',
-    },
-    {
-        id: 9,
-        title: 'FURIA Gaming Keyboard',
-        category: 'Gaming Gear',
-        price: 129.99,
-        oldPrice: 149.99,
-        discount: 13,
-        rating: 4.9,
-        ratingCount: 32,
-        image: '/placeholder.svg?height=240&width=240',
-        tag: 'sale',
-        availability: 'In Stock',
-    },
-    {
-        id: 10,
-        title: 'FURIA Gaming Headset',
-        category: 'Gaming Gear',
-        price: 89.99,
-        oldPrice: null,
-        discount: null,
-        rating: 4.8,
-        ratingCount: 47,
-        image: '/placeholder.svg?height=240&width=240',
-        tag: null,
-        availability: 'In Stock',
-    },
-    {
-        id: 11,
-        title: 'FURIA Collectible Figure',
-        category: 'Collectibles',
-        price: 59.99,
-        oldPrice: null,
-        discount: null,
-        rating: 4.9,
-        ratingCount: 28,
-        image: '/placeholder.svg?height=240&width=240',
-        tag: 'new',
-        availability: 'Pre-order',
-    },
-    {
-        id: 12,
-        title: 'FURIA Limited Edition Poster',
-        category: 'Collectibles',
-        price: 19.99,
-        oldPrice: 24.99,
-        discount: 20,
-        rating: 4.7,
-        ratingCount: 36,
-        image: '/placeholder.svg?height=240&width=240',
-        tag: 'sale',
-        availability: 'In Stock',
-    },
-];
+import { 
+    currencyFormatter, 
+    currencySchema 
+} from '@/utils/formatters';
+
+import { apiService } from '@/lib/api-service';
+import { Product } from '@/types/products';
 
 export default function ShopPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [wishlist, setWishlist] = useState<number[]>([]);
     const [sortOption, setSortOption] = useState('featured');
-    const [products, setProducts] = useState(allProducts);
+    const [products, setProducts] = useState<Product[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 8;
 
@@ -195,7 +43,7 @@ export default function ShopPage() {
         Collectibles: false,
         'Gaming Gear': false,
     });
-    const [priceRange, setPriceRange] = useState({ min: '', max: '' })
+    const [priceRange, setPriceRange] = useState({ min: '', max: '' });
     const [availabilityFilters, setAvailabilityFilters] = useState({
         'In Stock': true,
         'Pre-order': false,
@@ -207,66 +55,39 @@ export default function ShopPage() {
     });
 
     useEffect(() => {
-        let filteredProducts = [...allProducts]
+        const fetchProducts = async () => {
+            try {
+                setIsLoading(true);
 
+                const response = await apiService.getProductsData();
+                if (response.data) {
+                    setProducts(response.data);
+                    setFilteredProducts(response.data);
+                };
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            } finally {
+                setIsLoading(false);
+            };
+        };
+
+        fetchProducts();
+    }, []);
+
+    useEffect(() => {
         if (searchQuery) {
-            filteredProducts = filteredProducts.filter(
+            const searchResults = products.filter(
                 (product) =>
                     product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    product.category.toLowerCase().includes(searchQuery.toLowerCase()),
+                    product.category.toLowerCase().includes(searchQuery.toLowerCase())
             );
+            setFilteredProducts(searchResults);
+        } else {
+            setFilteredProducts(products);
         };
 
-        const selectedCategories = Object.entries(categoryFilters)
-            .filter(([_, isSelected]) => isSelected)
-            .map(([category]) => category);
-
-        if (selectedCategories.length > 0) {
-            filteredProducts = filteredProducts.filter((product) => selectedCategories.includes(product.category));
-        };
-
-        if (priceRange.min !== '') {
-            filteredProducts = filteredProducts.filter((product) => product.price >= Number.parseFloat(priceRange.min));
-        };
-        if (priceRange.max !== '') {
-            filteredProducts = filteredProducts.filter((product) => product.price <= Number.parseFloat(priceRange.max));
-        };
-
-        const selectedAvailability = Object.entries(availabilityFilters)
-            .filter(([_, isSelected]) => isSelected)
-            .map(([availability]) => availability);
-
-        if (selectedAvailability.length > 0) {
-            filteredProducts = filteredProducts.filter((product) => selectedAvailability.includes(product.availability));
-        };
-
-        if (offerFilters['On Sale']) {
-            filteredProducts = filteredProducts.filter((product) => product.discount !== null);
-        };
-        if (offerFilters['New Arrivals']) {
-            filteredProducts = filteredProducts.filter((product) => product.tag === 'new');
-        };
-
-        switch (sortOption) {
-            case 'newest':
-                filteredProducts = [...filteredProducts].reverse();
-                break;
-            case 'price-low':
-                filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price);
-                break;
-            case 'price-high':
-                filteredProducts = [...filteredProducts].sort((a, b) => b.price - a.price);
-                break;
-            case 'rating':
-                filteredProducts = [...filteredProducts].sort((a, b) => b.rating - a.rating);
-                break;
-            default:
-                break;
-        };
-
-        setProducts(filteredProducts);
         setCurrentPage(1);
-    }, [searchQuery, sortOption]);
+    }, [searchQuery, products]);
 
     const handleCategoryChange = (category: string) => {
         setCategoryFilters({
@@ -300,64 +121,64 @@ export default function ShopPage() {
     };
 
     const applyFilters = () => {
-        let filteredProducts = [...allProducts];
+        let newFilteredProducts = [...products];
 
         const selectedCategories = Object.entries(categoryFilters)
             .filter(([_, isSelected]) => isSelected)
             .map(([category]) => category);
 
         if (selectedCategories.length > 0) {
-            filteredProducts = filteredProducts.filter((product) => selectedCategories.includes(product.category));
-        };
+            newFilteredProducts = newFilteredProducts.filter((product) => 
+                selectedCategories.includes(product.category)
+            );
+        }
 
         if (priceRange.min !== '') {
-            filteredProducts = filteredProducts.filter((product) => product.price >= Number.parseFloat(priceRange.min));
-        };
+            newFilteredProducts = newFilteredProducts.filter((product) => 
+                product.price >= Number.parseFloat(priceRange.min)
+            );
+        }
         if (priceRange.max !== '') {
-            filteredProducts = filteredProducts.filter((product) => product.price <= Number.parseFloat(priceRange.max));
-        };
+            newFilteredProducts = newFilteredProducts.filter((product) => 
+                product.price <= Number.parseFloat(priceRange.max)
+            );
+        }
 
         const selectedAvailability = Object.entries(availabilityFilters)
             .filter(([_, isSelected]) => isSelected)
             .map(([availability]) => availability);
 
         if (selectedAvailability.length > 0) {
-            filteredProducts = filteredProducts.filter((product) => selectedAvailability.includes(product.availability));
-        };
+            newFilteredProducts = newFilteredProducts.filter((product) => 
+                selectedAvailability.includes(product.availability)
+            );
+        }
 
         if (offerFilters['On Sale']) {
-            filteredProducts = filteredProducts.filter((product) => product.discount !== null);
-        };
+            newFilteredProducts = newFilteredProducts.filter((product) => product.discount !== null);
+        }
         if (offerFilters['New Arrivals']) {
-            filteredProducts = filteredProducts.filter((product) => product.tag === 'new');
-        };
-
-        if (searchQuery) {
-            filteredProducts = filteredProducts.filter(
-                (product) =>
-                    product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    product.category.toLowerCase().includes(searchQuery.toLowerCase()),
-            );
-        };
+            newFilteredProducts = newFilteredProducts.filter((product) => product.tag === 'new');
+        }
 
         switch (sortOption) {
             case 'newest':
-                filteredProducts = [...filteredProducts].reverse();
+                newFilteredProducts = [...newFilteredProducts].reverse();
                 break;
             case 'price-low':
-                filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price);
+                newFilteredProducts = [...newFilteredProducts].sort((a, b) => a.price - b.price);
                 break;
             case 'price-high':
-                filteredProducts = [...filteredProducts].sort((a, b) => b.price - a.price);
+                newFilteredProducts = [...newFilteredProducts].sort((a, b) => b.price - a.price);
                 break;
             case 'rating':
-                filteredProducts = [...filteredProducts].sort((a, b) => b.rating - a.rating);
+                newFilteredProducts = [...newFilteredProducts].sort((a, b) => b.rating - a.rating);
                 break;
             default:
                 break;
-        };
+        }
 
-        setProducts(filteredProducts);
+        setFilteredProducts(newFilteredProducts);
         setCurrentPage(1);
     };
 
@@ -392,8 +213,8 @@ export default function ShopPage() {
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
-    const totalPages = Math.ceil(products.length / productsPerPage);
+    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
     const paginate = (pageNumber: number) => {
         if (pageNumber > 0 && pageNumber <= totalPages) {
@@ -573,7 +394,11 @@ export default function ShopPage() {
                         </S.SearchContainer>
                     </S.FiltersContainer>
 
-                    {currentProducts.length > 0 ? (
+                    {isLoading ? (
+                        <S.LoadingContainer>
+                            <S.LoadingText>Loading products...</S.LoadingText>
+                        </S.LoadingContainer>
+                    ) : currentProducts.length > 0 ? (
                         <S.ProductsGrid>
                             {currentProducts.map((product) => (
                                 <S.ProductCard key={product.id}>

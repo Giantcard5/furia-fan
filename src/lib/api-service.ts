@@ -1,6 +1,7 @@
 import { Event } from '@/types/event';
 import { Game } from '@/types/game';
 import { Team } from '@/types/team';
+import { Product } from '@/types/products';
 import { OnboardingFormData } from '@/types/onboarding';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
@@ -44,6 +45,9 @@ export const apiService = {
     },
     getGamesData: async () => {
         return fetchApi<Game[]>('/games');
+    },
+    getProductsData: async () => {
+        return fetchApi<Product[]>('/shop');
     },
     submitDashboardForm: async (data: OnboardingFormData) => {
         return fetchApi<void>('/users/register', {

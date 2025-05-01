@@ -358,6 +358,19 @@ const NoResults = styled.div`
     font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 
+const LoadingContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    width: 100%;
+`;
+
+const LoadingText = styled.p`
+    color: ${({ theme }) => theme.colors.gray[300]};
+    font-size: ${({ theme }) => theme.fontSizes.lg};
+`;
+
 export {
     PageHeader,
     PageTitle,
@@ -398,5 +411,7 @@ export {
     AddToCartButton,
     Pagination,
     PaginationButton,
-    NoResults
+    NoResults,
+    LoadingContainer,
+    LoadingText,
 };
