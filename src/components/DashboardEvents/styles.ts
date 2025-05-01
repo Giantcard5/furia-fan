@@ -119,8 +119,8 @@ const EventTag = styled.div<{ type?: string }>`
     border-radius: ${({ theme }) => theme.radii.md};
     font-size: ${({ theme }) => theme.fontSizes.xs};
     font-weight: ${({ theme }) => theme.fontWeights.medium};
-    background-color: ${({ theme }) => theme.colors.gold}DD;
-    color: ${({ theme }) => theme.colors.gray[200]};
+    color: ${({ theme }) => theme.colors.gray[300]};
+    border: .1rem solid ${({ theme }) => theme.colors.gray[700]};
 `
 
 const EventContent = styled.div`

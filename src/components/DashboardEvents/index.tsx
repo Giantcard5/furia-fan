@@ -168,11 +168,6 @@ export default function EventsPage() {
                         <Users size={16} />
                         Fan Meets
                     </S.FilterButton>
-                    <S.FilterButton $variant='outline'>
-                        <Filter size={16} />
-                        More Filters
-                        <ChevronDown size={14} />
-                    </S.FilterButton>
                 </div>
                 <S.SearchContainer>
                     <S.SearchIcon>
@@ -220,7 +215,7 @@ export default function EventsPage() {
                                     </S.EventMeta>
                                 </div>
                                 <S.EventActions>
-                                    <S.ActionButton as={Link} href={`/dashboard/events/${event.id}`} $variant='outline'>
+                                    <S.ActionButton as={Link} href='https://www.instagram.com/furiagg/' target='_blank' $variant='outline' >
                                         Details
                                     </S.ActionButton>
                                 </S.EventActions>
