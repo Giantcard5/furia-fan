@@ -69,4 +69,28 @@ export const personalInfoSchema = z.object({
 }).refine((data) => data.password === data.passwordVerify, {
     message: "Passwords don't match",
     path: ["passwordVerify"],
-}); 
+});
+
+export const currencyFormatter = (value: string) => {
+    const digits = value.replace(/\D/g, '');
+    const number = Number(digits) / 100;
+    
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(number);
+};
+
+export const currencySchema = z.string()
+    .transform((val) => {
+        const cleanValue = val.replace(/[^\d.]/g, '');
+        return cleanValue;
+    })
+    .refine((val) => {
+        const number = Number(val);
+        return !isNaN(number) && number >= 0;
+    }, {
+        message: 'Invalid value'
+    }); 

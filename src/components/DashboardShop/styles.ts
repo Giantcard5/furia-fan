@@ -87,7 +87,7 @@ const FilterLabel = styled.h4`
     font-size: ${({ theme }) => theme.fontSizes.md};
     font-weight: ${({ theme }) => theme.fontWeights.medium};
     margin-bottom: ${({ theme }) => theme.space[2]};
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.gray[300]};
 `;
 
 const CheckboxGroup = styled.div`
@@ -105,8 +105,8 @@ const CheckboxLabel = styled.label`
     display: flex;
     align-items: center;
     cursor: pointer;
-    font-size: ${({ theme }) => theme.fontSizes.md};
-    color: ${({ theme }) => theme.colors.gray[300]};
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+    color: ${({ theme }) => theme.colors.gray[400]};
     
     &:hover {
         color: ${({ theme }) => theme.colors.white};
@@ -115,8 +115,8 @@ const CheckboxLabel = styled.label`
 
 const Checkbox = styled.input`
     appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border: 1px solid #333333;
     border-radius: ${({ theme }) => theme.radii.sm};
     margin-right: ${({ theme }) => theme.space[3]};
@@ -131,13 +131,13 @@ const Checkbox = styled.input`
     &:checked::after {
         content: '';
         position: absolute;
-        top: 3px;
-        left: 6px;
-        width: 5px;
-        height: 10px;
+        top: 50%;
+        left: 50%;
+        width: 4px;
+        height: 6px;
         border: solid ${({ theme }) => theme.colors.background};
         border-width: 0 2px 2px 0;
-        transform: rotate(45deg);
+        transform: translate(-50%, -50%) rotate(45deg);
     }
     
     &:focus {
@@ -173,13 +173,13 @@ const SortSelect = styled.select`
     height: 40px;
     padding: 0 ${({ theme }) => theme.space[3]};
     background-color: ${({ theme }) => theme.colors.backgroundLight};
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.gray[300]};
     border: 1px solid #333333;
     border-radius: ${({ theme }) => theme.radii.md};
     font-size: ${({ theme }) => theme.fontSizes.md};
     appearance: none;
     padding-right: ${({ theme }) => theme.space[8]};
-    background-image: url('data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23999' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E');
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23999' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right ${({ theme }) => theme.space[2]} center;
     background-size: 16px;
@@ -207,9 +207,9 @@ const ProductCard = styled(Card)`
     }
 `;
 
-const ProductImage = styled.div<{ $image?: string }>`
+const ProductImage = styled.div<{ image?: string }>`
     height: 240px;
-    background-image: url(${({ $image }) => $image || '/placeholder.svg?height=240&width=240'});
+    background-image: url(${({ image }) => image || '/placeholder.svg?height=240&width=240'});
     background-size: cover;
     background-position: center;
     position: relative;
@@ -227,8 +227,8 @@ const ProductTag = styled.div<{ type?: string }>`
             type === 'new'
                 ? theme.colors.gold + '80'
                 : type === 'sale'
-                    ? theme.colors.gold + '80'
-                    : theme.colors.goldDark + '80'};
+                    ? theme.colors.red + '80'
+                    : theme.colors.gray[300] + '80'};
     color: ${({ theme }) => theme.colors.white};
 `;
 
@@ -341,7 +341,7 @@ const PaginationButton = styled(Button) <{ $active?: boolean }>`
     align-items: center;
     justify-content: center;
     
-    ${({ $active, theme }) => $active &&`
+    ${({ $active, theme }) => $active && `
         background-color: ${theme.colors.gold};
         color: ${theme.colors.background};
         
@@ -349,6 +349,13 @@ const PaginationButton = styled(Button) <{ $active?: boolean }>`
             background-color: ${theme.colors.goldDark};
         }
     `}
+`;
+
+const NoResults = styled.div`
+    text-align: center;
+    padding: ${({ theme }) => theme.space[8]};
+    color: ${({ theme }) => theme.colors.gray[300]};
+    font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 
 export {
@@ -390,5 +397,6 @@ export {
     ProductDiscount,
     AddToCartButton,
     Pagination,
-    PaginationButton
+    PaginationButton,
+    NoResults
 };
