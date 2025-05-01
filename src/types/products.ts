@@ -10,4 +10,5 @@ export interface Product {
     image: string;
     tag: string | null;
     availability: string;
+    productLink: string;
 };

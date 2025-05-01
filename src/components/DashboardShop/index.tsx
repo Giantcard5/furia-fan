@@ -5,29 +5,34 @@ import {
     useEffect
 } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import {
     ShoppingBag,
     Search,
-    Filter,
-    ChevronDown,
     Star,
     Heart,
-    ShoppingCart
+    ShoppingCart,
+    ChevronLeft,
+    ChevronRight
 } from 'lucide-react';
 
 import DashboardLayout from '@/components/DashboardLayout';
 
 import * as S from './styles';
 
-import { 
-    currencyFormatter, 
-    currencySchema 
+import {
+    currencyFormatter,
+    currencySchema
 } from '@/utils/formatters';
 
 import { apiService } from '@/lib/api-service';
 import { Product } from '@/types/products';
+import { cacheService } from '@/lib/cache-service';
 
 export default function ShopPage() {
+    const router = useRouter();
+
     const [searchQuery, setSearchQuery] = useState('');
     const [wishlist, setWishlist] = useState<number[]>([]);
     const [sortOption, setSortOption] = useState('featured');
@@ -35,7 +40,7 @@ export default function ShopPage() {
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 8;
+    const productsPerPage = 9;
 
     const [categoryFilters, setCategoryFilters] = useState({
         Apparel: false,
@@ -59,16 +64,26 @@ export default function ShopPage() {
             try {
                 setIsLoading(true);
 
+                const cachedData = cacheService.get<Product[]>('products');
+                if (cachedData) {
+                    setProducts(cachedData);
+                    setFilteredProducts(cachedData);
+
+                    return;
+                };
+
                 const response = await apiService.getProductsData();
                 if (response.data) {
                     setProducts(response.data);
                     setFilteredProducts(response.data);
+
+                    cacheService.set('products', response.data);
                 };
             } catch (error) {
                 console.error('Error fetching products:', error);
             } finally {
                 setIsLoading(false);
-            };
+            }
         };
 
         fetchProducts();
@@ -113,7 +128,7 @@ export default function ShopPage() {
     const handlePriceChange = (type: 'min' | 'max', value: string) => {
         const formattedValue = currencyFormatter(value);
         const validatedValue = currencySchema.parse(formattedValue);
-        
+
         setPriceRange(prev => ({
             ...prev,
             [type]: validatedValue
@@ -128,18 +143,18 @@ export default function ShopPage() {
             .map(([category]) => category);
 
         if (selectedCategories.length > 0) {
-            newFilteredProducts = newFilteredProducts.filter((product) => 
+            newFilteredProducts = newFilteredProducts.filter((product) =>
                 selectedCategories.includes(product.category)
             );
         }
 
         if (priceRange.min !== '') {
-            newFilteredProducts = newFilteredProducts.filter((product) => 
+            newFilteredProducts = newFilteredProducts.filter((product) =>
                 product.price >= Number.parseFloat(priceRange.min)
             );
         }
         if (priceRange.max !== '') {
-            newFilteredProducts = newFilteredProducts.filter((product) => 
+            newFilteredProducts = newFilteredProducts.filter((product) =>
                 product.price <= Number.parseFloat(priceRange.max)
             );
         }
@@ -149,7 +164,7 @@ export default function ShopPage() {
             .map(([availability]) => availability);
 
         if (selectedAvailability.length > 0) {
-            newFilteredProducts = newFilteredProducts.filter((product) => 
+            newFilteredProducts = newFilteredProducts.filter((product) =>
                 selectedAvailability.includes(product.availability)
             );
         }
@@ -171,9 +186,6 @@ export default function ShopPage() {
             case 'price-high':
                 newFilteredProducts = [...newFilteredProducts].sort((a, b) => b.price - a.price);
                 break;
-            case 'rating':
-                newFilteredProducts = [...newFilteredProducts].sort((a, b) => b.rating - a.rating);
-                break;
             default:
                 break;
         }
@@ -190,36 +202,51 @@ export default function ShopPage() {
         };
     };
 
-    const renderStars = (rating: number) => {
-        const stars = [];
-        const fullStars = Math.floor(rating);
-        const hasHalfStar = rating % 1 >= 0.5;
-
-        for (let i = 0; i < fullStars; i++) {
-            stars.push(<Star key={`full-${i}`} size={14} fill='currentColor' />);
-        };
-
-        if (hasHalfStar) {
-            stars.push(<Star key='half' size={14} fill='currentColor' style={{ clipPath: 'inset(0 50% 0 0)' }} />);
-        };
-
-        const remainingStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-        for (let i = 0; i < remainingStars; i++) {
-            stars.push(<Star key={`empty-${i}`} size={14} />);
-        };
-
-        return stars;
-    };
-
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
-    const paginate = (pageNumber: number) => {
+    const getPageNumbers = () => {
+        const pages: (number | string)[] = [];
+        const maxVisiblePages = 5;
+
+        if (totalPages <= maxVisiblePages) {
+            return Array.from({ length: totalPages }, (_, i) => i + 1);
+        }
+
+        pages.push(1);
+
+        if (currentPage > 3) {
+            pages.push('...');
+        }
+
+        const start = Math.max(2, currentPage - 1);
+        const end = Math.min(totalPages - 1, currentPage + 1);
+
+        for (let i = start; i <= end; i++) {
+            pages.push(i);
+        }
+
+        if (currentPage < totalPages - 2) {
+            pages.push('...');
+        }
+
+        if (totalPages > 1) {
+            pages.push(totalPages);
+        }
+
+        return pages;
+    };
+
+    const handlePageChange = (pageNumber: number) => {
         if (pageNumber > 0 && pageNumber <= totalPages) {
             setCurrentPage(pageNumber);
-        };
+        }
+    };
+
+    const handleProductClick = (productLink: string) => {
+        window.open(productLink, '_blank');
     };
 
     return (
@@ -377,7 +404,6 @@ export default function ShopPage() {
                                 <option value='newest'>Newest</option>
                                 <option value='price-low'>Price: Low to High</option>
                                 <option value='price-high'>Price: High to Low</option>
-                                <option value='rating'>Highest Rated</option>
                             </S.SortSelect>
                         </div>
 
@@ -416,25 +442,37 @@ export default function ShopPage() {
                                         </S.WishlistButton>
                                     </S.ProductImage>
                                     <S.ProductContent>
-                                        <S.ProductCategory>{product.category}</S.ProductCategory>
-                                        <S.ProductTitle>{product.title}</S.ProductTitle>
-                                        <S.ProductRating>
-                                            <S.RatingStars>{renderStars(product.rating)}</S.RatingStars>
-                                            <S.RatingCount>({product.ratingCount})</S.RatingCount>
-                                        </S.ProductRating>
-                                        <S.ProductPricing>
-                                            <S.ProductPrice>${product.price.toFixed(2)}</S.ProductPrice>
-                                            {product.oldPrice && (
-                                                <>
-                                                    <S.ProductOldPrice>${product.oldPrice.toFixed(2)}</S.ProductOldPrice>
-                                                    <S.ProductDiscount>-{product.discount}%</S.ProductDiscount>
-                                                </>
-                                            )}
-                                        </S.ProductPricing>
-                                        <S.AddToCartButton $variant='primary'>
-                                            <ShoppingCart size={16} />
-                                            Add to Cart
-                                        </S.AddToCartButton>
+                                        <S.ProductInfo>
+                                            <S.ProductCategory>{product.category}</S.ProductCategory>
+                                            <S.ProductTitle>{product.title}</S.ProductTitle>
+                                            <S.ProductRating>
+                                                <S.RatingStars>
+                                                    <Star size={14} fill='currentColor' />
+                                                    <Star size={14} fill='currentColor' />
+                                                    <Star size={14} fill='currentColor' />
+                                                    <Star size={14} fill='currentColor' />
+                                                    <Star size={14} fill='currentColor' />
+                                                </S.RatingStars>
+                                            </S.ProductRating>
+                                            <S.ProductPricing>
+                                                <S.ProductPrice>${product.price.toFixed(2)}</S.ProductPrice>
+                                                {product.oldPrice && (
+                                                    <>
+                                                        <S.ProductOldPrice>${product.oldPrice.toFixed(2)}</S.ProductOldPrice>
+                                                        <S.ProductDiscount>-{product.discount}%</S.ProductDiscount>
+                                                    </>
+                                                )}
+                                            </S.ProductPricing>
+                                        </S.ProductInfo>
+                                        <S.ProductActions>
+                                            <S.AddToCartButton
+                                                $variant='primary'
+                                                onClick={() => handleProductClick(product.productLink)}
+                                            >
+                                                <ShoppingCart size={18} />
+                                                See the product
+                                            </S.AddToCartButton>
+                                        </S.ProductActions>
                                     </S.ProductContent>
                                 </S.ProductCard>
                             ))}
@@ -447,27 +485,39 @@ export default function ShopPage() {
                         <S.Pagination>
                             <S.PaginationButton
                                 $variant='outline'
-                                onClick={() => paginate(currentPage - 1)}
+                                onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
                             >
-                                «
+                                <ChevronLeft size={16} />
                             </S.PaginationButton>
-                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
-                                <S.PaginationButton
-                                    key={number}
-                                    $variant='outline'
-                                    $active={currentPage === number}
-                                    onClick={() => paginate(number)}
-                                >
-                                    {number}
-                                </S.PaginationButton>
+
+                            {getPageNumbers().map((pageNumber, index) => (
+                                pageNumber === '...' ? (
+                                    <S.PaginationButton
+                                        key={`ellipsis-${index}`}
+                                        $variant='outline'
+                                        style={{ margin: '0 4px' }}
+                                    >
+                                        ...
+                                    </S.PaginationButton>
+                                ) : (
+                                    <S.PaginationButton
+                                        key={index}
+                                        $variant='outline'
+                                        $active={currentPage === pageNumber}
+                                        onClick={() => handlePageChange(pageNumber as number)}
+                                    >
+                                        {pageNumber}
+                                    </S.PaginationButton>
+                                )
                             ))}
+
                             <S.PaginationButton
                                 $variant='outline'
-                                onClick={() => paginate(currentPage + 1)}
+                                onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages}
                             >
-                                »
+                                <ChevronRight size={16} />
                             </S.PaginationButton>
                         </S.Pagination>
                     )}

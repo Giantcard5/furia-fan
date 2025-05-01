@@ -201,6 +201,9 @@ const ProductCard = styled(Card)`
     background-color: #141414;
     overflow: hidden;
     transition: transform 0.2s ease;
+    height: 450px; /* Fixed height for all cards */
+    display: flex;
+    flex-direction: column;
     
     &:hover {
         transform: translateY(-5px);
@@ -208,11 +211,12 @@ const ProductCard = styled(Card)`
 `;
 
 const ProductImage = styled.div<{ image?: string }>`
-    height: 240px;
+    height: 200px; 
     background-image: url(${({ image }) => image || '/placeholder.svg?height=240&width=240'});
     background-size: cover;
     background-position: center;
     position: relative;
+    flex-shrink: 0;
 `;
 
 const ProductTag = styled.div<{ type?: string }>`
@@ -261,6 +265,11 @@ const WishlistButton = styled.button`
 
 const ProductContent = styled.div`
     padding: ${({ theme }) => theme.space[4]};
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    height: 250px;
 `;
 
 const ProductCategory = styled.div`
@@ -282,6 +291,13 @@ const ProductRating = styled.div`
     gap: ${({ theme }) => theme.space[1]};
     margin-bottom: ${({ theme }) => theme.space[2]};
 `;
+
+const ProductInfo = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const ProductActions = styled.div``;
 
 const RatingStars = styled.div`
     display: flex;
@@ -324,6 +340,9 @@ const AddToCartButton = styled(Button)`
     align-items: center;
     justify-content: center;
     gap: ${({ theme }) => theme.space[2]};
+    font-weight: ${({ theme }) => theme.fontWeights.semibold};
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+    color: ${({ theme }) => theme.colors.gray[800]};
 `;
 
 const Pagination = styled.div`
@@ -399,6 +418,8 @@ export {
     ProductTag,
     WishlistButton,
     ProductContent,
+    ProductInfo,
+    ProductActions,
     ProductCategory,
     ProductTitle,
     ProductRating,
