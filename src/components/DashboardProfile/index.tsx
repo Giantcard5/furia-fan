@@ -1,16 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import {
+    useState,
+    useEffect
+} from 'react';
 
-import { 
-    User, 
-    Edit, 
-    Calendar, 
-    Trophy, 
-    MessageSquare, 
-    Star, 
-    Shield, 
-    ChevronUp 
+import {
+    User,
+    Edit,
+    Calendar,
+    Trophy,
+    MessageSquare,
+    Star,
+    Shield,
+    ChevronUp
 } from 'lucide-react';
 
 import DashboardLayout from '@/components/DashboardLayout';
@@ -19,13 +22,81 @@ import Progress from '@/components/UI/progress';
 
 import * as S from './styles';
 
+import {
+    apiService
+} from '@/lib/api-service';
+
+import {
+    OnboardingFormData
+} from '@/types/onboarding';
+
 export default function ProfilePage() {
     const [activeTab, setActiveTab] = useState('activity');
 
+    const [profile, setProfile] = useState<OnboardingFormData>({
+        personalInfo: {
+            cpf: '',
+            email: '',
+            fullName: '',
+            password: '',
+            passwordVerify: '',
+            address: '',
+            city: '',
+            state: '',
+            zipCode: '',
+            birthDate: '',
+            profileImage: '',
+        },
+        gamingPreferences: {
+            games: [],
+            events: [],
+            purchases: [],
+            platform: '',
+            playFrequency: '',
+        },
+        documents: {
+            idDocument: {
+                file: {
+                    lastModified: 0,
+                    lastModifiedDate: '',
+                    name: '',
+                    size: 0,
+                    type: '',
+                },
+                preview: '',
+            },
+            selfieWithId: {
+                file: '',
+                preview: '',
+            },
+        },
+        socialMedia: {},
+    } as OnboardingFormData);
+    const [loading, setLoading] = useState(false);
+
+    const fetchProfile = async () => {
+        setLoading(true);
+
+        try {
+            const response = await apiService.getUserProfile('123.456.789-00'); // Update with the user's CPF
+
+            if (response.error) {
+                throw new Error(response.error);
+            };
+
+            setProfile(response.data);
+        } catch (err) {
+            console.error('Error fetching profile overview:', err);
+        } finally {
+            setLoading(false);
+        };
+    };
+
+    useEffect(() => {
+        fetchProfile();
+    }, []);
+
     const user = {
-        name: 'FURIA Fan',
-        username: '@furiafan123',
-        badge: 'Gold Member',
         stats: [
             { value: 42, label: 'Posts' },
             { value: 156, label: 'Likes' },
@@ -37,8 +108,18 @@ export default function ProfilePage() {
             { title: 'Fan Level', value: 3, max: 10 },
         ],
         badges: [
-            { name: 'Early Supporter', description: 'Joined during beta', icon: <Star size={24} />, unlocked: true },
-            { name: 'Event Attendee', description: 'Attended a FURIA event', icon: <Calendar size={24} />, unlocked: true },
+            {
+                name: 'Early Supporter',
+                description: 'Joined during beta',
+                icon: <Star size={24} />,
+                unlocked: true
+            },
+            {
+                name: 'Event Attendee',
+                description: 'Attended a FURIA event',
+                icon: <Calendar size={24} />,
+                unlocked: true
+            },
             {
                 name: 'Forum Contributor',
                 description: 'Posted 50+ times',
@@ -123,31 +204,38 @@ export default function ProfilePage() {
         socialConnections: [
             {
                 name: 'Twitter',
-                username: '@furiafan123',
+                username: profile.socialMedia.twitter?.username,
                 icon: 'T',
                 color: '#1DA1F2',
-                connected: true,
+                connected: !!profile.socialMedia.twitter?.username,
             },
             {
                 name: 'Twitch',
-                username: 'furiafan123',
+                username: profile.socialMedia.twitch?.username,
                 icon: 'T',
                 color: '#6441A4',
-                connected: true,
+                connected: !!profile.socialMedia.twitch?.username,
             },
             {
                 name: 'Discord',
-                username: 'furiafan123#1234',
+                username: profile.socialMedia.discord?.username,
                 icon: 'D',
                 color: '#5865F2',
-                connected: true,
+                connected: !!profile.socialMedia.discord?.username,
             },
             {
                 name: 'FACEIT',
-                username: 'furiafan123',
+                username: profile.socialMedia.faceit?.username,
                 icon: 'F',
                 color: '#FF5500',
-                connected: false,
+                connected: !!profile.socialMedia.faceit?.username,
+            },
+            {
+                name: 'HLTV',
+                username: profile.socialMedia.HLTV?.username,
+                icon: 'H',
+                color: '#333333',
+                connected: !!profile.socialMedia.HLTV?.username,
             },
         ],
     };
@@ -172,9 +260,8 @@ export default function ProfilePage() {
                                         <Edit size={16} />
                                     </S.EditAvatarButton>
                                 </S.UserAvatar>
-                                <S.UserName>{user.name}</S.UserName>
-                                <S.UserTag>{user.username}</S.UserTag>
-                                <S.UserBadge>{user.badge}</S.UserBadge>
+                                <S.UserName>{profile.personalInfo.fullName}</S.UserName>
+                                <S.UserTag>{profile.personalInfo.email}</S.UserTag>
                                 <S.UserStats>
                                     {user.stats.map((stat, index) => (
                                         <S.StatItem key={index}>
@@ -247,18 +334,18 @@ export default function ProfilePage() {
                             </S.TabsContainer>
 
                             {activeTab === 'activity' && (
-                                    <S.ActivityList>
-                                        {user.activities.map((activity, index) => (
-                                            <S.ActivityItem key={index}>
-                                                <S.ActivityIcon>{activity.icon}</S.ActivityIcon>
-                                                <S.ActivityContent>
-                                                    <S.ActivityTitle>{activity.title}</S.ActivityTitle>
-                                                    <S.ActivityDescription>{activity.description}</S.ActivityDescription>
-                                                    <S.ActivityDate>{activity.date}</S.ActivityDate>
-                                                </S.ActivityContent>
-                                            </S.ActivityItem>
-                                        ))}
-                                    </S.ActivityList>
+                                <S.ActivityList>
+                                    {user.activities.map((activity, index) => (
+                                        <S.ActivityItem key={index}>
+                                            <S.ActivityIcon>{activity.icon}</S.ActivityIcon>
+                                            <S.ActivityContent>
+                                                <S.ActivityTitle>{activity.title}</S.ActivityTitle>
+                                                <S.ActivityDescription>{activity.description}</S.ActivityDescription>
+                                                <S.ActivityDate>{activity.date}</S.ActivityDate>
+                                            </S.ActivityContent>
+                                        </S.ActivityItem>
+                                    ))}
+                                </S.ActivityList>
                             )}
 
                             {activeTab === 'games' && (
