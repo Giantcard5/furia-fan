@@ -12,18 +12,15 @@ import Progress from '@/components/UI/progress';
 
 import * as S from './styles';
 
-export default function ProfileOverview() {
-    const profile = {
-        name: 'FURIA Fan',
-        email: 'fan@furia.org',
-        completionPercentage: 85,
-        favoriteGames: ['Counter-Strike 2', 'Valorant'],
-        connectedAccounts: [
-            { name: 'Twitter', icon: 'T', color: '#1DA1F2' },
-            { name: 'Twitch', icon: 'T', color: '#6441A4' },
-        ],
-    };
+import { 
+    ProfileOverview as ProfileOverviewType
+} from '@/types/onboarding';
 
+import { 
+    socialMediaMap 
+} from '@/utils/socialMedia';
+
+export default function ProfileOverview({ profile, loading }: { profile: ProfileOverviewType, loading: boolean }) {
     return (
         <S.ProfileCard>
             <S.ProfileHeader>
@@ -40,7 +37,7 @@ export default function ProfileOverview() {
                     </S.ProfileAvatar>
 
                     <S.ProfileDetails>
-                        <S.ProfileName>{profile.name}</S.ProfileName>
+                        <S.ProfileName>{profile.fullName}</S.ProfileName>
                         <S.ProfileEmail>{profile.email}</S.ProfileEmail>
                     </S.ProfileDetails>
                 </S.ProfileInfo>
@@ -48,36 +45,32 @@ export default function ProfileOverview() {
                 <S.ProfileCompletion>
                     <S.ProfileCompletionHeader>
                         <span>Profile Completion</span>
-                        <span>{profile.completionPercentage}%</span>
+                        <span>10%</span>{/*  Calculate the completion percentage */}
                     </S.ProfileCompletionHeader>
-                    <Progress value={profile.completionPercentage} />
+                    <Progress value={10} />{/*  Calculate the completion percentage*/}
                 </S.ProfileCompletion>
 
                 <S.ProfileSections>
                     <S.ProfileSection>
                         <S.ProfileSectionTitle>Favorite Games</S.ProfileSectionTitle>
                         <S.ProfileSectionContent>
-                            {profile.favoriteGames.map((game) => (
-                                <S.GameTag key={game}>{game}</S.GameTag>
+                            {profile.games?.map((game, index) => (
+                                <S.GameTag key={index}>{game}</S.GameTag>
                             ))}
-                            <Button $variant='ghost' size='sm' style={{ padding: '0 8px', minWidth: 'auto' }}>
-                                <Edit size={14} />
-                            </Button>
                         </S.ProfileSectionContent>
                     </S.ProfileSection>
 
                     <S.ProfileSection>
                         <S.ProfileSectionTitle>Connected Accounts</S.ProfileSectionTitle>
                         <S.ProfileSectionContent>
-                            {profile.connectedAccounts.map((account) => (
-                                <S.SocialAccount key={account.name}>
-                                    <S.SocialIcon $bgColor={account.color}>{account.icon}</S.SocialIcon>
-                                    {account.name}
-                                </S.SocialAccount>
+                            {Object.entries(profile.socialMedia).map(([key, value]) => (
+                                value?.username && (
+                                    <S.SocialAccount key={key}>
+                                        <S.SocialIcon>{socialMediaMap[key as keyof typeof socialMediaMap]}</S.SocialIcon>
+                                        {value.username}
+                                    </S.SocialAccount>
+                                )
                             ))}
-                            <Button $variant='ghost' size='sm' style={{ padding: '0 8px', minWidth: 'auto' }}>
-                                <Edit size={14} />
-                            </Button>
                         </S.ProfileSectionContent>
                     </S.ProfileSection>
                 </S.ProfileSections>

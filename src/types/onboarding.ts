@@ -35,5 +35,31 @@ export interface OnboardingFormData {
             preview: string;
         };
     };
-    socialMedia: string[];
+    socialMedia: SocialMedia;
+};
+
+export interface ProfileOverview {
+    profileImage: string | null;
+    email: string;
+    fullName: string;
+    games: string[];
+    socialMedia: SocialMedia;
+};
+
+export interface SocialMedia {
+    twitter?: {
+        username: string;
+    };
+    twitch?: {
+        username: string;
+    };
+    discord?: {
+        username: string;
+    };
+    faceit?: {
+        username: string;
+    };
+    HLTV?: {
+        username: string;
+    };
 };

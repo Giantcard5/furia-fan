@@ -10,34 +10,11 @@ import {
 
 import * as S from './styles';
 
-export default function UpcomingEvents() {
-    const events = [
-        {
-            id: 1,
-            title: 'FURIA vs MiBR',
-            date: 'Apr 30, 2025',
-            location: 'São Paulo, Brazil',
-            tag: 'FURIA Event',
-            image: '/images/furia-vs-mibr.png',
-        },
-        {
-            id: 2,
-            title: 'CS2 Major Copenhagen',
-            date: 'May 14, 2025',
-            location: 'Copenhagen, Denmark',
-            tag: 'FURIA Event',
-            image: '/images/furia-vs-liquid.png',
-        },
-        {
-            id: 3,
-            title: 'FURIA Fan Meet',
-            date: 'Jun 9, 2025',
-            location: 'Rio de Janeiro, Brazil',
-            tag: 'FURIA Event',
-            image: '/images/furia-fan-meet.png',
-        },
-    ]
+import { 
+    Event 
+} from '@/types/event';
 
+export default function UpcomingEvents({ events, loading }: { events: Event[], loading: boolean }) {
     return (
         <S.EventsCard>
             <S.EventsHeader>
@@ -49,19 +26,21 @@ export default function UpcomingEvents() {
                     {events.map((event) => (
                         <S.EventCard key={event.id}>
                             <S.EventImage $image={event.image}>
-                                <S.EventTag>{event.tag}</S.EventTag>
+                                <S.EventTag>{event.type}</S.EventTag>
                             </S.EventImage>
                             <S.EventContent>
-                                <S.EventTitle>{event.title}</S.EventTitle>
-                                <S.EventMeta>
-                                    <Calendar size={12} />
-                                    {event.date}
-                                </S.EventMeta>
-                                <S.EventLocation>
-                                    <MapPin size={12} />
-                                    {event.location}
-                                </S.EventLocation>
-                                <S.ViewDetailsButton as={Link} href={`/dashboard/events/${event.id}`} $variant='outline' size='sm'>
+                                <S.EventInfo>
+                                    <S.EventTitle>{event.title}</S.EventTitle>
+                                    <S.EventMeta>
+                                        <Calendar size={12} />
+                                        {event.date}
+                                    </S.EventMeta>
+                                    <S.EventLocation>
+                                        <MapPin size={12} />
+                                        {event.location}
+                                    </S.EventLocation>
+                                </S.EventInfo>
+                                <S.ViewDetailsButton as={Link} href='/dashboard/events' $variant='outline' size='sm'>
                                     View Details
                                 </S.ViewDetailsButton>
                             </S.EventContent>

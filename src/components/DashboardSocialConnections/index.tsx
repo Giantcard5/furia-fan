@@ -2,42 +2,46 @@
 
 import * as S from './styles';
 
-export default function SocialConnections() {
+import {
+    SocialMedia
+} from '@/types/onboarding';
+
+export default function SocialConnections({ socialMedia, loading }: { socialMedia: SocialMedia, loading: boolean }) {
     const socialAccounts = [
         {
             id: 'twitter',
             name: 'Twitter',
             icon: 'T',
             color: '#1DA1F2',
-            connected: true,
+            connected: !!socialMedia.twitter?.username,
         },
         {
             id: 'twitch',
             name: 'Twitch',
             icon: 'T',
             color: '#6441A4',
-            connected: true,
+            connected: !!socialMedia.twitch?.username,
         },
         {
             id: 'discord',
             name: 'Discord',
             icon: 'D',
             color: '#5865F2',
-            connected: false,
+            connected: !!socialMedia.discord?.username,
         },
         {
             id: 'faceit',
             name: 'FACEIT',
             icon: 'F',
             color: '#FF5500',
-            connected: false,
+            connected: !!socialMedia.faceit?.username,
         },
         {
             id: 'hltv',
             name: 'HLTV',
             icon: 'H',
             color: '#333333',
-            connected: false,
+            connected: !!socialMedia.HLTV?.username,
         },
     ];
 

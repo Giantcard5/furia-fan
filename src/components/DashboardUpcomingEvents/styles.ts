@@ -38,9 +38,14 @@ const EventsGrid = styled.div`
 `;
 
 const EventCard = styled.div`
+    display: flex;
+    flex-direction: column;
     background-color: transparent;
     border-radius: ${({ theme }) => theme.radii.lg};
+    padding: ${({ theme }) => theme.space[2]};
     overflow: hidden;
+    height: 290px;
+    background-color: ${({ theme }) => theme.colors.backgroundLight};
 `;
 
 const EventImage = styled.div<{ $image?: string }>`
@@ -56,18 +61,25 @@ const EventImage = styled.div<{ $image?: string }>`
 const EventTag = styled.div`
     position: absolute;
     top: ${({ theme }) => theme.space[2]};
-    right: ${({ theme }) => theme.space[2]};
-    background-color: #141414;
-    color: ${({ theme }) => theme.colors.white};
+    right: ${({ theme }) => theme.space[2]};    
+    color: ${({ theme }) => theme.colors.gray[300]};
+    border: .1rem solid ${({ theme }) => theme.colors.gray[700]};
     font-size: ${({ theme }) => theme.fontSizes.xs};
     font-weight: ${({ theme }) => theme.fontWeights.medium};
     padding: ${({ theme }) => theme.space[1]} ${({ theme }) => theme.space[2]};
     border-radius: ${({ theme }) => theme.radii.md};
+    text-transform: capitalize;
 `;
 
 const EventContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: ${({ theme }) => theme.space[1]};
+    height: 170px;
 `;
+
+const EventInfo = styled.div``;
 
 const EventTitle = styled.h3`
     font-size: ${({ theme }) => theme.fontSizes.lg};
@@ -113,10 +125,7 @@ const ViewAllButton = styled(Button)`
     background-color: transparent;
     border: none;
     color: ${({ theme }) => theme.colors.gray[300]};
-    
-    &:hover {
-        background-color: ${({ theme }) => theme.colors.backgroundLight};
-    }
+    background-color: ${({ theme }) => theme.colors.backgroundLight};
 `;
 
 export {
@@ -129,6 +138,7 @@ export {
     EventImage,
     EventTag,
     EventContent,
+    EventInfo,
     EventTitle,
     EventMeta,
     EventLocation,

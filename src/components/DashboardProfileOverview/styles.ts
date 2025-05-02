@@ -123,13 +123,14 @@ const SocialAccount = styled.div`
     border-radius: ${({ theme }) => theme.radii.md};
     font-size: ${({ theme }) => theme.fontSizes.sm};
     color: ${({ theme }) => theme.colors.gray[300]};
+    text-transform: capitalize;
 `;
 
 const SocialIcon = styled.div<{ $bgColor?: string }>`
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background-color: ${({ $bgColor }) => $bgColor || '#333'};
+    background-color: #333333;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -145,10 +146,7 @@ const ViewProfileButton = styled(Button)`
     background-color: transparent;
     border: none;
     color: ${({ theme }) => theme.colors.gray[300]};
-    
-    &:hover {
-        background-color: ${({ theme }) => theme.colors.backgroundLight};
-    }
+    background-color: ${({ theme }) => theme.colors.backgroundLight};
 `;
 
 export {
