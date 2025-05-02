@@ -67,21 +67,21 @@ const AnimatedLinesWrapper = styled.div`
     opacity: 0.2;
 `;
 
-const VerticalLine = styled.div<{ left?: string; right?: string }>`
+const VerticalLine = styled.div<{ $left?: string; $right?: string }>`
     position: absolute;
     top: 0;
-    ${({ left }) => left && `left: ${left};`}
-    ${({ right }) => right && `right: ${right};`}
+    ${({ $left }) => $left && `left: ${$left};`}
+    ${({ $right }) => $right && `right: ${$right};`}
     width: 1px;
     height: 100%;
     background: linear-gradient(to bottom, transparent, ${({ theme }) => theme.colors.white}, transparent);
 `;
 
-const HorizontalLine = styled.div<{ top?: string; bottom?: string }>`
+const HorizontalLine = styled.div<{ $top?: string; $bottom?: string }>`
     position: absolute;
     left: 0;
-    ${({ top }) => top && `top: ${top};`}
-    ${({ bottom }) => bottom && `bottom: ${bottom};`}
+    ${({ $top }) => $top && `top: ${$top};`}
+    ${({ $bottom }) => $bottom && `bottom: ${$bottom};`}
     width: 100%;
     height: 1px;
     background: linear-gradient(to right, transparent, ${({ theme }) => theme.colors.white}, transparent);

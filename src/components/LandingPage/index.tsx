@@ -114,10 +114,10 @@ export function LandingPage() {
                 </S.BackgroundWrapper>
 
                 <S.AnimatedLinesWrapper>
-                    <S.VerticalLine left='25%' />
-                    <S.VerticalLine right='25%' />
-                    <S.HorizontalLine top='25%' />
-                    <S.HorizontalLine bottom='25%' />
+                    <S.VerticalLine $left='25%' />
+                    <S.VerticalLine $right='25%' />
+                    <S.HorizontalLine $top='25%' />
+                    <S.HorizontalLine $bottom='25%' />
                 </S.AnimatedLinesWrapper>
 
                 <Container>
