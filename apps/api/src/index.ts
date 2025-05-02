@@ -20,6 +20,9 @@ import {
 import { 
     shopRouter 
 } from './routes/shop.route';
+import {
+    geminiRouter
+} from './routes/gemini.routes';
 
 dotenv.config();
 
@@ -35,6 +38,7 @@ app.use('/api/events', eventRouter);
 app.use('/api/teams', teamsRouter);
 app.use('/api/games', gamesRouter);
 app.use('/api/shop', shopRouter);
+app.use('/api/verification', geminiRouter);
 
 app.get('/', (req, res) => {
     res.json({ message: 'FURIA FAN API is running' });
