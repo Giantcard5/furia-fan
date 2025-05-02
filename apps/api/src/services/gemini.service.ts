@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -23,6 +22,8 @@ export class GeminiService {
         if (!API_KEY) {
             throw new Error('GEMINI_API_KEY not configured');
         }
+
+        const fetch = (await import('node-fetch')).default;
 
         const contents = [{
             parts: [
