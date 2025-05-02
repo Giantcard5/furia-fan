@@ -1,6 +1,7 @@
 'use client';
 
 import React, { 
+    useEffect,
     useState 
 } from 'react';
 
@@ -9,8 +10,6 @@ import {
 } from 'next/navigation';
 
 import {
-    Menu,
-    X,
     Home,
     User,
     Calendar,
@@ -32,7 +31,14 @@ import * as S from './styles';
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
 
+    const [isMounted, setIsMounted] = useState(false);
     const [communityOpen, setCommunityOpen] = useState(pathname.includes('/dashboard/community'));
+  
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+  
+    if (!isMounted) return null;
 
     const toggleCommunity = () => {
         setCommunityOpen(!communityOpen);
