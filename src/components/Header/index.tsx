@@ -6,7 +6,12 @@ import {
     useRouter
 } from 'next/navigation';
 
+import {
+    User
+} from 'lucide-react';
+
 import Image from 'next/image';
+import Link from 'next/link';
 
 import {
     Button
@@ -45,7 +50,14 @@ export function Header({ $isOnboarding }: { $isOnboarding?: boolean }) {
                         <Button $variant='link' onClick={() => router.push('/community')}>
                             Community
                         </Button>
-                        <Button onClick={() => router.push('/onboarding')}>Join Now</Button>
+                        <S.AuthButtons>
+                            <S.ButtonLogin onClick={() => router.push('/login')} $variant='outline' size='md'>
+                                Login
+                            </S.ButtonLogin>
+                            <S.ButtonJoin onClick={() => router.push('/onboarding')}>
+                                Join Now
+                            </S.ButtonJoin>
+                        </S.AuthButtons>
                     </S.NavLinks>
                 </S.Content>
             </Container>

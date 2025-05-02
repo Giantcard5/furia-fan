@@ -16,12 +16,16 @@ import {
 
 import Cookies from 'js-cookie';
 
+import {
+    formatCPF
+} from '@/utils/formatters';
+
 interface AuthContextType {
     user: OnboardingFormData | null;
     isLoading: boolean;
     fetchUser: (cpf: string) => Promise<boolean>;
     registerUser: (data: OnboardingFormData) => Promise<boolean>;
-    loginUser: (cpf: string) => Promise<boolean>;
+    loginUser: (cpf: string, password: string) => Promise<boolean>;
     isUserLoaded: boolean;
     saveCPF: (cpf: string) => void;
     getCPF: () => string | null;
@@ -56,21 +60,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return Cookies.get('furiaCpf') || null;
     };
 
-    const loginUser = async (cpf: string): Promise<boolean> => {
+    const loginUser = async (cpf: string, password: string): Promise<boolean> => {
         setIsLoading(true);
         setError(null);
 
         try {
-            const response = await apiService.getUserProfile(cpf);
+            const loginResponse = await apiService.postUserLogin(cpf, password);
+            console.log(loginResponse);
 
-            if (response.error) {
-                setError(response.error);
+            if (loginResponse.error || !loginResponse.data.success) {
+                setError(loginResponse.error || loginResponse.data.message || 'Invalid credentials');
                 setIsLoading(false);
                 return false;
             };
 
-            setUser(response.data);
-            Cookies.set('furiaUser', JSON.stringify(response.data), { expires: 7 });
+            const profileResponse = await apiService.getUserProfile(formatCPF(cpf));
+
+            if (profileResponse.error) {
+                setError(profileResponse.error);
+                setIsLoading(false);
+                return false;
+            };
+
+            setUser(profileResponse.data);
+            Cookies.set('furiaUser', JSON.stringify(profileResponse.data), { expires: 7 });
             saveCPF(cpf);
 
             setIsLoading(false);

@@ -70,4 +70,10 @@ export const apiService = {
             body: JSON.stringify(data),
         });
     },
+    postUserLogin: async (cpf: string, password: string) => {
+        return fetchApi<{ success: boolean; message?: string }>('/users/login', {
+            method: 'POST',
+            body: JSON.stringify({ cpf, password }),
+        });
+    },
 }; 
