@@ -1,0 +1,170 @@
+[
+  {
+    "personalInfo": {
+      "cpf": "123.456.789-00",
+      "email": "john.doe@example.com",
+      "fullName": "John Doe",
+      "password": "hashedPassword123",
+      "passwordVerify": "hashedPassword123",
+      "address": "123 Main Street",
+      "city": "São Paulo",
+      "state": "SP",
+      "zipCode": "01234-567",
+      "birthDate": "1990-01-01",
+      "profileImage": "https://example.com/profile.jpg"
+    },
+    "gamingPreferences": {
+      "games": [
+        "CS:GO",
+        "Valorant",
+        "League of Legends"
+      ],
+      "events": [
+        "Major Championships",
+        "Local Tournaments"
+      ],
+      "purchases": [
+        "Team Jerseys",
+        "Game Skins"
+      ],
+      "platform": "PC",
+      "playFrequency": "Daily"
+    },
+    "documents": {
+      "idDocument": {
+        "file": {
+          "lastModified": 1714500000000,
+          "lastModifiedDate": "2024-04-30T12:00:00.000Z",
+          "name": "id_document.jpg",
+          "size": 1024000,
+          "type": "image/jpeg"
+        },
+        "preview": "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+      },
+      "selfieWithId": {
+        "file": "data:image/jpeg;base64,/9j/4AAQSkZJRg...",
+        "preview": "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+      }
+    },
+    "socialMedia": {
+      "twitch": {
+        "username": "johndoe"
+      },
+      "discord": {
+        "username": "johndoe"
+      },
+      "HLTV": {
+        "username": "johndoe"
+      }
+    }
+  },
+  {
+    "personalInfo": {
+      "fullName": "Renato Messias Soares",
+      "email": "giantcard5.dev@outlook.com",
+      "cpf": "123.454.545-55",
+      "birthDate": "27/02/2006",
+      "address": "awdawd",
+      "city": "awdadw",
+      "state": "awdawd",
+      "zipCode": "12341-231",
+      "password": "12345678",
+      "passwordVerify": "12345678",
+      "profileImage": null
+    },
+    "gamingPreferences": {
+      "games": [
+        "counter-strike-2"
+      ],
+      "events": [
+        "cs2-major"
+      ],
+      "playFrequency": "daily",
+      "platform": "pc",
+      "purchases": [
+        "furia-hoodie"
+      ]
+    },
+    "documents": {
+      "idDocument": null,
+      "selfieWithId": null
+    },
+    "socialMedia": {
+      "socialMedia": []
+    }
+  },
+  {
+    "personalInfo": {
+      "fullName": "dawdaw",
+      "email": "awda@awd.com",
+      "cpf": "123.123.123-12",
+      "birthDate": "27/02/2006",
+      "address": "12312312",
+      "city": "3123123",
+      "state": "1231",
+      "zipCode": "12312-312",
+      "password": "12345678",
+      "passwordVerify": "12345678",
+      "profileImage": null
+    },
+    "gamingPreferences": {
+      "games": [
+        "league-of-legends",
+        "valorant"
+      ],
+      "events": [
+        "rio-major",
+        "iem-worlds"
+      ],
+      "playFrequency": "daily",
+      "platform": "pc",
+      "purchases": [
+        "furia-jersey",
+        "furia-poster",
+        "furia-hoodie"
+      ]
+    },
+    "documents": {
+      "idDocument": null,
+      "selfieWithId": null
+    },
+    "socialMedia": {
+      "socialMedia": [
+        "twitter",
+        "twitch",
+        "discord",
+        "faceit",
+        "hltv"
+      ]
+    }
+  },
+  {
+    "personalInfo": {
+      "fullName": "awdawd",
+      "email": "awda@a.com",
+      "cpf": "112.312.312-31",
+      "birthDate": "27/02/2006",
+      "address": "adwada",
+      "city": "awdawd",
+      "state": "awdawd1",
+      "zipCode": "12312-312",
+      "password": "12345678",
+      "passwordVerify": "12345678",
+      "profileImage": null
+    },
+    "gamingPreferences": {
+      "games": [],
+      "events": [],
+      "playFrequency": "",
+      "platform": "",
+      "purchases": []
+    },
+    "documents": {
+      "idDocument": null,
+      "selfieWithId": null
+    },
+    "socialMedia": {
+      "socialMedia": []
+    }
+  }
+]

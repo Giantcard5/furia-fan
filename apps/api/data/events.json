@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "title": "FURIA vs MiBR",
+    "type": "match",
+    "date": "Apr 30, 2025",
+    "time": "18:00",
+    "location": "São Paulo, Brazil",
+    "image": "",
+    "attendees": 156,
+    "game": "CS2",
+    "createdAt": "2023-11-15T10:30:00.000Z",
+    "updatedAt": "2023-11-15T10:30:00.000Z"
+  },
+  {
+    "id": 2,
+    "title": "CS2 Major Copenhagen",
+    "type": "tournament",
+    "date": "May 14, 2025",
+    "time": "10:00",
+    "location": "Copenhagen, Denmark",
+    "image": "",
+    "attendees": 243,
+    "game": "CS2",
+    "createdAt": "2023-11-15T10:30:00.000Z",
+    "updatedAt": "2023-11-15T10:30:00.000Z"
+  },
+  {
+    "id": 3,
+    "title": "FURIA Fan Meet",
+    "type": "fan-meet",
+    "date": "Jun 9, 2025",
+    "time": "15:00",
+    "location": "Rio de Janeiro, Brazil",
+    "image": "",
+    "attendees": 89,
+    "game": null,
+    "createdAt": "2023-11-15T10:30:00.000Z",
+    "updatedAt": "2023-11-15T10:30:00.000Z"
+  },
+  {
+    "id": 4,
+    "title": "FURIA vs Liquid",
+    "type": "match",
+    "date": "Jun 15, 2025",
+    "time": "19:30",
+    "location": "Los Angeles, USA",
+    "image": "",
+    "attendees": 112,
+    "game": "CS2",
+    "createdAt": "2023-11-15T10:30:00.000Z",
+    "updatedAt": "2023-11-15T10:30:00.000Z"
+  },
+  {
+    "id": 5,
+    "title": "Valorant Champions Tour",
+    "type": "tournament",
+    "date": "Jul 5, 2025",
+    "time": "12:00",
+    "location": "Berlin, Germany",
+    "image": "",
+    "attendees": 178,
+    "game": "Valorant",
+    "createdAt": "2023-11-15T10:30:00.000Z",
+    "updatedAt": "2023-11-15T10:30:00.000Z"
+  },
+  {
+    "id": 6,
+    "title": "FURIA Community Day",
+    "type": "fan-meet",
+    "date": "Jul 20, 2025",
+    "time": "14:00",
+    "location": "São Paulo, Brazil",
+    "image": "",
+    "attendees": 65,
+    "game": null,
+    "createdAt": "2023-11-15T10:30:00.000Z",
+    "updatedAt": "2023-11-15T10:30:00.000Z"
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "name": "CS:GO",
+    "image": "/images/teams/csgo.png",
+    "description": "A equipe de CS:GO da FURIA é uma das mais bem-sucedidas do Brasil, conhecida por seu estilo agressivo e jogadas inovadoras.",
+    "teams": 1,
+    "players": 5,
+    "tournaments": 30
+  },
+  {
+    "id": 2,
+    "name": "Valorant",
+    "image": "/images/teams/valorant.png",
+    "description": "A equipe de Valorant da FURIA representa o Brasil com excelência, demonstrando um jogo tático e preciso.",
+    "teams": 1,
+    "players": 5,
+    "tournaments": 20
+  },
+  {
+    "id": 3,
+    "name": "League of Legends",
+    "image": "/images/teams/lol.png",
+    "description": "A equipe de League of Legends da FURIA representa o Brasil com excelência, demonstrando um jogo tático e preciso.",
+    "teams": 1,
+    "players": 5,
+    "tournaments": 5
+  },
+  {
+    "id": 4,
+    "name": "Rocket League",
+    "image": "/images/teams/rocketleague.png",
+    "description": "A equipe de Rocket League da FURIA representa o Brasil com excelência, demonstrando um jogo tático e preciso.",
+    "teams": 1,
+    "players": 3,
+    "tournaments": 3
+  },
+  {
+    "id": 5,
+    "name": "Rainbow Six Siege",
+    "image": "/images/teams/rainbow6.png",
+    "description": "A equipe de Rainbow Six Siege da FURIA representa o Brasil com excelência, demonstrando um jogo tático e preciso.",
+    "teams": 1,
+    "players": 5,
+    "tournaments": 3
+  },
+  {
+    "id": 6,
+    "name": "PUBG",
+    "image": "/images/teams/pubg.png",
+    "description": "A equipe de PUBG da FURIA representa o Brasil com excelência, demonstrando um jogo tático e preciso.",
+    "teams": 1,
+    "players": 4,
+    "tournaments": 3
+  }
+]
