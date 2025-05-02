@@ -1,20 +1,23 @@
 'use client';
 
-import React, { 
-    useState, 
-    useCallback 
+import React, {
+    useState,
+    useCallback,
+    useEffect
 } from 'react';
 
-import { 
-    Shield, 
-    Upload 
+import {
+    AlertCircle,
+    CheckCircle,
+    Shield,
+    Upload
 } from 'lucide-react';
 
-import { 
-    CardHeader, 
-    CardTitle, 
-    CardDescription, 
-    CardContent 
+import {
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent
 } from '@/components/UI/card';
 
 import Button from '@/components/UI/button';
@@ -32,11 +35,16 @@ export default function DocumentUploadForm({ initialData, onNext, onBack }: Docu
         idDocument: initialData.idDocument || null,
         selfieWithId: initialData.selfieWithId || null,
     });
-
     const [dragActive, setDragActive] = useState({
         idDocument: false,
         selfieWithId: false,
     });
+    const [errors, setErrors] = useState({
+        idDocument: false,
+        selfieWithId: false,
+        general: '',
+    });
+    const [attemptedSubmit, setAttemptedSubmit] = useState(false);
 
     const handleDrag = useCallback((e: React.DragEvent, type: 'idDocument' | 'selfieWithId', active: boolean) => {
         e.preventDefault();
@@ -93,10 +101,40 @@ export default function DocumentUploadForm({ initialData, onNext, onBack }: Docu
         reader.readAsDataURL(file);
     };
 
+    const validateForm = () => {
+        const newErrors = {
+            idDocument: !formData.idDocument,
+            selfieWithId: !formData.selfieWithId,
+            general: '',
+        };
+
+        setErrors(newErrors);
+
+        if (newErrors.idDocument || newErrors.selfieWithId) {
+            setErrors((prev) => ({
+                ...prev,
+                general: 'Ambos os documentos são obrigatórios para continuar.',
+            }));
+            return false;
+        };
+
+        return true;
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onNext(formData);
+        setAttemptedSubmit(true);
+
+        if (validateForm()) {
+            onNext(formData);
+        };
     };
+
+    useEffect(() => {
+        if (attemptedSubmit) {
+            validateForm();
+        };
+    }, [formData, attemptedSubmit]);
 
     return (
         <S.FormContainer>
@@ -122,7 +160,10 @@ export default function DocumentUploadForm({ initialData, onNext, onBack }: Docu
                                 onDragOver={(e) => handleDrag(e, 'idDocument', true)}
                                 onDrop={(e) => handleDrop(e, 'idDocument')}
                                 onClick={() => document.getElementById('id-document-upload')?.click()}
+                                $hasError={errors.idDocument && attemptedSubmit}
                             >
+                                {errors.idDocument && attemptedSubmit && <S.RequiredBadge>Obrigatório</S.RequiredBadge>}
+
                                 {formData.idDocument ? (
                                     <>
                                         <S.UploadTitle>ID Document Uploaded</S.UploadTitle>
@@ -132,22 +173,30 @@ export default function DocumentUploadForm({ initialData, onNext, onBack }: Docu
                                                 <img src={formData.idDocument.preview || '/placeholder.svg'} alt='ID Document Preview' />
                                             </S.FilePreview>
                                         )}
+                                        <S.ValidationStatus>
+                                            <S.ValidationIcon $isValid={true}>
+                                                <CheckCircle size={16} />
+                                            </S.ValidationIcon>
+                                            <S.ValidationText $isValid={true}>Documento enviado com sucesso</S.ValidationText>
+                                        </S.ValidationStatus>
                                     </>
                                 ) : (
                                     <>
-                                        <S.UploadIcon>
-                                            <Upload size={24} />
+                                        <S.UploadIcon $hasError={errors.idDocument && attemptedSubmit}>
+                                            {errors.idDocument && attemptedSubmit ? <AlertCircle size={24} /> : <Upload size={24} />}
                                         </S.UploadIcon>
-                                        <S.UploadTitle>ID Document (RG/CPF)</S.UploadTitle>
+                                        <S.UploadTitle $hasError={errors.idDocument && attemptedSubmit}>
+                                            Documento de Identidade (RG/CPF)
+                                        </S.UploadTitle>
                                         <S.UploadDescription>
-                                            Drag & drop file here
+                                            Arraste e solte o arquivo aqui
                                             <br />
-                                            or browse files
+                                            ou procure nos seus arquivos
                                         </S.UploadDescription>
                                         <S.FileInfo>
-                                            Accepted formats: image/png,image/jpeg,application/pdf
+                                            Formatos aceitos: image/png, image/jpeg
                                             <br />
-                                            Max size: 5MB
+                                            Tamanho máximo: 5MB
                                         </S.FileInfo>
                                     </>
                                 )}
@@ -168,6 +217,7 @@ export default function DocumentUploadForm({ initialData, onNext, onBack }: Docu
                                 onDragOver={(e) => handleDrag(e, 'selfieWithId', true)}
                                 onDrop={(e) => handleDrop(e, 'selfieWithId')}
                                 onClick={() => document.getElementById('selfie-upload')?.click()}
+                                $hasError={errors.selfieWithId && attemptedSubmit}
                             >
                                 {formData.selfieWithId ? (
                                     <>
@@ -179,20 +229,42 @@ export default function DocumentUploadForm({ initialData, onNext, onBack }: Docu
                                     </>
                                 ) : (
                                     <>
-                                        <S.UploadIcon>
-                                            <Upload size={24} />
-                                        </S.UploadIcon>
-                                        <S.UploadTitle>Selfie with ID</S.UploadTitle>
-                                        <S.UploadDescription>
-                                            Drag & drop file here
-                                            <br />
-                                            or browse files
-                                        </S.UploadDescription>
-                                        <S.FileInfo>
-                                            Accepted formats: image/png,image/jpeg
-                                            <br />
-                                            Max size: 5MB
-                                        </S.FileInfo>
+                                        {errors.selfieWithId && attemptedSubmit && <S.RequiredBadge>Obrigatório</S.RequiredBadge>}
+
+                                        {formData.selfieWithId ? (
+                                            <>
+                                                <S.UploadTitle>Selfie Enviada</S.UploadTitle>
+                                                <S.FileInfo>{formData.selfieWithId.file.name}</S.FileInfo>
+                                                <S.FilePreview>
+                                                    <img src={formData.selfieWithId.preview || '/placeholder.svg'} alt='Selfie Preview' />
+                                                </S.FilePreview>
+                                                <S.ValidationStatus>
+                                                    <S.ValidationIcon $isValid={true}>
+                                                        <CheckCircle size={16} />
+                                                    </S.ValidationIcon>
+                                                    <S.ValidationText $isValid={true}>Selfie enviada com sucesso</S.ValidationText>
+                                                </S.ValidationStatus>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <S.UploadIcon $hasError={errors.idDocument && attemptedSubmit}>
+                                                    {errors.idDocument && attemptedSubmit ? <AlertCircle size={24} /> : <Upload size={24} />}
+                                                </S.UploadIcon>
+                                                <S.UploadTitle $hasError={errors.idDocument && attemptedSubmit}>
+                                                    Selfie com o Documento
+                                                </S.UploadTitle>
+                                                <S.UploadDescription>
+                                                    Arraste e solte o arquivo aqui
+                                                    <br />
+                                                    ou procure nos seus arquivos
+                                                </S.UploadDescription>
+                                                <S.FileInfo>
+                                                    Formatos aceitos: image/png, image/jpeg
+                                                    <br />
+                                                    Tamanho máximo: 5MB
+                                                </S.FileInfo>
+                                            </>
+                                        )}
                                     </>
                                 )}
                                 <S.HiddenInput
@@ -205,11 +277,18 @@ export default function DocumentUploadForm({ initialData, onNext, onBack }: Docu
                         </div>
                     </S.UploadGrid>
 
+                    {errors.general && attemptedSubmit && (
+                        <S.ErrorMessage>
+                            <AlertCircle size={16} />
+                            {errors.general}
+                        </S.ErrorMessage>
+                    )}
+
                     <S.ButtonContainer>
                         <Button type='button' $variant='outline' onClick={onBack}>
                             Back
                         </Button>
-                        <Button type='submit' $variant='primary'>
+                        <Button type='submit' $variant='primary' disabled={!formData.idDocument || !formData.selfieWithId}>
                             Next
                         </Button>
                     </S.ButtonContainer>

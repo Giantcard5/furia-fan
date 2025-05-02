@@ -16,12 +16,49 @@ import * as S from './styles';
 import Header from '../Header';
 import Footer from '../Footer';
 
+import { 
+    OnboardingFormData 
+} from '@/types/onboarding';
+
 export default function OnboardingPage() {
     const [currentStep, setCurrentStep] = useState(1);
-    const [formData, setFormData] = useState({
-        personalInfo: {},
-        gamingPreferences: {},
-        documents: {},
+    const [formData, setFormData] = useState<OnboardingFormData>({
+        personalInfo: {
+            cpf: '',
+            email: '',
+            fullName: '',
+            password: '',
+            passwordVerify: '',
+            address: '',
+            city: '',
+            state: '',
+            zipCode: '',
+            birthDate: '',
+            profileImage: '',
+        },
+        gamingPreferences: {
+            games: [],
+            events: [],
+            purchases: [],
+            platform: '',
+            playFrequency: '',
+        },
+        documents: {
+            idDocument: {
+                file: {
+                    lastModified: 0,
+                    lastModifiedDate: '',
+                    name: '',
+                    size: 0,
+                    type: '',
+                },
+                preview: '',
+            },
+            selfieWithId: {
+                file: '',
+                preview: '',
+            },
+        },
         socialMedia: {},
     });
 

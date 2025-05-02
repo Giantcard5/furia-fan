@@ -145,6 +145,74 @@ const ButtonContainer = styled.div`
     margin-top: ${({ theme }) => theme.space[6]};
 `;
 
+const VerificationContainer = styled.div`
+    margin-top: ${({ theme }) => theme.space[6]};
+    padding: ${({ theme }) => theme.space[4]};
+    background-color: ${({ theme }) => theme.colors.backgroundLight};
+    border-radius: ${({ theme }) => theme.radii.lg};
+    text-align: center;
+`;
+
+const VerificationTitle = styled.h3`
+    font-size: ${({ theme }) => theme.fontSizes.lg};
+    font-weight: ${({ theme }) => theme.fontWeights.semibold};
+    margin-bottom: ${({ theme }) => theme.space[2]};
+`;
+
+const VerificationDescription = styled.p`
+    font-size: ${({ theme }) => theme.fontSizes.md};
+    color: ${({ theme }) => theme.colors.gray[300]};
+    margin-bottom: ${({ theme }) => theme.space[4]};
+`;
+
+const LoadingSpinner = styled.div`
+    display: flex;
+    justify-content: center;
+    margin: ${({ theme }) => theme.space[4]} 0;
+    
+    svg {
+        animation: spin 1.5s linear infinite;
+    }
+    
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+`;
+
+const VerificationStep = styled.div<{ $active: boolean; $completed: boolean }>`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.space[2]};
+    margin-bottom: ${({ theme }) => theme.space[2]};
+    padding: ${({ theme }) => theme.space[2]};
+    border-radius: ${({ theme }) => theme.radii.md};
+    background-color: ${({ $active, $completed, theme }) =>
+        $completed ? `${theme.colors.gold}10` : $active ? `${theme.colors.red}10` : "transparent"};
+    
+    svg {
+        color: ${({ $active, $completed, theme }) =>
+        $completed ? theme.colors.gold : $active ? theme.colors.red : theme.colors.gray[500]};
+    }
+`;
+
+const StepText = styled.span<{ $active: boolean; $completed: boolean }>`
+    color: ${({ $active, $completed, theme }) =>
+        $completed ? theme.colors.gold : $active ? theme.colors.red : theme.colors.gray[300]};
+    font-weight: ${({ $active, $completed, theme }) =>
+        $active || $completed ? theme.fontWeights.medium : theme.fontWeights.normal};
+`;
+
+const VerificationSteps = styled.div`
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto;
+`;
+
 export {
     FormContainer,
     WelcomeContainer,
@@ -161,5 +229,12 @@ export {
     SummaryTitle,
     SummaryContent,
     StatusBadge,
-    ButtonContainer
+    ButtonContainer,
+    VerificationContainer,
+    VerificationTitle,
+    VerificationDescription,
+    LoadingSpinner,
+    VerificationStep,
+    StepText,
+    VerificationSteps
 };

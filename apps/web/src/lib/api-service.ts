@@ -36,6 +36,18 @@ async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise
     };
 };
 
+interface DocumentAnalysis {
+  cpf: string;
+  name: string;
+  userImage: string;
+}
+
+interface VerificationResult {
+  isMatch: boolean;
+  confidence: number;
+  details: string;
+}
+
 export const apiService = {
     getEventsData: async () => {
         return fetchApi<Event[]>('/events');
@@ -74,6 +86,18 @@ export const apiService = {
         return fetchApi<{ success: boolean; message?: string }>('/users/login', {
             method: 'POST',
             body: JSON.stringify({ cpf, password }),
+        });
+    },
+    analyzeDocument: async (imageBase64: string) => {
+        return fetchApi<DocumentAnalysis>('/verification/analyze-document', {
+            method: 'POST',
+            body: JSON.stringify({ imageBase64 }),
+        });
+    },
+    verifyIdentity: async (documentImageBase64: string, selfieImageBase64: string) => {
+        return fetchApi<VerificationResult>('/verification/verify-identity', {
+            method: 'POST',
+            body: JSON.stringify({ documentImageBase64, selfieImageBase64 }),
         });
     },
 }; 

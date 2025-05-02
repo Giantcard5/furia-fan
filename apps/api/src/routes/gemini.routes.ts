@@ -1,7 +1,5 @@
 import { 
-    Router, 
-    Request, 
-    Response 
+    Router
 } from 'express';
 
 import {

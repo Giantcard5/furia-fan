@@ -39,10 +39,9 @@ import * as S from './styles';
 interface PersonalInfoFormProps {
     initialData: any;
     onNext: (data: any) => void;
-    onBack: () => void;
 }
 
-export default function PersonalInfoForm({ initialData, onNext, onBack }: PersonalInfoFormProps) {
+export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFormProps) {
     const [formData, setFormData] = useState({
         fullName: initialData.fullName || '',
         email: initialData.email || '',
@@ -313,9 +312,6 @@ export default function PersonalInfoForm({ initialData, onNext, onBack }: Person
                     </S.FormRow>
 
                     <S.ButtonContainer>
-                        <Button type='button' $variant='outline' onClick={onBack}>
-                            Back
-                        </Button>
                         <Button type='submit' $variant='primary'>
                             Next
                         </Button>
