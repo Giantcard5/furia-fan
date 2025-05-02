@@ -245,6 +245,12 @@ const SaveButton = styled(Button)`
     gap: ${({ theme }) => theme.space[2]};
 `;
 
+const ExitButton = styled(Button)`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.space[2]};
+`;
+
 export {
     PageHeader,
     PageTitle,
@@ -271,5 +277,6 @@ export {
     ThemeIcon,
     ThemeName,
     ButtonContainer,
-    SaveButton
+    SaveButton,
+    ExitButton
 };

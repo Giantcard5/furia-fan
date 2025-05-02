@@ -2,7 +2,7 @@ import styled, {
     css
 } from 'styled-components';
 
-type ButtonVariant = 'default' | 'outline' | 'ghost' | 'link' | 'primary' | 'secondary';
+type ButtonVariant = 'default' | 'outline' | 'ghost' | 'link' | 'primary' | 'secondary' | 'red';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps {
@@ -26,6 +26,16 @@ const getVariantStyles = ($variant: ButtonVariant) => {
         case 'secondary':
             return css`
                 background-color: ${({ theme }) => theme.colors.backgroundLight};
+                color: ${({ theme }) => theme.colors.white};
+                border: none;
+                
+                &:hover:not(:disabled) {
+                    background-color: #333333;
+                }
+            `
+        case 'red':
+            return css`
+                background-color: ${({ theme }) => theme.colors.red};
                 color: ${({ theme }) => theme.colors.white};
                 border: none;
                 

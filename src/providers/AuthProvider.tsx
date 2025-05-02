@@ -26,9 +26,11 @@ interface AuthContextType {
     fetchUser: (cpf: string) => Promise<boolean>;
     registerUser: (data: OnboardingFormData) => Promise<boolean>;
     loginUser: (cpf: string, password: string) => Promise<boolean>;
+    logoutUser: () => void;
     isUserLoaded: boolean;
     saveCPF: (cpf: string) => void;
     getCPF: () => string | null;
+    removeCPF: () => void;
     error: string | null;
 };
 
@@ -54,6 +56,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const saveCPF = (cpf: string) => {
         Cookies.set('furiaCpf', cpf, { expires: 7 });
+    };
+
+    const removeCPF = () => {
+        Cookies.remove('furiaCpf');
     };
 
     const getCPF = (): string | null => {
@@ -121,6 +127,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         };
     };
 
+    const logoutUser = () => {
+        Cookies.remove('furiaCpf');
+        Cookies.remove('furiaUser');
+        setUser(null);
+    };
+
     const fetchUser = async (cpf: string): Promise<boolean> => {
         setIsLoading(true);
 
@@ -150,9 +162,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         fetchUser,
         registerUser,
         loginUser,
+        logoutUser,
         isUserLoaded: !!user,
         saveCPF,
         getCPF,
+        removeCPF,
         error
     };
 

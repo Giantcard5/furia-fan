@@ -13,7 +13,8 @@ import {
     Smartphone,
     Moon, 
     Sun, 
-    Save 
+    Save, 
+    LogOut
 } from 'lucide-react';
 
 import DashboardLayout from '@/components/DashboardLayout';
@@ -28,7 +29,17 @@ import {
 
 import * as S from './styles';
 
+import { 
+    useAuth 
+} from '@/hooks/useAuth';
+import { 
+    useRouter 
+} from 'next/navigation';
+
 export default function SettingsPage() {
+    const router = useRouter();
+    const { logoutUser } = useAuth();
+
     const [activeSection, setActiveSection] = useState('profile')
     const [theme, setTheme] = useState('dark')
 
@@ -58,7 +69,11 @@ export default function SettingsPage() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        alert('Settings saved!');
+    };
+
+    const handleLogout = () => {
+        logoutUser();
+        router.push('/');
     };
 
     const renderSection = () => {
@@ -122,6 +137,10 @@ export default function SettingsPage() {
                                         <Save size={16} />
                                         Save Changes
                                     </S.SaveButton>
+                                    <S.ExitButton type='submit' $variant='red' onClick={handleLogout}>
+                                        <LogOut size={16} />
+                                        Logout
+                                    </S.ExitButton>
                                 </S.ButtonContainer>
                             </form>
                         </S.SettingsCardContent>
@@ -366,6 +385,10 @@ export default function SettingsPage() {
                                         <Save size={16} />
                                         Save Changes
                                     </S.SaveButton>
+                                    <S.ExitButton type='submit' $variant='red' onClick={handleLogout}>
+                                        <LogOut size={16} />
+                                        Logout
+                                    </S.ExitButton>
                                 </S.ButtonContainer>
                             </form>
                         </S.SettingsCardContent>
