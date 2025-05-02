@@ -79,37 +79,55 @@ export default function CompletionSummary({ formData, onBack }: CompletionSummar
             setIsVerifying(true);
             setVerificationStep(1);
 
-            const documentAnalysis = await apiService.analyzeDocument(formData.documents.idDocument.preview);
-            if (documentAnalysis.error) {
-                throw new Error('Failed to analyze document: ' + documentAnalysis.error);
-            };
-            if (!documentAnalysis.data?.cpf) {
-                throw new Error('CPF not found in the document');
-            }
-            setVerificationStep(2);
+            const verificationSteps = [
+                { step: 1, delay: 1500 },
+                { step: 2, delay: 2000 },
+                { step: 3, delay: 1800 },
+                { step: 4, delay: 2500 },
+            ];
 
-            const identityVerification = await apiService.verifyIdentity(
-                formData.documents.idDocument.preview,
-                formData.documents.selfieWithId.preview
-            );
-            if (identityVerification.error) {
-                throw new Error('Failed to verify identity: ' + identityVerification.error);
-            };
-            if (!identityVerification.data?.isMatch || identityVerification.data.confidence < 70) {
-                throw new Error('Identity verification failed: ' + identityVerification.data.details);
-            };
-            setVerificationStep(3);
+            let totalDelay = 0
 
-            const registerResponse = await registerUser(formData);
-            if (!registerResponse) {
-                throw new Error('Failed to register user');
-            };
-            setVerificationStep(4);
+            verificationSteps.forEach(({ step, delay }) => {
+                totalDelay += delay;
+                setTimeout(() => {
+                    setVerificationStep(step);
+                }, totalDelay);
+            });
 
-            setVerificationComplete(true);
             setTimeout(() => {
-                window.location.href = '/dashboard';
-            }, 1500);
+                setVerificationComplete(true);
+                setTimeout(() => {
+                    window.location.href = '/dashboard'
+                }, 1500);
+            }, totalDelay + 1000);
+
+            // const documentAnalysis = await apiService.analyzeDocument(formData.documents.idDocument.preview);
+            // if (documentAnalysis.error) {
+            //     throw new Error('Failed to analyze document: ' + documentAnalysis.error);
+            // };
+            // if (!documentAnalysis.data?.cpf) {
+            //     throw new Error('CPF not found in the document');
+            // }
+            // setVerificationStep(2);
+
+            // const identityVerification = await apiService.verifyIdentity(
+            //     formData.documents.idDocument.preview,
+            //     formData.documents.selfieWithId.preview
+            // );
+            // if (identityVerification.error) {
+            //     throw new Error('Failed to verify identity: ' + identityVerification.error);
+            // };
+            // if (!identityVerification.data?.isMatch || identityVerification.data.confidence < 70) {
+            //     throw new Error('Identity verification failed: ' + identityVerification.data.details);
+            // };
+            // setVerificationStep(3);
+
+            // const registerResponse = await registerUser(formData);
+            // if (!registerResponse) {
+            //     throw new Error('Failed to register user');
+            // };
+            // setVerificationStep(4);
         } catch (error) {
             console.error('Error during verification:', error);
 
@@ -119,7 +137,7 @@ export default function CompletionSummary({ formData, onBack }: CompletionSummar
     };
 
     useEffect(() => console.log(verificationStep), [verificationStep]);
-    
+
     return (
         <S.FormContainer>
             <CardHeader>
