@@ -25,7 +25,13 @@ import {
     Event
 } from '@/types/event';
 
+import {
+    useAuth
+} from '@/hooks/useAuth';
+
 export default function Dashboard() {
+    const { getCPF } = useAuth();
+
     const [profile, setProfile] = useState<ProfileOverviewType>({
         profileImage: null,
         email: '',
@@ -41,7 +47,12 @@ export default function Dashboard() {
         setLoadingProfile(true);
 
         try {
-            const response = await apiService.getUserProfileOverview('123.456.789-00'); // Update with the user's CPF
+            const cpf = getCPF();
+            if (!cpf) {
+                throw new Error('No CPF found');
+            };
+
+            const response = await apiService.getUserProfileOverview(cpf);
 
             if (response.error) {
                 throw new Error(response.error);
@@ -82,7 +93,7 @@ export default function Dashboard() {
         <DashboardLayout>
             <S.DashboardGrid>
                 <S.MainContent>
-                    <ProfileOverview profile={profile} loading={loadingProfile} />
+                    {/* <ProfileOverview profile={profile} loading={loadingProfile} /> */}
                     <UpcomingEvents events={events} loading={loadingEvents} />
                 </S.MainContent>
 

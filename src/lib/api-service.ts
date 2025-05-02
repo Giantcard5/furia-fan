@@ -64,7 +64,7 @@ export const apiService = {
     getUserProfile: async (cpf: string) => {
         return fetchApi<OnboardingFormData>(`/users/${cpf}`);
     },
-    submitDashboardForm: async (data: OnboardingFormData) => {
+    postUserRegister: async (data: OnboardingFormData) => {
         return fetchApi<void>('/users/register', {
             method: 'POST',
             body: JSON.stringify(data),

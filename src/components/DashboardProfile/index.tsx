@@ -30,9 +30,14 @@ import {
     OnboardingFormData
 } from '@/types/onboarding';
 
-export default function ProfilePage() {
-    const [activeTab, setActiveTab] = useState('activity');
+import { 
+    useAuth 
+} from '@/hooks/useAuth';
 
+export default function ProfilePage() {
+    const { getCPF } = useAuth();
+
+    const [activeTab, setActiveTab] = useState('activity');
     const [profile, setProfile] = useState<OnboardingFormData>({
         personalInfo: {
             cpf: '',
@@ -78,7 +83,12 @@ export default function ProfilePage() {
         setLoading(true);
 
         try {
-            const response = await apiService.getUserProfile('123.456.789-00'); // Update with the user's CPF
+            const cpf = getCPF();
+            if (!cpf) {
+                throw new Error('No CPF found');
+            };
+
+            const response = await apiService.getUserProfile(cpf);
 
             if (response.error) {
                 throw new Error(response.error);

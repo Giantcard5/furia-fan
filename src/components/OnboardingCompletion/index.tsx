@@ -20,10 +20,17 @@ import {
 
 import Button from '@/components/UI/button';
 import Progress from '@/components/UI/progress';
-import { apiService } from '@/lib/api-service';
-import { OnboardingFormData } from '@/types/onboarding';
+
 
 import * as S from './styles';
+
+import {
+    useAuth 
+} from '@/hooks/useAuth';
+
+import { 
+    OnboardingFormData 
+} from '@/types/onboarding';
 
 interface CompletionSummaryProps {
     formData: OnboardingFormData;
@@ -32,6 +39,7 @@ interface CompletionSummaryProps {
 
 export default function CompletionSummary({ formData, onBack }: CompletionSummaryProps) {
     const router = useRouter();
+    const { registerUser } = useAuth();
 
     const calculateCompletion = () => {
         let completed = 0;
@@ -49,7 +57,7 @@ export default function CompletionSummary({ formData, onBack }: CompletionSummar
             completed++;
         };
 
-        if (formData.socialMedia && formData.socialMedia.length > 0) {
+        if (formData.socialMedia && Object.keys(formData.socialMedia).length > 0) {
             completed++;
         };
 
@@ -60,11 +68,16 @@ export default function CompletionSummary({ formData, onBack }: CompletionSummar
 
     const handleGoToDashboard = async () => {
         try {
-            await apiService.submitDashboardForm(formData);
-            router.push('/dashboard');
+            const success = await registerUser(formData);
+
+            if (success) {
+                router.push('/dashboard');
+            } else {
+                console.error('Failed to register user. Please try again.');
+            };
         } catch (error) {
-            console.error('Error submitting dashboard form:', error);
-        }
+            console.error('Error registering user:', error);
+        };
     };
 
     return (
@@ -154,10 +167,10 @@ export default function CompletionSummary({ formData, onBack }: CompletionSummar
                             <S.SummaryTitle>Social Media</S.SummaryTitle>
                         </S.SummaryHeader>
                         <S.SummaryContent>
-                            {formData.socialMedia?.length || 0} accounts connected
+                            {Object.keys(formData.socialMedia).length || 0} accounts connected
                             <br />
-                            <S.StatusBadge status={formData.socialMedia?.length > 0 ? 'connected' : 'not-connected'}>
-                                <CheckCircle size={12} /> {formData.socialMedia?.length > 0 ? 'Connected' : 'No accounts connected'}
+                            <S.StatusBadge status={Object.keys(formData.socialMedia).length > 0 ? 'connected' : 'not-connected'}>
+                                <CheckCircle size={12} /> {Object.keys(formData.socialMedia).length > 0 ? 'Connected' : 'No accounts connected'}
                             </S.StatusBadge>
                         </S.SummaryContent>
                     </S.SummaryItem>

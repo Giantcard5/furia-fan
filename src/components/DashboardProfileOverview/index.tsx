@@ -63,11 +63,11 @@ export default function ProfileOverview({ profile, loading }: { profile: Profile
                     <S.ProfileSection>
                         <S.ProfileSectionTitle>Connected Accounts</S.ProfileSectionTitle>
                         <S.ProfileSectionContent>
-                            {Object.entries(profile.socialMedia).map(([key, value]) => (
+                            {Object.keys(profile.socialMedia).length > 0 && Object.entries(profile.socialMedia).map(([key, value]) => (
                                 value?.username && (
                                     <S.SocialAccount key={key}>
                                         <S.SocialIcon>{socialMediaMap[key as keyof typeof socialMediaMap]}</S.SocialIcon>
-                                        {value.username}
+                                        <span>{value.username}</span>
                                     </S.SocialAccount>
                                 )
                             ))}

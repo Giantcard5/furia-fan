@@ -4,7 +4,10 @@ import type {
 
 import {
     ThemeProvider
-} from '@/provider/ThemeProvider';
+} from '@/providers/ThemeProvider';
+import { 
+    AuthProvider 
+} from '@/providers/AuthProvider';
 
 export const metadata: Metadata = {
     title: 'Know Your Fan | FURIA Esports',
@@ -29,7 +32,9 @@ export default function RootLayout({
             </head>
             <body>
                 <ThemeProvider>
-                    {children}
+                    <AuthProvider>
+                        {children}
+                    </AuthProvider>
                 </ThemeProvider>
             </body>
         </html>
