@@ -19,6 +19,19 @@ router.post('/register', async (req: Request, res: Response) => {
     }
 });
 
+router.post('/login', async (req: Request, res: Response) => {
+    try {
+        const { cpf, password } = req.body;
+        if (!cpf || !password) {
+            return res.status(400).json({ error: 'CPF and password are required' });
+        }
+        const isValid = await userService.loginUser(cpf, password);
+        res.json({ success: isValid });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to login' });
+    }
+});
+
 router.get('/:cpf', async (req: Request, res: Response) => {
     try {
         const user = await userService.getUserByCpf(req.params.cpf);
@@ -55,16 +68,12 @@ router.get('/:cpf/profile-overview', async (req: Request, res: Response) => {
     }
 });
 
-router.post('/login', async (req: Request, res: Response) => {
+router.get('/:cpf/settings', async (req: Request, res: Response) => {
     try {
-        const { cpf, password } = req.body;
-        if (!cpf || !password) {
-            return res.status(400).json({ error: 'CPF and password are required' });
-        }
-        const isValid = await userService.loginUser(cpf, password);
-        res.json({ success: isValid });
+        const userSettings = await userService.getUserSettings(req.params.cpf);
+        res.json(userSettings);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to login' });
+        res.status(500).json({ error: 'Failed to fetch user settings' });
     }
 });
 

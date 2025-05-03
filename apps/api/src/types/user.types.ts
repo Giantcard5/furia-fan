@@ -3,12 +3,14 @@ export interface UserRegistration {
         cpf: string;
         email: string;
         fullName: string;
+        username: string;
         password: string;
         passwordVerify: string;
         address: string;
         city: string;
         state: string;
         zipCode: string;
+        phoneNumber: string;
         birthDate: string;
         profileImage: string;
     };
@@ -66,4 +68,11 @@ export interface UserOverview {
             username: string;
         };
     };
+};
+
+export interface UserSettings {
+    fullName: string;
+    username: string;
+    email: string;
+    password: string;
 };

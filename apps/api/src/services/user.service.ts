@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { UserOverview, UserRegistration } from '../types/user.types';
+import { UserOverview, UserRegistration, UserSettings } from '../types/user.types';
 
 export class UserService {
     private readonly dataFilePath: string;
@@ -112,6 +112,20 @@ export class UserService {
             fullName: user.personalInfo.fullName,
             games: user.gamingPreferences.games,
             socialMedia
+        };
+    }
+
+    async getUserSettings(cpf: string): Promise<UserSettings | null> {
+        const user = await this.getUserByCpf(cpf);
+        if (!user) {
+            return null;
+        }
+        
+        return {
+            fullName: user.personalInfo.fullName,
+            username: user.personalInfo.username,
+            email: user.personalInfo.email,
+            password: user.personalInfo.password
         };
     }
 }
