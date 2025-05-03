@@ -1,6 +1,7 @@
 'use client';
 
 import { 
+    useEffect,
     useState 
 } from 'react';
 
@@ -16,9 +17,47 @@ import * as S from './styles';
 import Header from '../Header';
 import Footer from '../Footer';
 
-import { 
-    OnboardingFormData 
-} from '@/types/onboarding';
+interface OnboardingFormData {
+    personalInfo: {
+        cpf: string;
+        email: string;
+        fullName: string;
+        username: string;
+        password: string;
+        passwordVerify: string;
+        address: string;
+        city: string;
+        state: string;
+        zipCode: string;
+        phoneNumber: string;
+        birthDate: string;
+        profileImage: string;
+    };
+    gamingPreferences: {
+        games: string[];
+        events: string[];
+        purchases: string[];
+        platform: string;
+        playFrequency: string;
+    };
+    documents: {
+        idDocument: {
+            file: {
+                lastModified: number;
+                lastModifiedDate: string;
+                name: string;
+                size: number;
+                type: string;
+            };
+            preview: string;
+        } | null;
+        selfieWithId: {
+            file: string;
+            preview: string;
+        } | null;
+    };
+    socialMedia: Record<string, any>;
+}
 
 export default function OnboardingPage() {
     const [currentStep, setCurrentStep] = useState(1);
@@ -46,23 +85,13 @@ export default function OnboardingPage() {
             playFrequency: '',
         },
         documents: {
-            idDocument: {
-                file: {
-                    lastModified: 0,
-                    lastModifiedDate: '',
-                    name: '',
-                    size: 0,
-                    type: '',
-                },
-                preview: '',
-            },
-            selfieWithId: {
-                file: '',
-                preview: '',
-            },
+            idDocument: null,
+            selfieWithId: null,
         },
         socialMedia: {},
     });
+
+    const [isMounted, setIsMounted] = useState(false);
 
     const handleNext = (data: any, step: number) => {
         setFormData((prev) => {
@@ -85,6 +114,12 @@ export default function OnboardingPage() {
     const handleBack = () => {
         setCurrentStep((prev) => Math.max(prev - 1, 1));
     };
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) return null;
 
     const renderStep = () => {
         switch (currentStep) {

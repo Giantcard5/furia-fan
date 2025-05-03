@@ -31,13 +31,13 @@ export interface OnboardingFormData {
                 type: string;
             };
             preview: string;
-        };
+        } | null;
         selfieWithId: {
             file: string;
             preview: string;
-        };
+        } | null;
     };
-    socialMedia: SocialMedia;
+    socialMedia: Record<string, any>;
 };
 
 export interface ProfileOverview {
