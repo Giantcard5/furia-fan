@@ -41,6 +41,10 @@ import {
     apiService 
 } from '@/lib/api-service';
 
+import { 
+    formatPhoneNumber 
+} from '@/utils/formatters';
+
 export default function SettingsPage() {
     const router = useRouter();
     const { logoutUser, getCPF } = useAuth();
@@ -53,6 +57,7 @@ export default function SettingsPage() {
         fullName: 'FURIA Fan',
         username: 'furiafan123',
         email: 'fan@furia.org',
+        phoneNumber: '(00) 00000-0000',
         language: 'en',
         emailNotifications: true,
         pushNotifications: true,
@@ -99,9 +104,14 @@ export default function SettingsPage() {
         const { name, value, type } = e.target as HTMLInputElement;
         const checked = type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
 
+        let formattedValue = value;
+        if (name === 'phoneNumber') {
+            formattedValue = formatPhoneNumber(value);
+        };
+
         setFormData({
             ...formData,
-            [name]: type === 'checkbox' ? checked : value,
+            [name]: type === 'checkbox' ? checked : formattedValue,
         });
     };
 
@@ -135,6 +145,7 @@ export default function SettingsPage() {
                                             id='fullName'
                                             name='fullName'
                                             placeholder={formData.fullName}
+                                            value={formData.fullName}
                                             onChange={handleInputChange}
                                             $fullWidth
                                         />
@@ -145,6 +156,7 @@ export default function SettingsPage() {
                                             id='username'
                                             name='username'
                                             placeholder={formData.username}
+                                            value={formData.username}
                                             onChange={handleInputChange}
                                             $fullWidth
                                         />
@@ -158,7 +170,28 @@ export default function SettingsPage() {
                                             name='email'
                                             type='email'
                                             placeholder={formData.email}
+                                            value={formData.email}
                                             onChange={handleInputChange}
+                                            $fullWidth
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Label htmlFor='phoneNumber'>Phone Number</Label>
+                                        <Input
+                                            id='phoneNumber'
+                                            name='phoneNumber'
+                                            type='text'
+                                            placeholder='(00) 00000-0000'
+                                            value={formData.phoneNumber}
+                                            onChange={(e) => {
+                                                const formatted = formatPhoneNumber(e.target.value);
+                                                handleInputChange({
+                                                    target: {
+                                                        name: 'phoneNumber',
+                                                        value: formatted
+                                                    }
+                                                } as React.ChangeEvent<HTMLInputElement>);
+                                            }}
                                             $fullWidth
                                         />
                                     </FormGroup>
