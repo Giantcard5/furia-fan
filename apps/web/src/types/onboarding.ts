@@ -70,5 +70,11 @@ export interface UserSettings {
     fullName: string;
     username: string;
     email: string;
+    phoneNumber: string;
     password: string;
+    language: string;
+    emailNotifications: boolean;
+    pushNotifications: boolean;
+    marketingEmails: boolean;
+    eventReminders: boolean;
 };

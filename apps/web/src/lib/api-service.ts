@@ -79,6 +79,12 @@ export const apiService = {
     getUserSettings: async (cpf: string) => {
         return fetchApi<UserSettings>(`/users/${cpf}/settings`);
     },
+    updateUserSettings: async (cpf: string, settings: UserSettings) => {
+        return fetchApi<UserSettings>(`/users/${cpf}/settings`, {
+            method: 'PUT',
+            body: JSON.stringify(settings),
+        });
+    },
     postUserRegister: async (data: OnboardingFormData) => {
         return fetchApi<void>('/users/register', {
             method: 'POST',

@@ -77,4 +77,16 @@ router.get('/:cpf/settings', async (req: Request, res: Response) => {
     }
 });
 
+router.put('/:cpf/settings', async (req: Request, res: Response) => {
+    try {
+        const updatedSettings = await userService.updateUserSettings(req.params.cpf, req.body);
+        if (!updatedSettings) {
+            return res.status(404).json({ error: 'User settings not found' });
+        }
+        res.json(updatedSettings);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to update user settings' });
+    }
+});
+
 export const userRouter = router; 

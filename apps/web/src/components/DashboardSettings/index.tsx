@@ -25,7 +25,8 @@ import Button from '@/components/UI/button';
 import {
     FormGroup,
     Label,
-    Input
+    Input,
+    ErrorMessage
 } from '@/components/UI/input';
 
 import * as S from './styles';
@@ -52,20 +53,23 @@ export default function SettingsPage() {
     const [activeSection, setActiveSection] = useState('profile')
     const [theme, setTheme] = useState('dark')
     const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState<Record<string, string>>({});
 
     const [formData, setFormData] = useState({
-        fullName: 'FURIA Fan',
-        username: 'furiafan123',
-        email: 'fan@furia.org',
-        phoneNumber: '(00) 00000-0000',
+        fullName: '',
+        username: '',
+        email: '',
+        phoneNumber: '',
+        password: '',
         language: 'en',
-        emailNotifications: true,
-        pushNotifications: true,
+        emailNotifications: false,
+        pushNotifications: false,
         marketingEmails: false,
-        eventReminders: true,
-        twoFactorAuth: false,
-        publicProfile: true,
+        eventReminders: false,
     });
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
     const fetchProfile = async () => {
         setLoading(true);
@@ -76,7 +80,7 @@ export default function SettingsPage() {
                 throw new Error('No CPF found');
             };
 
-            const response = await apiService.getUserProfile(cpf);
+            const response = await apiService.getUserSettings(cpf);
 
             if (response.error) {
                 throw new Error(response.error);
@@ -84,10 +88,16 @@ export default function SettingsPage() {
 
             setFormData(prev => ({
                 ...prev,
-                fullName: response.data.personalInfo.fullName,
-                username: response.data.personalInfo.username,
-                email: response.data.personalInfo.email,
-                password: response.data.personalInfo.password
+                fullName: response.data.fullName || '',
+                username: response.data.username || '',
+                email: response.data.email || '',
+                phoneNumber: response.data.phoneNumber || '',
+                password: response.data.password || '',
+                language: response.data.language || 'en',
+                emailNotifications: response.data.emailNotifications ?? false,
+                pushNotifications: response.data.pushNotifications ?? false,
+                marketingEmails: response.data.marketingEmails ?? false,
+                eventReminders: response.data.eventReminders ?? false,
             }));
         } catch (err) {
             console.error('Error fetching profile overview:', err);
@@ -107,16 +117,66 @@ export default function SettingsPage() {
         let formattedValue = value;
         if (name === 'phoneNumber') {
             formattedValue = formatPhoneNumber(value);
-        };
+        }
 
-        setFormData({
-            ...formData,
-            [name]: type === 'checkbox' ? checked : formattedValue,
-        });
+        if (name === 'newPassword') {
+            setNewPassword(value);
+        } else if (name === 'confirmNewPassword') {
+            setConfirmNewPassword(value);
+        } else if (name === 'currentPassword') {
+            setCurrentPassword(value);
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [name]: type === 'checkbox' ? checked : formattedValue,
+            }));
+        }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setErrors({});
+
+        setNewPassword('');
+        setConfirmNewPassword('');
+        setCurrentPassword('');
+
+        if (newPassword !== confirmNewPassword) {
+            setErrors(prev => ({ ...prev, confirmNewPassword: "Passwords don't match" }));
+            return;
+        }
+
+        console.log('currentPassword', currentPassword);
+
+        if (currentPassword === '') {
+            setErrors(prev => ({ ...prev, currentPassword: "Current password is required" }));
+            setActiveSection('security');
+            return;
+        }
+
+        if (currentPassword !== formData.password) {
+            setErrors(prev => ({ ...prev, currentPassword: "Current password is incorrect" }));
+            return;
+        }
+
+        try {
+            const cpf = getCPF();
+            if (!cpf) {
+                throw new Error('No CPF found');
+            };
+            const updatedFormData = { ...formData, password: newPassword };
+
+            const response = await apiService.updateUserSettings(cpf, updatedFormData);
+
+            if (response.error) {
+                throw new Error(response.error);
+            };
+            
+            console.log('response.data', response.data, 'formData', formData);
+            setFormData(response.data);
+        } catch (err) {
+            console.error('Error to update profile settings:', err);
+        }
     };
 
     const handleLogout = () => {
@@ -317,8 +377,11 @@ export default function SettingsPage() {
                                         name='currentPassword'
                                         type='password'
                                         placeholder='Enter current password'
+                                        onChange={handleInputChange}
+                                        $error={!!errors.currentPassword}
                                         $fullWidth
                                     />
+                                    {errors.currentPassword && <ErrorMessage>{errors.currentPassword}</ErrorMessage>}
                                 </FormGroup>
                                 <S.FormRow>
                                     <FormGroup>
@@ -328,18 +391,26 @@ export default function SettingsPage() {
                                             name='newPassword'
                                             type='password'
                                             placeholder='Enter new password'
+                                            value={newPassword}
+                                            onChange={handleInputChange}
+                                            $error={!!errors.newPassword}
                                             $fullWidth
                                         />
+                                        {errors.newPassword && <ErrorMessage>{errors.newPassword}</ErrorMessage>}
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label htmlFor='confirmPassword'>Confirm New Password</Label>
+                                        <Label htmlFor='confirmNewPassword'>Confirm New Password</Label>
                                         <Input
-                                            id='confirmPassword'
-                                            name='confirmPassword'
+                                            id='confirmNewPassword'
+                                            name='confirmNewPassword'
                                             type='password'
                                             placeholder='Confirm new password'
+                                            value={confirmNewPassword}
+                                            onChange={handleInputChange}
+                                            $error={!!errors.confirmNewPassword}
                                             $fullWidth
                                         />
+                                        {errors.confirmNewPassword && <ErrorMessage>{errors.confirmNewPassword}</ErrorMessage>}
                                     </FormGroup>
                                 </S.FormRow>
                                 <S.ButtonContainer>

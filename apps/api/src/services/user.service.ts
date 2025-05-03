@@ -1,23 +1,35 @@
 import fs from 'fs';
 import path from 'path';
 
-import { UserOverview, UserRegistration, UserSettings } from '../types/user.types';
+import { 
+    UserOverview, 
+    UserRegistration, 
+    UserSettings
+} from '../types/user.types';
 
 export class UserService {
     private readonly dataFilePath: string;
-
+    private readonly settingsFilePath: string;
     constructor() {
         this.dataFilePath = path.join(__dirname, '../../data/users.json');
+        this.settingsFilePath = path.join(__dirname, '../../data/usersSettings.json');
         this.ensureDataFileExists();
     }
 
     private ensureDataFileExists(): void {
         const dataDir = path.dirname(this.dataFilePath);
+        const settingsDir = path.dirname(this.settingsFilePath);
         if (!fs.existsSync(dataDir)) {
             fs.mkdirSync(dataDir, { recursive: true });
         }
         if (!fs.existsSync(this.dataFilePath)) {
             fs.writeFileSync(this.dataFilePath, JSON.stringify([], null, 2));
+        }
+        if (!fs.existsSync(settingsDir)) {
+            fs.mkdirSync(settingsDir, { recursive: true });
+        }
+        if (!fs.existsSync(this.settingsFilePath)) {
+            fs.writeFileSync(this.settingsFilePath, JSON.stringify([], null, 2));
         }
     }
 
@@ -28,6 +40,15 @@ export class UserService {
 
     private writeUsers(users: UserRegistration[]): void {
         fs.writeFileSync(this.dataFilePath, JSON.stringify(users, null, 2));
+    }
+
+    private readSettings(): any[] {
+        const data = fs.readFileSync(this.settingsFilePath, 'utf-8');
+        return JSON.parse(data);
+    }
+
+    private writeSettings(settings: any[]): void {
+        fs.writeFileSync(this.settingsFilePath, JSON.stringify(settings, null, 2));
     }
 
     async registerUser(userData: UserRegistration): Promise<UserRegistration> {
@@ -117,7 +138,10 @@ export class UserService {
 
     async getUserSettings(cpf: string): Promise<UserSettings | null> {
         const user = await this.getUserByCpf(cpf);
-        if (!user) {
+        const settings = this.readSettings();
+        const userSettings = settings.find(setting => setting.cpf === cpf);
+        
+        if (!user || !userSettings) {
             return null;
         }
         
@@ -125,7 +149,55 @@ export class UserService {
             fullName: user.personalInfo.fullName,
             username: user.personalInfo.username,
             email: user.personalInfo.email,
-            password: user.personalInfo.password
+            password: user.personalInfo.password,
+            phoneNumber: user.personalInfo.phoneNumber,
+            language: userSettings.language,
+            emailNotifications: userSettings.emailNotifications,
+            pushNotifications: userSettings.pushNotifications,
+            marketingEmails: userSettings.marketingEmails,
+            eventReminders: userSettings.eventReminders
+        };
+    }
+
+    async updateUserSettings(cpf: string, settings: Partial<UserSettings>): Promise<UserSettings | null> {
+        const user = await this.getUserByCpf(cpf);
+        const allSettings = this.readSettings();
+        const userIndex = allSettings.findIndex(setting => setting.cpf === cpf);
+
+        if (!user || userIndex === -1) {
+            return null;
+        }
+
+        if (settings.fullName) user.personalInfo.fullName = settings.fullName;
+        if (settings.username) user.personalInfo.username = settings.username;
+        if (settings.email) user.personalInfo.email = settings.email;
+        if (settings.password) user.personalInfo.password = settings.password;
+        if (settings.password) user.personalInfo.passwordVerify = settings.password;
+
+        const updatedConfigSettings = {
+            ...allSettings[userIndex],
+            language: settings.language ?? allSettings[userIndex].language,
+            emailNotifications: settings.emailNotifications ?? allSettings[userIndex].emailNotifications,
+            pushNotifications: settings.pushNotifications ?? allSettings[userIndex].pushNotifications,
+            marketingEmails: settings.marketingEmails ?? allSettings[userIndex].marketingEmails,
+            eventReminders: settings.eventReminders ?? allSettings[userIndex].eventReminders
+        };
+
+        allSettings[userIndex] = updatedConfigSettings;
+        this.writeSettings(allSettings);
+        await this.updateUser(cpf, user);
+
+        return {
+            fullName: user.personalInfo.fullName,
+            username: user.personalInfo.username,
+            email: user.personalInfo.email,
+            password: user.personalInfo.password,
+            phoneNumber: user.personalInfo.phoneNumber,
+            language: updatedConfigSettings.language,
+            emailNotifications: updatedConfigSettings.emailNotifications,
+            pushNotifications: updatedConfigSettings.pushNotifications,
+            marketingEmails: updatedConfigSettings.marketingEmails,
+            eventReminders: updatedConfigSettings.eventReminders
         };
     }
 }
