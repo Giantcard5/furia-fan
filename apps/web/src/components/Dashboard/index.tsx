@@ -93,7 +93,7 @@ export default function Dashboard() {
         <DashboardLayout>
             <S.DashboardGrid>
                 <S.MainContent>
-                    {/* <ProfileOverview profile={profile} loading={loadingProfile} /> */}
+                    <ProfileOverview profile={profile} loading={loadingProfile} />
                     <UpcomingEvents events={events} loading={loadingEvents} />
                 </S.MainContent>
 

@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 
-import { 
-    User, 
-    Edit 
+import {
+    User,
+    Edit
 } from 'lucide-react';
 
 import Button from '@/components/UI/button';
@@ -12,13 +12,9 @@ import Progress from '@/components/UI/progress';
 
 import * as S from './styles';
 
-import { 
+import {
     ProfileOverview as ProfileOverviewType
 } from '@/types/onboarding';
-
-import { 
-    socialMediaMap 
-} from '@/utils/socialMedia';
 
 export default function ProfileOverview({ profile, loading }: { profile: ProfileOverviewType, loading: boolean }) {
     return (
@@ -45,32 +41,23 @@ export default function ProfileOverview({ profile, loading }: { profile: Profile
                 <S.ProfileCompletion>
                     <S.ProfileCompletionHeader>
                         <span>Profile Completion</span>
-                        <span>10%</span>{/*  Calculate the completion percentage */}
+                        <span>10%</span>
                     </S.ProfileCompletionHeader>
-                    <Progress value={10} />{/*  Calculate the completion percentage*/}
+                    <Progress value={10} />
                 </S.ProfileCompletion>
 
                 <S.ProfileSections>
+
                     <S.ProfileSection>
                         <S.ProfileSectionTitle>Favorite Games</S.ProfileSectionTitle>
                         <S.ProfileSectionContent>
-                            {profile.games?.map((game, index) => (
-                                <S.GameTag key={index}>{game}</S.GameTag>
-                            ))}
-                        </S.ProfileSectionContent>
-                    </S.ProfileSection>
-
-                    <S.ProfileSection>
-                        <S.ProfileSectionTitle>Connected Accounts</S.ProfileSectionTitle>
-                        <S.ProfileSectionContent>
-                            {Object.keys(profile.socialMedia).length > 0 && Object.entries(profile.socialMedia).map(([key, value]) => (
-                                value?.username && (
-                                    <S.SocialAccount key={key}>
-                                        <S.SocialIcon>{socialMediaMap[key as keyof typeof socialMediaMap]}</S.SocialIcon>
-                                        <span>{value.username}</span>
-                                    </S.SocialAccount>
-                                )
-                            ))}
+                            {profile.games.length > 0 ? (
+                                profile.games.map((game, index) => (
+                                    <S.GameTag key={index}>{game}</S.GameTag>
+                                ))
+                            ) : (
+                                <S.ProfileEmail>No favorite games</S.ProfileEmail>
+                            )}
                         </S.ProfileSectionContent>
                     </S.ProfileSection>
                 </S.ProfileSections>
