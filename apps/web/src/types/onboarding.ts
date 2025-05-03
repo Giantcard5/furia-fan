@@ -49,7 +49,7 @@ export interface ProfileOverview {
 };
 
 export interface SocialMedia {
-    twitter?: {
+    instagram?: {
         username: string;
     };
     twitch?: {

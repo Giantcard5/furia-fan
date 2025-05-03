@@ -38,11 +38,21 @@ export interface UserRegistration {
         };
     };
     socialMedia: {
-        twitter?: string;
-        twitch?: string;
-        discord?: string;
-        faceit?: string;
-        hltv?: string;
+        instagram?: {
+            username: string;
+        };
+        twitch?: {
+            username: string;
+        };
+        discord?: {
+            username: string;
+        };
+        faceit?: {
+            username: string;
+        };
+        hltv?: {
+            username: string;
+        };
     };
 };
 
@@ -52,7 +62,7 @@ export interface UserOverview {
     fullName: string;
     games: string[];
     socialMedia: {
-        twitter?: {
+        instagram?: {
             username: string;
         };
         twitch?: {

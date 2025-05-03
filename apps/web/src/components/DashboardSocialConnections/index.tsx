@@ -1,15 +1,19 @@
 'use client'
 
-import {
-    useState
-} from 'react';
-
 import * as S from './styles';
+
+import { 
+    Twitch,
+    Instagram
+} from 'lucide-react';
 
 import {
     SocialMedia
 } from '@/types/onboarding';
-import { apiService } from '@/lib/api-service';
+
+import { 
+    apiService 
+} from '@/lib/api-service';
 
 import {
     useAuth
@@ -141,7 +145,9 @@ export default function SocialConnections({ socialMedia, loading }: { socialMedi
                 <S.SocialList>
                     <S.SocialItem>
                         <S.SocialInfo>
-                            <S.SocialIcon $bgColor='#6441A4'>T</S.SocialIcon>
+                            <S.SocialIcon $bgColor='#6441A4'>
+                                <Twitch size={16}/>
+                            </S.SocialIcon>
                             <div>
                                 <S.SocialName>Twitch</S.SocialName>
                                 <S.SocialStatus $connected={true}>
@@ -156,7 +162,9 @@ export default function SocialConnections({ socialMedia, loading }: { socialMedi
                     </S.SocialItem>
                     <S.SocialItem>
                         <S.SocialInfo>
-                            <S.SocialIcon $bgColor='#E1306C'>I</S.SocialIcon>
+                            <S.SocialIcon $bgColor='#E1306C'>
+                                <Instagram size={16}/>
+                            </S.SocialIcon>
                             <div>
                                 <S.SocialName>Instagram</S.SocialName>
                                 <S.SocialStatus $connected={true}>
@@ -196,7 +204,7 @@ export default function SocialConnections({ socialMedia, loading }: { socialMedi
                         </S.SocialInfo>
 
                         <S.ConnectButton $variant='outline' size='sm'>
-                            Unconnected
+                            Indisponível
                         </S.ConnectButton>
                     </S.SocialItem>
                     <S.SocialItem>
@@ -211,7 +219,7 @@ export default function SocialConnections({ socialMedia, loading }: { socialMedi
                         </S.SocialInfo>
 
                         <S.ConnectButton $variant='outline' size='sm'>
-                            Unconnected
+                            Indisponível
                         </S.ConnectButton>
                     </S.SocialItem>
                 </S.SocialList>
