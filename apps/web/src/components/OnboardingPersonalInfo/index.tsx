@@ -31,6 +31,7 @@ import {
     formatCPF, 
     formatBirthDate, 
     formatZipCode,
+    formatPhoneNumber,
     personalInfoSchema 
 } from '@/utils/formatters';
 
@@ -44,6 +45,8 @@ interface PersonalInfoFormProps {
 export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFormProps) {
     const [formData, setFormData] = useState({
         fullName: initialData.fullName || '',
+        username: initialData.username || '',
+        phoneNumber: initialData.phoneNumber || '',
         email: initialData.email || '',
         cpf: initialData.cpf || '',
         birthDate: initialData.birthDate || '',
@@ -63,7 +66,6 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
         const { name, value } = e.target;
         let formattedValue = value;
 
-        // Apply formatting based on field type
         switch (name) {
             case 'cpf':
                 formattedValue = formatCPF(value);
@@ -73,6 +75,9 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                 break;
             case 'zipCode':
                 formattedValue = formatZipCode(value);
+                break;
+            case 'phoneNumber':
+                formattedValue = formatPhoneNumber(value);
                 break;
         }
 
@@ -176,6 +181,19 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                             $fullWidth
                         />
                         {errors.fullName && <ErrorMessage>{errors.fullName}</ErrorMessage>}
+                    </FormGroup>
+                    <FormGroup>
+                        <Label htmlFor='username'>Username</Label>
+                        <Input
+                            id='username'
+                            name='username'
+                            placeholder='Your username'
+                            value={formData.username}
+                            onChange={handleChange}
+                            $error={!!errors.username}
+                            $fullWidth
+                        />
+                        {errors.username && <ErrorMessage>{errors.username}</ErrorMessage>}
                     </FormGroup>
 
                     <FormGroup>
@@ -295,7 +313,9 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                             />
                             {errors.state && <ErrorMessage>{errors.state}</ErrorMessage>}
                         </FormGroup>
+                    </S.FormRow>
 
+                    <S.FormRow>
                         <FormGroup>
                             <Label htmlFor='zipCode'>ZIP Code</Label>
                             <Input
@@ -308,6 +328,20 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                                 $fullWidth
                             />
                             {errors.zipCode && <ErrorMessage>{errors.zipCode}</ErrorMessage>}
+                        </FormGroup>
+
+                        <FormGroup>
+                            <Label htmlFor='phoneNumber'>Phone Number</Label>
+                            <Input
+                                id='phoneNumber'
+                                name='phoneNumber'
+                                placeholder='(00) 00000-0000'
+                                value={formData.phoneNumber}
+                                onChange={handleChange}
+                                $error={!!errors.zipCode}
+                                $fullWidth
+                            />
+                            {errors.phoneNumber && <ErrorMessage>{errors.phoneNumber}</ErrorMessage>}
                         </FormGroup>
                     </S.FormRow>
 

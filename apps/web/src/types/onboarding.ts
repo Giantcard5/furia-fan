@@ -10,6 +10,7 @@ export interface OnboardingFormData {
         city: string;
         state: string;
         zipCode: string;
+        phoneNumber: string;
         birthDate: string;
         profileImage: string;
     };

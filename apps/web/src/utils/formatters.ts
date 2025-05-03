@@ -55,6 +55,22 @@ export const formatZipCode = (value: string): string => {
     return `${cleaned.slice(0, 5)}-${cleaned.slice(5, 8)}`;
 };
 
+export const phoneNumberSchema = z.string()
+    .min(14, 'Phone number must be in format (00) 00000-0000')
+    .max(15, 'Phone number must be in format (00) 00000-0000')
+    .refine((value) => {
+        const cleaned = value.replace(/\D/g, '');
+        return /^\d{11}$/.test(cleaned);
+    }, 'Invalid phone number format');
+
+export const formatPhoneNumber = (value: string): string => {
+    const cleaned = value.replace(/\D/g, '');
+    if (cleaned.length <= 2) return cleaned;
+    if (cleaned.length <= 6) return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2)}`;
+    if (cleaned.length <= 10) return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7)}`;
+    return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7, 11)}`;
+};
+
 export const personalInfoSchema = z.object({
     fullName: z.string().min(1, 'Full name is required'),
     email: z.string().email('Invalid email format'),
@@ -66,6 +82,8 @@ export const personalInfoSchema = z.object({
     zipCode: zipCodeSchema,
     password: z.string().min(8, 'Password must be at least 8 characters'),
     passwordVerify: z.string(),
+    phoneNumber: phoneNumberSchema,
+    username: z.string().min(1, 'Username is required'),
 }).refine((data) => data.password === data.passwordVerify, {
     message: "Passwords don't match",
     path: ["passwordVerify"],
