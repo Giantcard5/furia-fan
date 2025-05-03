@@ -62,6 +62,8 @@ const SearchContainer = styled.div`
 const SearchInput = styled(Input)`
     padding-left: ${({ theme }) => theme.space[10]};
     height: 50px;
+    display: flex;
+    align-items: center;
     font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 
@@ -71,6 +73,10 @@ const SearchIcon = styled.div`
     top: 50%;
     transform: translateY(-50%);
     color: ${({ theme }) => theme.colors.gray[500]};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
 `;
 
 const CategoriesGrid = styled.div`

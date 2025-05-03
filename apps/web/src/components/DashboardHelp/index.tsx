@@ -136,6 +136,7 @@ export default function HelpPage() {
                             placeholder='Search for help...'
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
+                            $fullWidth
                         />
                     </S.SearchContainer>
                 </S.SearchSection>
