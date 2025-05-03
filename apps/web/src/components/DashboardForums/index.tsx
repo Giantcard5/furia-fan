@@ -149,10 +149,6 @@ export default function ForumsPage() {
                     <MessageSquare size={24} />
                     Community Forums
                 </S.PageTitle>
-                <S.CreateTopicButton $variant='primary'>
-                    <Plus size={16} />
-                    Create Topic
-                </S.CreateTopicButton>
             </S.PageHeader>
 
             <S.ForumsContainer>

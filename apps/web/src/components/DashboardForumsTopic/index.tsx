@@ -262,24 +262,6 @@ export default function TopicPage({ topicId }: { topicId: string }) {
                         ))}
                     </CardContent>
                 </S.TopicCard>
-
-                <S.ReplyForm onSubmit={handleSubmitReply}>
-                    <S.ReplyFormTitle>Post a Reply</S.ReplyFormTitle>
-                    <FormGroup>
-                        <Label htmlFor='reply'>Your Reply</Label>
-                        <S.TextArea
-                            id='reply'
-                            value={replyContent}
-                            onChange={(e) => setReplyContent(e.target.value)}
-                            placeholder='Write your reply here...'
-                        />
-                        {error && <ErrorMessage>{error}</ErrorMessage>}
-                    </FormGroup>
-                    <S.SubmitButton type='submit' $variant='primary'>
-                        <MessageSquare size={16} />
-                        Post Reply
-                    </S.SubmitButton>
-                </S.ReplyForm>
             </S.TopicContainer>
         </DashboardLayout>
     );
