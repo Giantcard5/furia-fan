@@ -3,6 +3,7 @@ export interface OnboardingFormData {
         cpf: string;
         email: string;
         fullName: string;
+        username: string;
         password: string;
         passwordVerify: string;
         address: string;
@@ -62,4 +63,11 @@ export interface SocialMedia {
     HLTV?: {
         username: string;
     };
+};
+
+export interface UserSettings {
+    fullName: string;
+    username: string;
+    email: string;
+    password: string;
 };

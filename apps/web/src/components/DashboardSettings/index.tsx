@@ -1,19 +1,20 @@
 'use client';
 
-import React, { 
-    useState 
+import React, {
+    useEffect,
+    useState
 } from 'react';
 
-import { 
-    Settings, 
-    User, 
-    Bell, 
-    Shield, 
-    Globe, 
+import {
+    Settings,
+    User,
+    Bell,
+    Shield,
+    Globe,
     Smartphone,
-    Moon, 
-    Sun, 
-    Save, 
+    Moon,
+    Sun,
+    Save,
     LogOut
 } from 'lucide-react';
 
@@ -21,33 +22,37 @@ import DashboardLayout from '@/components/DashboardLayout';
 
 import Button from '@/components/UI/button';
 
-import { 
-    FormGroup, 
-    Label, 
-    Input 
+import {
+    FormGroup,
+    Label,
+    Input
 } from '@/components/UI/input';
 
 import * as S from './styles';
 
-import { 
-    useAuth 
+import {
+    useAuth
 } from '@/hooks/useAuth';
-import { 
-    useRouter 
+import {
+    useRouter
 } from 'next/navigation';
+
+import { 
+    apiService 
+} from '@/lib/api-service';
 
 export default function SettingsPage() {
     const router = useRouter();
-    const { logoutUser } = useAuth();
+    const { logoutUser, getCPF } = useAuth();
 
     const [activeSection, setActiveSection] = useState('profile')
     const [theme, setTheme] = useState('dark')
+    const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         fullName: 'FURIA Fan',
         username: 'furiafan123',
         email: 'fan@furia.org',
-        phone: '+55 11 9999-9999',
         language: 'en',
         emailNotifications: true,
         pushNotifications: true,
@@ -56,6 +61,39 @@ export default function SettingsPage() {
         twoFactorAuth: false,
         publicProfile: true,
     });
+
+    const fetchProfile = async () => {
+        setLoading(true);
+
+        try {
+            const cpf = getCPF();
+            if (!cpf) {
+                throw new Error('No CPF found');
+            };
+
+            const response = await apiService.getUserProfile(cpf);
+
+            if (response.error) {
+                throw new Error(response.error);
+            };
+
+            setFormData(prev => ({
+                ...prev,
+                fullName: response.data.personalInfo.fullName,
+                username: response.data.personalInfo.username,
+                email: response.data.personalInfo.email,
+                password: response.data.personalInfo.password
+            }));
+        } catch (err) {
+            console.error('Error fetching profile overview:', err);
+        } finally {
+            setLoading(false);
+        };
+    };
+
+    useEffect(() => {
+        fetchProfile();
+    }, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target as HTMLInputElement;
@@ -123,10 +161,6 @@ export default function SettingsPage() {
                                             onChange={handleInputChange}
                                             $fullWidth
                                         />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label htmlFor='phone'>Phone Number</Label>
-                                        <Input id='phone' name='phone' placeholder={formData.phone} onChange={handleInputChange} $fullWidth />
                                     </FormGroup>
                                 </S.FormRow>
                                 <S.ButtonContainer>
@@ -275,36 +309,6 @@ export default function SettingsPage() {
                                         />
                                     </FormGroup>
                                 </S.FormRow>
-                                <S.SwitchContainer>
-                                    <S.SwitchLabel>
-                                        <S.SwitchTitle>Two-Factor Authentication</S.SwitchTitle>
-                                        <S.SwitchDescription>Add an extra layer of security to your account</S.SwitchDescription>
-                                    </S.SwitchLabel>
-                                    <S.Switch>
-                                        <S.SwitchInput
-                                            type='checkbox'
-                                            name='twoFactorAuth'
-                                            checked={formData.twoFactorAuth}
-                                            onChange={handleInputChange}
-                                        />
-                                        <S.SwitchSlider />
-                                    </S.Switch>
-                                </S.SwitchContainer>
-                                <S.SwitchContainer>
-                                    <S.SwitchLabel>
-                                        <S.SwitchTitle>Public Profile</S.SwitchTitle>
-                                        <S.SwitchDescription>Allow others to see your profile information</S.SwitchDescription>
-                                    </S.SwitchLabel>
-                                    <S.Switch>
-                                        <S.SwitchInput
-                                            type='checkbox'
-                                            name='publicProfile'
-                                            checked={formData.publicProfile}
-                                            onChange={handleInputChange}
-                                        />
-                                        <S.SwitchSlider />
-                                    </S.Switch>
-                                </S.SwitchContainer>
                                 <S.ButtonContainer>
                                     <Button type='button' $variant='outline'>
                                         Cancel
@@ -349,9 +353,6 @@ export default function SettingsPage() {
                                         }}
                                     >
                                         <option value='en'>English</option>
-                                        <option value='pt'>Portuguese</option>
-                                        <option value='es'>Spanish</option>
-                                        <option value='fr'>French</option>
                                     </select>
                                 </FormGroup>
                                 <div style={{ marginBottom: '24px' }}>
