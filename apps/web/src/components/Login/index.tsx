@@ -1,6 +1,7 @@
 'use client';
 
 import React, {
+    useEffect,
     useState
 } from 'react';
 
@@ -40,6 +41,7 @@ export default function LoginPage() {
     const [rememberMe, setRememberMe] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState<{ cpf?: string; password?: string; submit?: string }>({});
+    const [isMounted, setIsMounted] = useState(false);
 
     const handleCpfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -86,6 +88,12 @@ export default function LoginPage() {
             };
         };
     };
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) return null;
 
     return (
         <S.LoginContainer>

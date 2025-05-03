@@ -71,8 +71,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setError(null);
 
         try {
+            console.log(cpf, password);
+
             const loginResponse = await apiService.postUserLogin(cpf, password);
-            console.log(loginResponse);
 
             if (loginResponse.error || !loginResponse.data.success) {
                 setError(loginResponse.error || loginResponse.data.message || 'Invalid credentials');

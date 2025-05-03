@@ -109,4 +109,16 @@ export const apiService = {
             body: JSON.stringify({ documentImageBase64, selfieImageBase64 }),
         });
     },
+    linkSocialConnection: async (cpf: string, provider: string, accessToken: string) => {
+        return fetchApi<void>(`/users/link-social-connection`, {
+            method: 'POST',
+            body: JSON.stringify({ cpf, provider, accessToken }),
+        });
+    },
+    unlinkSocialConnection: async (cpf: string, provider: string) => {
+        return fetchApi<void>(`/users/unlink-social-connection`, {
+            method: 'POST',
+            body: JSON.stringify({ cpf, provider }),
+        });
+    },
 }; 
