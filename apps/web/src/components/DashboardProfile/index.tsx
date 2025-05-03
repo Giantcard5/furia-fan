@@ -30,8 +30,8 @@ import {
     OnboardingFormData
 } from '@/types/onboarding';
 
-import { 
-    useAuth 
+import {
+    useAuth
 } from '@/hooks/useAuth';
 
 export default function ProfilePage() {
@@ -43,6 +43,8 @@ export default function ProfilePage() {
             cpf: '',
             email: '',
             fullName: '',
+            username: '',
+            phoneNumber: '',
             password: '',
             passwordVerify: '',
             address: '',
@@ -111,44 +113,6 @@ export default function ProfilePage() {
             { value: 42, label: 'Posts' },
             { value: 156, label: 'Likes' },
             { value: 8, label: 'Events' },
-        ],
-        progress: [
-            { title: 'Profile Completion', value: 85, max: 100 },
-            { title: 'Community Reputation', value: 65, max: 100 },
-            { title: 'Fan Level', value: 3, max: 10 },
-        ],
-        badges: [
-            {
-                name: 'Early Supporter',
-                description: 'Joined during beta',
-                icon: <Star size={24} />,
-                unlocked: true
-            },
-            {
-                name: 'Event Attendee',
-                description: 'Attended a FURIA event',
-                icon: <Calendar size={24} />,
-                unlocked: true
-            },
-            {
-                name: 'Forum Contributor',
-                description: 'Posted 50+ times',
-                icon: <MessageSquare size={24} />,
-                unlocked: false,
-            },
-            {
-                name: 'Tournament Predictor',
-                description: 'Correctly predicted winners',
-                icon: <Trophy size={24} />,
-                unlocked: true,
-            },
-            { name: 'Content Creator', description: 'Created original content', icon: <Star size={24} />, unlocked: false },
-            {
-                name: 'Verified Fan',
-                description: 'Completed identity verification',
-                icon: <Shield size={24} />,
-                unlocked: true,
-            },
         ],
         activities: [
             {
@@ -290,36 +254,45 @@ export default function ProfilePage() {
 
                     <S.ProfileCard>
                         <S.ProfileHeader>
-                            <S.ProfileTitle>Progress</S.ProfileTitle>
-                        </S.ProfileHeader>
-                        <S.ProfileContent>
-                            {user.progress.map((item, index) => (
-                                <S.ProgressSection key={index}>
-                                    <S.ProgressHeader>
-                                        <S.ProgressTitle>{item.title}</S.ProgressTitle>
-                                        <S.ProgressValue>
-                                            {item.value}/{item.max}
-                                        </S.ProgressValue>
-                                    </S.ProgressHeader>
-                                    <Progress value={(item.value / item.max) * 100} />
-                                </S.ProgressSection>
-                            ))}
-                        </S.ProfileContent>
-                    </S.ProfileCard>
-
-                    <S.ProfileCard>
-                        <S.ProfileHeader>
                             <S.ProfileTitle>Badges</S.ProfileTitle>
                         </S.ProfileHeader>
                         <S.ProfileContent>
                             <S.BadgeGrid>
-                                {user.badges.map((badge, index) => (
+                                {profile.gamingPreferences.games.map((game, index) => (
                                     <S.BadgeItem key={index}>
-                                        <S.BadgeIcon $unlocked={badge.unlocked}>{badge.icon}</S.BadgeIcon>
+                                        <S.BadgeIcon>
+                                            <Star size={24} />
+                                        </S.BadgeIcon>
+                                        <S.BadgeName>{game}</S.BadgeName>
+                                        <S.BadgeDescription>Gaming Preferences</S.BadgeDescription>
+                                    </S.BadgeItem>
+                                ))}
+                                {profile.gamingPreferences.platform && 
+                                    <S.BadgeItem>
+                                        <S.BadgeIcon>
+                                            <Trophy size={24} />
+                                        </S.BadgeIcon>
+                                        <S.BadgeName>{profile.gamingPreferences.platform}</S.BadgeName>
+                                        <S.BadgeDescription>Gaming Platform Preference</S.BadgeDescription>
+                                    </S.BadgeItem>
+                                }
+                                {profile.gamingPreferences.playFrequency &&
+                                    <S.BadgeItem>
+                                        <S.BadgeIcon>
+                                            <Calendar size={24} />
+                                        </S.BadgeIcon>
+                                        <S.BadgeName>{profile.gamingPreferences.playFrequency}</S.BadgeName>
+                                        <S.BadgeDescription>Play Frequency</S.BadgeDescription>
+                                    </S.BadgeItem>
+                                }
+
+                                {/* {user.badges.map((badge, index) => (
+                                    <S.BadgeItem key={index}>
+                                        <S.BadgeIcon >{badge.icon}</S.BadgeIcon>
                                         <S.BadgeName $unlocked={badge.unlocked}>{badge.name}</S.BadgeName>
                                         <S.BadgeDescription $unlocked={badge.unlocked}>{badge.description}</S.BadgeDescription>
                                     </S.BadgeItem>
-                                ))}
+                                ))} */}
                             </S.BadgeGrid>
                         </S.ProfileContent>
                     </S.ProfileCard>
