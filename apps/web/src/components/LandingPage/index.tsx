@@ -93,11 +93,15 @@ const matchesMock: Match[] = [
 export function LandingPage() {
     const router = useRouter();
 
+    const [isMounted, setIsMounted] = useState(false);
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         setLoaded(true);
+        setIsMounted(true);
     }, []);
+
+    if (!isMounted) return null;
 
     return (
         <S.PageWrapper>
