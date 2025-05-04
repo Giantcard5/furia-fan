@@ -14,6 +14,10 @@ import {
     Event 
 } from '@/types/event';
 
+import { 
+    formatDate 
+} from '@/utils/formatters';
+
 export default function UpcomingEvents({ events, loading }: { events: Event[], loading: boolean }) {
     return (
         <S.EventsCard>
@@ -33,7 +37,7 @@ export default function UpcomingEvents({ events, loading }: { events: Event[], l
                                     <S.EventTitle>{event.title}</S.EventTitle>
                                     <S.EventMeta>
                                         <Calendar size={12} />
-                                        {event.date}
+                                        {formatDate(event.date)}
                                     </S.EventMeta>
                                     <S.EventLocation>
                                         <MapPin size={12} />

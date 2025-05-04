@@ -28,6 +28,10 @@ import {
     Event 
 } from '@/types/event';
 
+import { 
+    formatDate 
+} from '@/utils/formatters';
+
 export default function EventsPage() {
     const [activeFilter, setActiveFilter] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
@@ -196,7 +200,7 @@ export default function EventsPage() {
                                     <S.EventMeta>
                                         <S.MetaItem>
                                             <Calendar size={16} />
-                                            {event.date} at {event.time}
+                                            {formatDate(event.date)} at {event.time}
                                         </S.MetaItem>
                                         <S.MetaItem>
                                             <MapPin size={16} />

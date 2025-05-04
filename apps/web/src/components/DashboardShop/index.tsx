@@ -455,7 +455,7 @@ export default function ShopPage() {
                                                 </S.RatingStars>
                                             </S.ProductRating>
                                             <S.ProductPricing>
-                                                <S.ProductPrice>${product.price}</S.ProductPrice>
+                                                <S.ProductPrice>${product.price}.00</S.ProductPrice>
                                                 {product.oldPrice && (
                                                     <>
                                                         <S.ProductOldPrice>${product.oldPrice}</S.ProductOldPrice>
