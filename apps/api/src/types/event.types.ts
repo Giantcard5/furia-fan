@@ -9,7 +9,7 @@ export interface Event {
     location: string;
     image: string;
     attendees: number;
-    game: string | null;
+    game: string;
     createdAt: string;
     updatedAt: string;
 }

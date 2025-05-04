@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./node_modules/@prisma/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://furia:furia123@localhost:3306/furia_fan"
+}
+
+model Event {
+  id         Int      @id @default(autoincrement())
+  title      String
+  type       String
+  date       DateTime
+  time       String
+  location   String
+  image      String?
+  attendees  Int
+  game       String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Game {
+  id          Int     @id @default(autoincrement())
+  name        String
+  image       String
+  description String
+  teams       Int
+  players     Int
+  tournaments Int
+}
+
+model Shop {
+  id           Int     @id @default(autoincrement())
+  title        String
+  category     String
+  price        Decimal @db.Decimal(10, 2)
+  oldPrice     Decimal? @db.Decimal(10, 2)
+  discount     Int?
+  rating       Decimal? @db.Decimal(3, 2)
+  ratingCount  Int?
+  image        String
+  tag          String?
+  availability String
+  productLink  String
+}
+
+model Team {
+  id          Int       @id @default(autoincrement())
+  name        String
+  image       String
+  description String
+  players     Player[]
+  stats       Stat[]
+}
+
+model Player {
+  id      Int    @id @default(autoincrement())
+  name    String
+  role    String
+  image   String
+  teamId  Int
+  team    Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+}
+
+model Stat {
+  id      Int    @id @default(autoincrement())
+  value   Int
+  label   String
+  teamId  Int
+  team    Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+}

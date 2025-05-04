@@ -34,7 +34,7 @@
     "location": "Rio de Janeiro, Brazil",
     "image": "",
     "attendees": 89,
-    "game": null,
+    "game": "",
     "createdAt": "2023-11-15T10:30:00.000Z",
     "updatedAt": "2023-11-15T10:30:00.000Z"
   },
@@ -73,7 +73,7 @@
     "location": "São Paulo, Brazil",
     "image": "",
     "attendees": 65,
-    "game": null,
+    "game": "",
     "createdAt": "2023-11-15T10:30:00.000Z",
     "updatedAt": "2023-11-15T10:30:00.000Z"
   }

@@ -1,48 +1,20 @@
-import fs from 'fs';
-import path from 'path';
+import { PrismaClient } from '@prisma/client';
 
-import { Event } from '../types/event.types';
+const prisma = new PrismaClient();
 
-export class EventService {
-    private readonly dataFilePath: string;
-    private events: Event[];
+export const getAllEvents = async () => {
+    return await prisma.event.findMany();
+};
 
-    constructor() {
-        this.dataFilePath = path.join(__dirname, '../../data/events.json');
-        this.events = this.loadEvents();
-    }
+export const getEventById = async (id: number) => {
+    return await prisma.event.findUnique({
+        where: { id },
+    });
+};
 
-    private loadEvents(): Event[] {
-        try {
-            if (fs.existsSync(this.dataFilePath)) {
-                const data = fs.readFileSync(this.dataFilePath, 'utf-8');
-                return JSON.parse(data);
-            } else {
-                console.error('Events data file not found:', this.dataFilePath);
-                return [];
-            }
-        } catch (error) {
-            console.error('Error loading events:', error);
-            return [];
-        }
-    }
-
-    async getAllEvents(): Promise<Event[]> {
-        return this.events;
-    }
-
-    async getEventById(id: number): Promise<Event | null> {
-        return this.events.find(event => event.id === id) || null;
-    }
-
-    async getNextEvents(): Promise<Event[]> {
-        const now = new Date();
-        return this.events
-            .filter(event => {
-                const eventDate = new Date(event.date);
-                return eventDate > now;
-            })
-            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-            .slice(0, 3);
-    }
-} 
+export const getNextEvents = async () => {
+    const now = new Date();
+    return await prisma.event.findMany({
+        where: { date: { gt: now } },
+    });
+};
