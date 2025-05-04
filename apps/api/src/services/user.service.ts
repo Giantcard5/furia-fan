@@ -23,23 +23,45 @@ export const getUserByCpf = async (cpf: string) => {
 export const createUser = async (data: any) => {
     return await prisma.user.create({
         data: {
-            ...data,
+            fullName: data.fullName,
+            username: data.username,
+            email: data.email,
+            cpf: data.cpf,
+            phoneNumber: data.phoneNumber,
+            birthDate: data.birthDate,
+            address: data.address,
+            city: data.city,
+            state: data.state,
+            zipCode: data.zipCode,
+            password: data.password,
+            profileImage: data.profileImage || null,
+            platform: data.gamingPreferences?.platform || '',
+            playFrequency: data.gamingPreferences?.playFrequency || '',
+
             settings: {
-                create: data.settings
+                create: {
+                    language: 'pt-BR',
+                    emailNotifications: true,
+                    pushNotifications: true,
+                    marketingEmails: true,
+                    eventReminders: true
+                }
             },
+
             games: {
-                create: data.games?.map((g: string) => ({ name: g }))
+                create: data.gamingPreferences?.games?.map((g: string) => ({ name: g })) || []
             },
             events: {
-                create: data.events?.map((e: string) => ({ name: e }))
+                create: data.gamingPreferences?.events?.map((e: string) => ({ name: e })) || []
             },
             purchases: {
-                create: data.purchases?.map((p: string) => ({ name: p }))
+                create: data.gamingPreferences?.purchases?.map((p: string) => ({ name: p })) || []
             },
+
             documents: {
                 create: {
-                    idDocument: data.documents?.idDocument?.file || '',
-                    selfieWithId: data.documents?.selfieWithId?.file || ''
+                    idDocument: typeof data.documents?.idDocument?.file === 'string' ? data.documents.idDocument.file : '',
+                    selfieWithId: typeof data.documents?.selfieWithId?.file === 'string' ? data.documents.selfieWithId.file : ''
                 }
             },
         },
