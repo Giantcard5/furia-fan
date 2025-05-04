@@ -2,7 +2,7 @@ import { Event } from '@/types/event';
 import { Game } from '@/types/game';
 import { Team } from '@/types/team';
 import { Product } from '@/types/products';
-import { OnboardingFormData, ProfileOverview, UserSettings } from '@/types/onboarding';
+import { OnboardingFormData, OnboardingFormDataDashboardProfile, ProfileOverview, UserSettings } from '@/types/onboarding';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
@@ -74,7 +74,7 @@ export const apiService = {
         return fetchApi<ProfileOverview>(`/users/${cpf}/profile-overview`);
     },
     getUserProfile: async (cpf: string) => {
-        return fetchApi<OnboardingFormData>(`/users/${cpf}`);
+        return fetchApi<OnboardingFormDataDashboardProfile>(`/users/${cpf}`);
     },
     getUserSettings: async (cpf: string) => {
         return fetchApi<UserSettings>(`/users/${cpf}/settings`);

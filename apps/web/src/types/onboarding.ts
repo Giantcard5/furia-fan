@@ -40,6 +40,36 @@ export interface OnboardingFormData {
     socialMedia: Record<string, any>;
 };
 
+export type OnboardingFormDataDashboardProfile = {
+    id: number;
+    cpf: string;
+    email: string;
+    fullName: string;
+    username: string;
+    password: string;
+    address: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    phoneNumber: string;
+    birthDate: string;
+    profileImage: string;
+    platform: string;
+    playFrequency: string;
+    games: Array<{
+        id: number;
+        name: string;
+        userId: number;
+    }>;
+    socialMedia: {
+        id: number;
+        twitch?: string;
+        discord?: string;
+        HLTV?: string;
+        userId: number;
+    };
+};
+
 export interface ProfileOverview {
     profileImage: string | null;
     email: string;

@@ -7,29 +7,15 @@ import {
 
 const prisma = new PrismaClient();
 
-export const getAllUsers = async () => {
-    return await prisma.user.findMany({
-        include: {
-            settings: true,
-            games: true,
-            events: true,
-            purchases: true,
-            documents: true,
-            socialMedia: true,
-        }
-    });
-};
-
 export const getUserByCpf = async (cpf: string) => {
     return await prisma.user.findUnique({
         where: { cpf },
         include: {
-            settings: true,
-            games: true,
             events: true,
             purchases: true,
-            documents: true,
+            games: true,
             socialMedia: true,
+            documents: true,
         }
     });
 };

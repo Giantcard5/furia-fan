@@ -18,8 +18,6 @@ import {
 
 import DashboardLayout from '@/components/DashboardLayout';
 
-import Progress from '@/components/UI/progress';
-
 import * as S from './styles';
 
 import {
@@ -27,7 +25,7 @@ import {
 } from '@/lib/api-service';
 
 import {
-    OnboardingFormData
+    OnboardingFormDataDashboardProfile
 } from '@/types/onboarding';
 
 import {
@@ -38,47 +36,7 @@ export default function ProfilePage() {
     const { getCPF } = useAuth();
 
     const [activeTab, setActiveTab] = useState('activity');
-    const [profile, setProfile] = useState<OnboardingFormData>({
-        personalInfo: {
-            cpf: '',
-            email: '',
-            fullName: '',
-            username: '',
-            phoneNumber: '',
-            password: '',
-            passwordVerify: '',
-            address: '',
-            city: '',
-            state: '',
-            zipCode: '',
-            birthDate: '',
-            profileImage: '',
-        },
-        gamingPreferences: {
-            games: [],
-            events: [],
-            purchases: [],
-            platform: '',
-            playFrequency: '',
-        },
-        documents: {
-            idDocument: {
-                file: {
-                    lastModified: 0,
-                    lastModifiedDate: '',
-                    name: '',
-                    size: 0,
-                    type: '',
-                },
-                preview: '',
-            },
-            selfieWithId: {
-                file: '',
-                preview: '',
-            },
-        },
-        socialMedia: {},
-    } as OnboardingFormData);
+    const [profile, setProfile] = useState<OnboardingFormDataDashboardProfile>();
     const [loading, setLoading] = useState(false);
 
     const fetchProfile = async () => {
@@ -96,7 +54,9 @@ export default function ProfilePage() {
                 throw new Error(response.error);
             };
 
-            setProfile(response.data);
+            if (response.data) {
+                setProfile(response.data);
+            };
         } catch (err) {
             console.error('Error fetching profile overview:', err);
         } finally {
@@ -107,7 +67,7 @@ export default function ProfilePage() {
     useEffect(() => {
         fetchProfile();
     }, []);
-
+    
     const user = {
         stats: [
             { value: 42, label: 'Posts' },
@@ -178,38 +138,38 @@ export default function ProfilePage() {
         socialConnections: [
             {
                 name: 'Twitter',
-                username: profile.socialMedia.twitter?.username,
+                username: profile?.socialMedia?.twitch || '',
                 icon: 'T',
                 color: '#1DA1F2',
-                connected: !!profile.socialMedia.twitter?.username,
+                connected: !!profile?.socialMedia?.twitch,
             },
             {
                 name: 'Twitch',
-                username: profile.socialMedia.twitch?.username,
+                username: profile?.socialMedia?.twitch || '',
                 icon: 'T',
                 color: '#6441A4',
-                connected: !!profile.socialMedia.twitch?.username,
+                connected: !!profile?.socialMedia?.twitch,
             },
             {
                 name: 'Discord',
-                username: profile.socialMedia.discord?.username,
+                username: profile?.socialMedia?.discord || '',
                 icon: 'D',
                 color: '#5865F2',
-                connected: !!profile.socialMedia.discord?.username,
+                connected: !!profile?.socialMedia?.discord,
             },
             {
                 name: 'FACEIT',
-                username: profile.socialMedia.faceit?.username,
+                username: profile?.socialMedia?.HLTV || '',
                 icon: 'F',
                 color: '#FF5500',
-                connected: !!profile.socialMedia.faceit?.username,
+                connected: !!profile?.socialMedia?.HLTV,
             },
             {
                 name: 'HLTV',
-                username: profile.socialMedia.HLTV?.username,
+                username: profile?.socialMedia?.HLTV || '',
                 icon: 'H',
                 color: '#333333',
-                connected: !!profile.socialMedia.HLTV?.username,
+                connected: !!profile?.socialMedia?.HLTV,
             },
         ],
     };
@@ -234,8 +194,8 @@ export default function ProfilePage() {
                                         <Edit size={16} />
                                     </S.EditAvatarButton>
                                 </S.UserAvatar>
-                                <S.UserName>{profile.personalInfo.fullName}</S.UserName>
-                                <S.UserTag>{profile.personalInfo.email}</S.UserTag>
+                                <S.UserName>{profile?.fullName || 'Loading...'}</S.UserName>
+                                <S.UserTag>{profile?.email || 'Loading...'}</S.UserTag>
                                 <S.UserStats>
                                     {user.stats.map((stat, index) => (
                                         <S.StatItem key={index}>
@@ -258,41 +218,33 @@ export default function ProfilePage() {
                         </S.ProfileHeader>
                         <S.ProfileContent>
                             <S.BadgeGrid>
-                                {profile.gamingPreferences.games.map((game, index) => (
+                                {profile?.games?.map((game, index) => (
                                     <S.BadgeItem key={index}>
                                         <S.BadgeIcon>
                                             <Star size={24} />
                                         </S.BadgeIcon>
-                                        <S.BadgeName>{game}</S.BadgeName>
+                                        <S.BadgeName>{game.name}</S.BadgeName>
                                         <S.BadgeDescription>Gaming Preferences</S.BadgeDescription>
                                     </S.BadgeItem>
                                 ))}
-                                {profile.gamingPreferences.platform && 
+                                {profile?.platform && 
                                     <S.BadgeItem>
                                         <S.BadgeIcon>
                                             <Trophy size={24} />
                                         </S.BadgeIcon>
-                                        <S.BadgeName>{profile.gamingPreferences.platform}</S.BadgeName>
+                                        <S.BadgeName>{profile.platform}</S.BadgeName>
                                         <S.BadgeDescription>Gaming Platform Preference</S.BadgeDescription>
                                     </S.BadgeItem>
                                 }
-                                {profile.gamingPreferences.playFrequency &&
+                                {profile?.playFrequency &&
                                     <S.BadgeItem>
                                         <S.BadgeIcon>
                                             <Calendar size={24} />
                                         </S.BadgeIcon>
-                                        <S.BadgeName>{profile.gamingPreferences.playFrequency}</S.BadgeName>
+                                        <S.BadgeName>{profile.playFrequency}</S.BadgeName>
                                         <S.BadgeDescription>Play Frequency</S.BadgeDescription>
                                     </S.BadgeItem>
                                 }
-
-                                {/* {user.badges.map((badge, index) => (
-                                    <S.BadgeItem key={index}>
-                                        <S.BadgeIcon >{badge.icon}</S.BadgeIcon>
-                                        <S.BadgeName $unlocked={badge.unlocked}>{badge.name}</S.BadgeName>
-                                        <S.BadgeDescription $unlocked={badge.unlocked}>{badge.description}</S.BadgeDescription>
-                                    </S.BadgeItem>
-                                ))} */}
                             </S.BadgeGrid>
                         </S.ProfileContent>
                     </S.ProfileCard>
