@@ -1,4 +1,4 @@
-export interface OnboardingFormData {
+export interface UserRegistration { // OnboardingFormData
     personalInfo: {
         cpf: string;
         email: string;
@@ -31,16 +31,16 @@ export interface OnboardingFormData {
                 type: string;
             };
             preview: string;
-        } | null;
+        };
         selfieWithId: {
             file: string;
             preview: string;
-        } | null;
+        };
     };
-    socialMedia: Record<string, any>;
+    socialMedia: SocialMedia;
 };
 
-export type OnboardingFormDataDashboardProfile = {
+export interface UserDashboardProfile { // OnboardingFormDataDashboardProfile
     id: number;
     cpf: string;
     email: string;
@@ -68,9 +68,9 @@ export type OnboardingFormDataDashboardProfile = {
         HLTV?: string;
         userId: number;
     };
-};
+}
 
-export interface ProfileOverview {
+export interface UserOverview {
     profileImage: string | null;
     email: string;
     fullName: string;
@@ -91,10 +91,10 @@ export interface SocialMedia {
     faceit?: {
         username: string;
     };
-    HLTV?: {
+    hltv?: {
         username: string;
     };
-};
+}
 
 export interface UserSettings {
     fullName: string;

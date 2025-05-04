@@ -13,10 +13,10 @@ import Progress from '@/components/UI/progress';
 import * as S from './styles';
 
 import {
-    ProfileOverview as ProfileOverviewType
-} from '@/types/onboarding';
+    UserOverview
+} from '@furiafan/types';
 
-export default function ProfileOverview({ profile, loading }: { profile: ProfileOverviewType, loading: boolean }) {
+export default function ProfileOverview({ profile, loading }: { profile: UserOverview, loading: boolean }) {
     return (
         <S.ProfileCard>
             <S.ProfileHeader>

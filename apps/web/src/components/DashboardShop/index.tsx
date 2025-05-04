@@ -26,9 +26,16 @@ import {
     currencySchema
 } from '@/utils/formatters';
 
-import { apiService } from '@/lib/api-service';
-import { Product } from '@/types/products';
-import { cacheService } from '@/lib/cache-service';
+import { 
+    apiService 
+} from '@/lib/api-service';
+import { 
+    cacheService 
+} from '@/lib/cache-service';
+
+import { 
+    Product 
+} from '@furiafan/types';
 
 export default function ShopPage() {
     const router = useRouter();

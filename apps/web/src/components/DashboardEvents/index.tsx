@@ -26,7 +26,7 @@ import {
 
 import { 
     Event 
-} from '@/types/event';
+} from '@furiafan/types';
 
 import { 
     formatDate 

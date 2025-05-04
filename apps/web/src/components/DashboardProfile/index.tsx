@@ -25,8 +25,8 @@ import {
 } from '@/lib/api-service';
 
 import {
-    OnboardingFormDataDashboardProfile
-} from '@/types/onboarding';
+    UserDashboardProfile
+} from '@furiafan/types';
 
 import {
     useAuth
@@ -36,7 +36,7 @@ export default function ProfilePage() {
     const { getCPF } = useAuth();
 
     const [activeTab, setActiveTab] = useState('activity');
-    const [profile, setProfile] = useState<OnboardingFormDataDashboardProfile>();
+    const [profile, setProfile] = useState<UserDashboardProfile>();
     const [loading, setLoading] = useState(false);
 
     const fetchProfile = async () => {

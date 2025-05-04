@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import {
     UserOverview,
     UserSettings
-} from '../types/user.types';
+} from '@furiafan/types';
 
 const prisma = new PrismaClient();
 

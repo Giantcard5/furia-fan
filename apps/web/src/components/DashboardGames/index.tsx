@@ -19,7 +19,7 @@ import {
 
 import { 
     Game 
-} from '@/types/game';
+} from '@furiafan/types';
 
 export default function GamesPage() {
     const [loading, setLoading] = useState(true);

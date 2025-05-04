@@ -9,7 +9,7 @@ import {
 
 import {
     SocialMedia
-} from '@/types/onboarding';
+} from '@furiafan/types';
 
 import { 
     apiService 

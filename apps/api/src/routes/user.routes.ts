@@ -14,7 +14,7 @@ import {
 
 import { 
     UserRegistration 
-} from '../types/user.types';
+} from '@furiafan/types';
 
 const router = Router();
 

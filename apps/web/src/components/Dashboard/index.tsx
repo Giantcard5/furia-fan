@@ -19,11 +19,9 @@ import {
 } from '@/lib/api-service';
 
 import {
-    ProfileOverview as ProfileOverviewType
-} from '@/types/onboarding';
-import {
+    UserOverview,
     Event
-} from '@/types/event';
+} from '@furiafan/types';
 
 import {
     useAuth
@@ -32,13 +30,13 @@ import {
 export default function Dashboard() {
     const { getCPF } = useAuth();
 
-    const [profile, setProfile] = useState<ProfileOverviewType>({
+    const [profile, setProfile] = useState<UserOverview>({
         profileImage: null,
         email: '',
         fullName: '',
         games: [],
         socialMedia: {}
-    } as ProfileOverviewType);
+    } as UserOverview);
     const [loadingProfile, setLoadingProfile] = useState(false);
     const [events, setEvents] = useState<Event[]>([]);
     const [loadingEvents, setLoadingEvents] = useState(false);

@@ -20,7 +20,7 @@ import {
 
 import { 
     Team 
-} from '@/types/team';
+} from '@furiafan/types';
 
 export default function TeamsPage() {
     const [loading, setLoading] = useState(true);

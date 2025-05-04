@@ -32,13 +32,13 @@ import {
 } from '@/hooks/useAuth';
 
 import {
-    OnboardingFormData
-} from '@/types/onboarding';
+    UserRegistration
+} from '@furiafan/types';
 
 import { apiService } from '@/lib/api-service';
 
 interface CompletionSummaryProps {
-    formData: OnboardingFormData;
+    formData: UserRegistration;
     onBack: () => void;
 };
 
