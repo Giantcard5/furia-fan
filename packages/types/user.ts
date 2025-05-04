@@ -23,21 +23,15 @@ export interface UserRegistration { // OnboardingFormData
     };
     documents: {
         idDocument: {
-            file: {
-                lastModified: number;
-                lastModifiedDate: string;
-                name: string;
-                size: number;
-                type: string;
-            };
+            file: string;
             preview: string;
-        };
+        } | null;
         selfieWithId: {
             file: string;
             preview: string;
-        };
+        } | null;
     };
-    socialMedia: SocialMedia;
+    socialMedia?: SocialMedia;
 };
 
 export interface UserDashboardProfile { // OnboardingFormDataDashboardProfile

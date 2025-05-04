@@ -15,8 +15,7 @@ export default function OnboardingHeader({ currentStep }: OnboardingHeaderProps)
         { label: 'Personal Info', step: 1 },
         { label: 'Gaming Preferences', step: 2 },
         { label: 'Document Upload', step: 3 },
-        { label: 'Social Media', step: 4 },
-        { label: 'Completion', step: 5 },
+        { label: 'Completion', step: 4 },
     ];
 
     const progressValue = ((currentStep - 1) / (steps.length - 1)) * 100;
@@ -25,11 +24,11 @@ export default function OnboardingHeader({ currentStep }: OnboardingHeaderProps)
         <S.Header>
             <S.Logo>
                 <Link href='/'>
-                    <Image 
-                        src='/icon-text-white.svg' 
-                        alt='logo' 
-                        width={140} 
-                        height={80} 
+                    <Image
+                        src='/icon-text-white.svg'
+                        alt='logo'
+                        width={140}
+                        height={80}
                     />
                 </Link>
             </S.Logo>

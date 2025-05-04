@@ -24,14 +24,26 @@ import Button from '@/components/UI/button';
 
 import * as S from './styles';
 
+interface Document {
+    file: string;
+    preview: string;
+    fileName: string;
+    fileType: string;
+}
+
+interface Documents {
+    idDocument: Document | null;
+    selfieWithId: Document | null;
+}
+
 interface DocumentUploadFormProps {
-    initialData: any;
-    onNext: (data: any) => void;
+    initialData: Documents;
+    onNext: (data: Documents) => void;
     onBack: () => void;
 };
 
 export default function DocumentUploadForm({ initialData, onNext, onBack }: DocumentUploadFormProps) {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<Documents>({
         idDocument: initialData.idDocument || null,
         selfieWithId: initialData.selfieWithId || null,
     });
@@ -90,11 +102,14 @@ export default function DocumentUploadForm({ initialData, onNext, onBack }: Docu
 
         const reader = new FileReader();
         reader.onloadend = () => {
+            const result = reader.result as string;
             setFormData((prev) => ({
                 ...prev,
                 [type]: {
-                    file,
-                    preview: reader.result as string,
+                    file: result,
+                    preview: result,
+                    fileName: file.name,
+                    fileType: file.type
                 },
             }));
         };
@@ -167,8 +182,8 @@ export default function DocumentUploadForm({ initialData, onNext, onBack }: Docu
                                 {formData.idDocument ? (
                                     <>
                                         <S.UploadTitle>ID Document Uploaded</S.UploadTitle>
-                                        <S.FileInfo>{formData.idDocument.file.name}</S.FileInfo>
-                                        {formData.idDocument.file.type.startsWith('image/') && (
+                                        <S.FileInfo>{formData.idDocument.fileName}</S.FileInfo>
+                                        {formData.idDocument.fileType.startsWith('image/') && (
                                             <S.FilePreview>
                                                 <img src={formData.idDocument.preview || '/placeholder.svg'} alt='ID Document Preview' />
                                             </S.FilePreview>
@@ -222,49 +237,36 @@ export default function DocumentUploadForm({ initialData, onNext, onBack }: Docu
                                 {formData.selfieWithId ? (
                                     <>
                                         <S.UploadTitle>Selfie Uploaded</S.UploadTitle>
-                                        <S.FileInfo>{formData.selfieWithId.file.name}</S.FileInfo>
+                                        <S.FileInfo>{formData.selfieWithId.fileName}</S.FileInfo>
                                         <S.FilePreview>
                                             <img src={formData.selfieWithId.preview || '/placeholder.svg'} alt='Selfie Preview' />
                                         </S.FilePreview>
+                                        <S.ValidationStatus>
+                                            <S.ValidationIcon $isValid={true}>
+                                                <CheckCircle size={16} />
+                                            </S.ValidationIcon>
+                                            <S.ValidationText $isValid={true}>Selfie enviada com sucesso</S.ValidationText>
+                                        </S.ValidationStatus>
                                     </>
                                 ) : (
                                     <>
                                         {errors.selfieWithId && attemptedSubmit && <S.RequiredBadge>Obrigatório</S.RequiredBadge>}
-
-                                        {formData.selfieWithId ? (
-                                            <>
-                                                <S.UploadTitle>Selfie Enviada</S.UploadTitle>
-                                                <S.FileInfo>{formData.selfieWithId.file.name}</S.FileInfo>
-                                                <S.FilePreview>
-                                                    <img src={formData.selfieWithId.preview || '/placeholder.svg'} alt='Selfie Preview' />
-                                                </S.FilePreview>
-                                                <S.ValidationStatus>
-                                                    <S.ValidationIcon $isValid={true}>
-                                                        <CheckCircle size={16} />
-                                                    </S.ValidationIcon>
-                                                    <S.ValidationText $isValid={true}>Selfie enviada com sucesso</S.ValidationText>
-                                                </S.ValidationStatus>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <S.UploadIcon $hasError={errors.idDocument && attemptedSubmit}>
-                                                    {errors.idDocument && attemptedSubmit ? <AlertCircle size={24} /> : <Upload size={24} />}
-                                                </S.UploadIcon>
-                                                <S.UploadTitle $hasError={errors.idDocument && attemptedSubmit}>
-                                                    Selfie com o Documento
-                                                </S.UploadTitle>
-                                                <S.UploadDescription>
-                                                    Arraste e solte o arquivo aqui
-                                                    <br />
-                                                    ou procure nos seus arquivos
-                                                </S.UploadDescription>
-                                                <S.FileInfo>
-                                                    Formatos aceitos: image/png, image/jpeg
-                                                    <br />
-                                                    Tamanho máximo: 5MB
-                                                </S.FileInfo>
-                                            </>
-                                        )}
+                                        <S.UploadIcon $hasError={errors.selfieWithId && attemptedSubmit}>
+                                            {errors.selfieWithId && attemptedSubmit ? <AlertCircle size={24} /> : <Upload size={24} />}
+                                        </S.UploadIcon>
+                                        <S.UploadTitle $hasError={errors.selfieWithId && attemptedSubmit}>
+                                            Selfie com Documento
+                                        </S.UploadTitle>
+                                        <S.UploadDescription>
+                                            Arraste e solte o arquivo aqui
+                                            <br />
+                                            ou procure nos seus arquivos
+                                        </S.UploadDescription>
+                                        <S.FileInfo>
+                                            Formatos aceitos: image/png, image/jpeg
+                                            <br />
+                                            Tamanho máximo: 5MB
+                                        </S.FileInfo>
                                     </>
                                 )}
                                 <S.HiddenInput

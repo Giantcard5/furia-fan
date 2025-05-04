@@ -42,13 +42,6 @@ export const createUser = async (data: any) => {
                     selfieWithId: data.documents?.selfieWithId?.file || ''
                 }
             },
-            socialMedia: {
-                create: {
-                    twitch: data.socialMedia?.twitch?.username || null,
-                    discord: data.socialMedia?.discord?.username || null,
-                    HLTV: data.socialMedia?.HLTV?.username || null,
-                }
-            }
         },
         include: {
             settings: true,

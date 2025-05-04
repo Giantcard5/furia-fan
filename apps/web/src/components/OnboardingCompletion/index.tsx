@@ -216,22 +216,6 @@ export default function CompletionSummary({ formData, onBack }: CompletionSummar
                             </S.StatusBadge>
                         </S.SummaryContent>
                     </S.SummaryItem>
-
-                    <S.SummaryItem>
-                        <S.SummaryHeader>
-                            <S.SummaryIcon>
-                                <Share2 size={20} />
-                            </S.SummaryIcon>
-                            <S.SummaryTitle>Social Media</S.SummaryTitle>
-                        </S.SummaryHeader>
-                        <S.SummaryContent>
-                            {Object.keys(formData.socialMedia).length || 0} accounts connected
-                            <br />
-                            <S.StatusBadge status={Object.keys(formData.socialMedia).length > 0 ? 'connected' : 'not-connected'}>
-                                <CheckCircle size={12} /> {Object.keys(formData.socialMedia).length > 0 ? 'Connected' : 'No accounts connected'}
-                            </S.StatusBadge>
-                        </S.SummaryContent>
-                    </S.SummaryItem>
                 </S.SummaryGrid>
 
                 {isVerifying && (
