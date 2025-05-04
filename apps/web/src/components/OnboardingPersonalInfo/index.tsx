@@ -71,7 +71,11 @@ export default function PersonalInfoForm({ initialData, onNext }: PersonalInfoFo
                 formattedValue = formatCPF(value);
                 break;
             case 'birthDate':
-                formattedValue = formatBirthDate(value);
+                const [day, month, year] = value.replace(/\D/g, '').match(/(\d{2})(\d{2})(\d{4})/)?.slice(1) || [];
+                if (year && month && day) {
+                    const date = new Date(`${year}-${month}-${day}`);
+                    formattedValue = date.toISOString();
+                }
                 break;
             case 'zipCode':
                 formattedValue = formatZipCode(value);

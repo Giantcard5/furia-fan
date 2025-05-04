@@ -75,7 +75,7 @@ export const personalInfoSchema = z.object({
     fullName: z.string().min(1, 'Full name is required'),
     email: z.string().email('Invalid email format'),
     cpf: cpfSchema,
-    birthDate: birthDateSchema,
+    birthDate: z.string().min(1, 'Birth date is required'),
     address: z.string().min(1, 'Address is required'),
     city: z.string().min(1, 'City is required'),
     state: z.string().min(1, 'State is required'),

@@ -25,10 +25,14 @@ export interface UserRegistration { // OnboardingFormData
         idDocument: {
             file: string;
             preview: string;
+            fileName: string;
+            fileType: string;
         } | null;
         selfieWithId: {
             file: string;
             preview: string;
+            fileName: string;
+            fileType: string;
         } | null;
     };
     socialMedia?: SocialMedia;
