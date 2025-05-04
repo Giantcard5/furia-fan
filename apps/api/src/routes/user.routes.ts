@@ -1,14 +1,28 @@
-import { Router, Request, Response } from 'express';
-import { UserService } from '../services/user.service';
-import { UserRegistration } from '../types/user.types';
+import {
+    Router
+} from 'express';
+
+import {
+    getUserByCpf,
+    createUser,
+    loginUser,
+    getUserSocialConnections,
+    getUserProfileOverview,
+    updateUserSettings,
+    getUserSettings
+} from '../services/user.service';
+
+import { 
+    UserRegistration 
+} from '../types/user.types';
 
 const router = Router();
-const userService = new UserService();
 
-router.post('/register', async (req: Request, res: Response) => {
+router.post('/register', async (req, res) => {
     try {
         const userData: UserRegistration = req.body;
-        const newUser = await userService.registerUser(userData);
+        const newUser = await createUser(userData);
+
         res.status(201).json(newUser);
     } catch (error) {
         if (error instanceof Error) {
@@ -19,22 +33,22 @@ router.post('/register', async (req: Request, res: Response) => {
     }
 });
 
-router.post('/login', async (req: Request, res: Response) => {
+router.post('/login', async (req, res) => {
     try {
         const { cpf, password } = req.body;
         if (!cpf || !password) {
             return res.status(400).json({ error: 'CPF and password are required' });
         }
-        const isValid = await userService.loginUser(cpf, password);
+        const isValid = await loginUser(cpf, password);
         res.json({ success: isValid });
     } catch (error) {
         res.status(500).json({ error: 'Failed to login' });
     }
 });
 
-router.get('/:cpf', async (req: Request, res: Response) => {
+router.get('/:cpf', async (req, res) => {
     try {
-        const user = await userService.getUserByCpf(req.params.cpf);
+        const user = await getUserByCpf(req.params.cpf);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
@@ -44,9 +58,9 @@ router.get('/:cpf', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/:cpf/social', async (req: Request, res: Response) => {
+router.get('/:cpf/social', async (req, res) => {
     try {
-        const socialConnections = await userService.getUserSocialConnections(req.params.cpf);
+        const socialConnections = await getUserSocialConnections(req.params.cpf);
         if (socialConnections === null) {
             return res.status(404).json({ error: 'User not found' });
         }
@@ -56,32 +70,33 @@ router.get('/:cpf/social', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/:cpf/profile-overview', async (req: Request, res: Response) => {
+router.get('/:cpf/profile-overview', async (req, res) => {
     try {
-        const profileOverview = await userService.getUserProfileOverview(req.params.cpf);
-        if (profileOverview === null) {
+        const socialConnections = await getUserProfileOverview(req.params.cpf);
+        if (socialConnections === null) {
             return res.status(404).json({ error: 'User not found' });
         }
-        res.json(profileOverview);
+        res.json(socialConnections);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch user social connections' });
+    }
+});
+
+router.get('/:cpf/settings', async (req, res) => {
+    try {
+        const userSettings = await getUserSettings(req.params.cpf);
+
+        res.json(userSettings);
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch user profile overview' });
     }
 });
 
-router.get('/:cpf/settings', async (req: Request, res: Response) => {
+router.put('/:cpf/settings', async (req, res) => {
     try {
-        const userSettings = await userService.getUserSettings(req.params.cpf);
-        res.json(userSettings);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch user settings' });
-    }
-});
-
-router.put('/:cpf/settings', async (req: Request, res: Response) => {
-    try {
-        const updatedSettings = await userService.updateUserSettings(req.params.cpf, req.body);
+        const updatedSettings = await updateUserSettings(req.params.cpf, req.body);
         if (!updatedSettings) {
-            return res.status(404).json({ error: 'User settings not found' });
+            return res.status(404).json({ error: 'User not found' });
         }
         res.json(updatedSettings);
     } catch (error) {
@@ -89,4 +104,4 @@ router.put('/:cpf/settings', async (req: Request, res: Response) => {
     }
 });
 
-export const userRouter = router; 
+export const userRouter = router;

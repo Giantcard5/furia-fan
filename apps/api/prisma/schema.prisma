@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "./node_modules/@prisma/client"
+  output   = "../node_modules/@prisma/client"
 }
 
 datasource db {
@@ -77,4 +77,79 @@ model Stat {
   label   String
   teamId  Int
   team    Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id             Int            @id @default(autoincrement())
+  cpf            String         @unique
+  email          String         @unique
+  fullName       String
+  username       String         @unique
+  password       String
+  address        String
+  city           String
+  state          String
+  zipCode        String
+  phoneNumber    String
+  birthDate      DateTime
+  profileImage   String?
+  platform       String
+  playFrequency  String
+
+  settings       UserSettings?
+  games          GamePreference[]
+  events         EventPreference[]
+  purchases      Purchase[]
+  documents      Document?
+  socialMedia    SocialMedia?
+}
+
+model UserSettings {
+  id               Int     @id @default(autoincrement())
+  cpf              String  @unique
+  language         String
+  emailNotifications Boolean
+  pushNotifications Boolean
+  marketingEmails   Boolean
+  eventReminders    Boolean
+
+  user             User   @relation(fields: [cpf], references: [cpf], onDelete: Cascade)
+}
+
+model GamePreference {
+  id      Int    @id @default(autoincrement())
+  name    String
+  userId  Int
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model EventPreference {
+  id      Int    @id @default(autoincrement())
+  name    String
+  userId  Int
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Purchase {
+  id      Int    @id @default(autoincrement())
+  name    String
+  userId  Int
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Document {
+  id             Int    @id @default(autoincrement())
+  idDocument     String
+  selfieWithId   String
+  userId         Int    @unique
+  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SocialMedia {
+  id        Int    @id @default(autoincrement())
+  twitch    String?
+  discord   String?
+  HLTV      String?
+  userId    Int    @unique
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

@@ -1,203 +1,182 @@
-import fs from 'fs';
-import path from 'path';
+import { PrismaClient } from '@prisma/client';
 
-import { 
-    UserOverview, 
-    UserRegistration, 
+import {
+    UserOverview,
     UserSettings
 } from '../types/user.types';
 
-export class UserService {
-    private readonly dataFilePath: string;
-    private readonly settingsFilePath: string;
-    constructor() {
-        this.dataFilePath = path.join(__dirname, '../../data/users.json');
-        this.settingsFilePath = path.join(__dirname, '../../data/usersSettings.json');
-        this.ensureDataFileExists();
-    }
+const prisma = new PrismaClient();
 
-    private ensureDataFileExists(): void {
-        const dataDir = path.dirname(this.dataFilePath);
-        const settingsDir = path.dirname(this.settingsFilePath);
-        if (!fs.existsSync(dataDir)) {
-            fs.mkdirSync(dataDir, { recursive: true });
+export const getAllUsers = async () => {
+    return await prisma.user.findMany({
+        include: {
+            settings: true,
+            games: true,
+            events: true,
+            purchases: true,
+            documents: true,
+            socialMedia: true,
         }
-        if (!fs.existsSync(this.dataFilePath)) {
-            fs.writeFileSync(this.dataFilePath, JSON.stringify([], null, 2));
+    });
+};
+
+export const getUserByCpf = async (cpf: string) => {
+    return await prisma.user.findUnique({
+        where: { cpf },
+        include: {
+            settings: true,
+            games: true,
+            events: true,
+            purchases: true,
+            documents: true,
+            socialMedia: true,
         }
-        if (!fs.existsSync(settingsDir)) {
-            fs.mkdirSync(settingsDir, { recursive: true });
+    });
+};
+
+export const createUser = async (data: any) => {
+    return await prisma.user.create({
+        data: {
+            ...data,
+            settings: {
+                create: data.settings
+            },
+            games: {
+                create: data.games?.map((g: string) => ({ name: g }))
+            },
+            events: {
+                create: data.events?.map((e: string) => ({ name: e }))
+            },
+            purchases: {
+                create: data.purchases?.map((p: string) => ({ name: p }))
+            },
+            documents: {
+                create: {
+                    idDocument: data.documents?.idDocument?.file || '',
+                    selfieWithId: data.documents?.selfieWithId?.file || ''
+                }
+            },
+            socialMedia: {
+                create: {
+                    twitch: data.socialMedia?.twitch?.username || null,
+                    discord: data.socialMedia?.discord?.username || null,
+                    HLTV: data.socialMedia?.HLTV?.username || null,
+                }
+            }
+        },
+        include: {
+            settings: true,
+            games: true,
+            events: true,
+            purchases: true,
+            documents: true,
+            socialMedia: true
         }
-        if (!fs.existsSync(this.settingsFilePath)) {
-            fs.writeFileSync(this.settingsFilePath, JSON.stringify([], null, 2));
-        }
-    }
+    });
+};
 
-    private readUsers(): UserRegistration[] {
-        const data = fs.readFileSync(this.dataFilePath, 'utf-8');
-        return JSON.parse(data);
-    }
+export const loginUser = async (cpf: string, password: string): Promise<boolean> => {
+    const user = await prisma.user.findUnique({ where: { cpf } });
+    return !!(user && user.password === password);
+};
 
-    private writeUsers(users: UserRegistration[]): void {
-        fs.writeFileSync(this.dataFilePath, JSON.stringify(users, null, 2));
-    }
+export const getUserSocialConnections = async (cpf: string): Promise<Record<string, string | undefined> | null> => {
+    const user = await prisma.user.findUnique({
+        where: { cpf },
+        include: { socialMedia: true },
+    });
+    if (!user || !user.socialMedia) return null;
 
-    private readSettings(): any[] {
-        const data = fs.readFileSync(this.settingsFilePath, 'utf-8');
-        return JSON.parse(data);
-    }
+    return {
+        twitch: user.socialMedia.twitch || undefined,
+        discord: user.socialMedia.discord || undefined,
+        HLTV: user.socialMedia.HLTV || undefined,
+    };
+};
 
-    private writeSettings(settings: any[]): void {
-        fs.writeFileSync(this.settingsFilePath, JSON.stringify(settings, null, 2));
-    }
+export const getUserProfileOverview = async (cpf: string): Promise<UserOverview | null> => {
+    const user = await prisma.user.findUnique({
+        where: { cpf },
+        include: {
+            socialMedia: true,
+            games: true,
+        },
+    });
 
-    async registerUser(userData: UserRegistration): Promise<UserRegistration> {
-        const users = this.readUsers();
+    if (!user) return null;
 
-        const existingUser = users.find(user => user.personalInfo.cpf === userData.personalInfo.cpf ||
-            user.personalInfo.email === userData.personalInfo.email);
+    const socialMedia: UserOverview['socialMedia'] = {};
+    if (user.socialMedia?.twitch) socialMedia.twitch = { username: user.socialMedia.twitch };
+    if (user.socialMedia?.discord) socialMedia.discord = { username: user.socialMedia.discord };
+    if (user.socialMedia?.HLTV) socialMedia.hltv = { username: user.socialMedia.HLTV };
 
-        if (existingUser) {
-            throw new Error('User with this CPF or email already exists');
-        }
+    return {
+        profileImage: user.profileImage,
+        email: user.email,
+        fullName: user.fullName,
+        games: user.games.map(g => g.name),
+        socialMedia,
+    };
+};
 
-        users.push(userData);
-        this.writeUsers(users);
+export const getUserSettings = async (cpf: string): Promise<UserSettings | null> => {
+    const user = await prisma.user.findUnique({
+        where: { cpf },
+        include: { settings: true }
+    });
 
+    if (!user || !user.settings) return null;
 
-        return userData;
-    }
+    return {
+        fullName: user.fullName,
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        phoneNumber: user.phoneNumber,
+        language: user.settings.language,
+        emailNotifications: user.settings.emailNotifications,
+        pushNotifications: user.settings.pushNotifications,
+        marketingEmails: user.settings.marketingEmails,
+        eventReminders: user.settings.eventReminders,
+    };
+};
 
+export const updateUserSettings = async (cpf: string, settings: Partial<UserSettings>) => {
+    const user = await prisma.user.findUnique({ where: { cpf } });
+    if (!user) return null;
 
-    async loginUser(cpf: string, password: string): Promise<boolean> {
-        const user = await this.getUserByCpf(cpf);
-        if (!user) {
-            return false;
-        }
-        return user.personalInfo.password === password;
-    }
+    await prisma.user.update({
+        where: { cpf },
+        data: {
+            fullName: settings.fullName,
+            username: settings.username,
+            email: settings.email,
+            password: settings.password,
+            phoneNumber: settings.phoneNumber,
+        },
+    });
 
-    async updateUser(cpf: string, userData: Partial<UserRegistration>): Promise<UserRegistration | null> {
-        const users = this.readUsers();
-        const userIndex = users.findIndex(user => user.personalInfo.cpf === cpf);
+    const updated = await prisma.userSettings.update({
+        where: { cpf },
+        data: {
+            language: settings.language,
+            emailNotifications: settings.emailNotifications,
+            pushNotifications: settings.pushNotifications,
+            marketingEmails: settings.marketingEmails,
+            eventReminders: settings.eventReminders,
+        },
+    });
 
-        if (userIndex === -1) {
-            return null;
-        }
-
-        const updatedUser: UserRegistration = {
-            ...users[userIndex],
-            ...userData
-        };
-
-        users[userIndex] = updatedUser;
-        this.writeUsers(users);
-
-        return updatedUser;
-
-    }
-
-    async getUserByCpf(cpf: string): Promise<UserRegistration | null> {
-        const users = this.readUsers();
-        return users.find(user => user.personalInfo.cpf === cpf) || null;
-    }
-
-    async getUserByEmail(email: string): Promise<UserRegistration | null> {
-        const users = this.readUsers();
-        return users.find(user => user.personalInfo.email === email) || null;
-    }
-
-    async getUserSocialConnections(cpf: string): Promise<{ [key: string]: string | undefined } | null> {
-        const user = await this.getUserByCpf(cpf);
-        if (!user) {
-            return null;
-        }
-
-        return user.socialMedia;
-    }
-
-    async getUserProfileOverview(cpf: string): Promise<UserOverview | null> {
-        const user = await this.getUserByCpf(cpf);
-        if (!user) {
-            return null;
-        }
-
-        const socialMedia = Object.entries(user.socialMedia).reduce((acc, [key, value]) => {
-            if (value) acc[key as keyof typeof acc] = { username: value };
-            return acc;
-        }, {} as UserOverview['socialMedia']);
-
-        return {
-            profileImage: user.personalInfo.profileImage,
-            email: user.personalInfo.email,
-            fullName: user.personalInfo.fullName,
-            games: user.gamingPreferences.games,
-            socialMedia
-        };
-    }
-
-    async getUserSettings(cpf: string): Promise<UserSettings | null> {
-        const user = await this.getUserByCpf(cpf);
-        const settings = this.readSettings();
-        const userSettings = settings.find(setting => setting.cpf === cpf);
-        
-        if (!user || !userSettings) {
-            return null;
-        }
-        
-        return {
-            fullName: user.personalInfo.fullName,
-            username: user.personalInfo.username,
-            email: user.personalInfo.email,
-            password: user.personalInfo.password,
-            phoneNumber: user.personalInfo.phoneNumber,
-            language: userSettings.language,
-            emailNotifications: userSettings.emailNotifications,
-            pushNotifications: userSettings.pushNotifications,
-            marketingEmails: userSettings.marketingEmails,
-            eventReminders: userSettings.eventReminders
-        };
-    }
-
-    async updateUserSettings(cpf: string, settings: Partial<UserSettings>): Promise<UserSettings | null> {
-        const user = await this.getUserByCpf(cpf);
-        const allSettings = this.readSettings();
-        const userIndex = allSettings.findIndex(setting => setting.cpf === cpf);
-
-        if (!user || userIndex === -1) {
-            return null;
-        }
-
-        if (settings.fullName) user.personalInfo.fullName = settings.fullName;
-        if (settings.username) user.personalInfo.username = settings.username;
-        if (settings.email) user.personalInfo.email = settings.email;
-        if (settings.password) user.personalInfo.password = settings.password;
-        if (settings.password) user.personalInfo.passwordVerify = settings.password;
-
-        const updatedConfigSettings = {
-            ...allSettings[userIndex],
-            language: settings.language ?? allSettings[userIndex].language,
-            emailNotifications: settings.emailNotifications ?? allSettings[userIndex].emailNotifications,
-            pushNotifications: settings.pushNotifications ?? allSettings[userIndex].pushNotifications,
-            marketingEmails: settings.marketingEmails ?? allSettings[userIndex].marketingEmails,
-            eventReminders: settings.eventReminders ?? allSettings[userIndex].eventReminders
-        };
-
-        allSettings[userIndex] = updatedConfigSettings;
-        this.writeSettings(allSettings);
-        await this.updateUser(cpf, user);
-
-        return {
-            fullName: user.personalInfo.fullName,
-            username: user.personalInfo.username,
-            email: user.personalInfo.email,
-            password: user.personalInfo.password,
-            phoneNumber: user.personalInfo.phoneNumber,
-            language: updatedConfigSettings.language,
-            emailNotifications: updatedConfigSettings.emailNotifications,
-            pushNotifications: updatedConfigSettings.pushNotifications,
-            marketingEmails: updatedConfigSettings.marketingEmails,
-            eventReminders: updatedConfigSettings.eventReminders
-        };
-    }
-}
+    return {
+        fullName: user.fullName,
+        username: user.username,
+        email: user.email,
+        password: settings.password || user.password,
+        phoneNumber: user.phoneNumber,
+        language: updated.language,
+        emailNotifications: updated.emailNotifications,
+        pushNotifications: updated.pushNotifications,
+        marketingEmails: updated.marketingEmails,
+        eventReminders: updated.eventReminders,
+    };
+};
