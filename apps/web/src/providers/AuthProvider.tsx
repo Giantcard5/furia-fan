@@ -11,8 +11,8 @@ import {
 } from '@/lib/api-service';
 
 import { 
-    OnboardingFormData 
-} from '@/types/onboarding';
+    UserRegistration
+} from '@furiafan/types';
 
 import Cookies from 'js-cookie';
 
@@ -21,10 +21,10 @@ import {
 } from '@/utils/formatters';
 
 interface AuthContextType {
-    user: OnboardingFormData | null;
+    user: UserRegistration | null;
     isLoading: boolean;
     fetchUser: (cpf: string) => Promise<boolean>;
-    registerUser: (data: OnboardingFormData) => Promise<boolean>;
+    registerUser: (data: UserRegistration) => Promise<boolean>;
     loginUser: (cpf: string, password: string) => Promise<boolean>;
     logoutUser: () => void;
     isUserLoaded: boolean;
@@ -37,7 +37,7 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = useState<OnboardingFormData | null>(null);
+    const [user, setUser] = useState<any | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -100,7 +100,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         };
     };
 
-    const registerUser = async (data: OnboardingFormData): Promise<boolean> => {
+    const registerUser = async (data: UserRegistration): Promise<boolean> => {
         setIsLoading(true);
         setError(null);
 
