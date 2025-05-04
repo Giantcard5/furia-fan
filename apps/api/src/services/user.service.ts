@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 import {
     UserOverview,
+    UserRegistration,
     UserSettings
 } from '@furiafan/types';
 
@@ -20,61 +21,97 @@ export const getUserByCpf = async (cpf: string) => {
     });
 };
 
-export const createUser = async (data: any) => {
-    return await prisma.user.create({
-        data: {
-            fullName: data.fullName,
-            username: data.username,
-            email: data.email,
-            cpf: data.cpf,
-            phoneNumber: data.phoneNumber,
-            birthDate: data.birthDate,
-            address: data.address,
-            city: data.city,
-            state: data.state,
-            zipCode: data.zipCode,
-            password: data.password,
-            profileImage: data.profileImage || null,
-            platform: data.gamingPreferences?.platform || '',
-            playFrequency: data.gamingPreferences?.playFrequency || '',
+export const createUser = async (data: UserRegistration) => {
+    const { personalInfo, gamingPreferences, documents, socialMedia } = data;
 
-            settings: {
-                create: {
-                    language: 'pt-BR',
-                    emailNotifications: true,
-                    pushNotifications: true,
-                    marketingEmails: true,
-                    eventReminders: true
-                }
-            },
+    console.log('Chegou aqui:', personalInfo.cpf);
 
-            games: {
-                create: data.gamingPreferences?.games?.map((g: string) => ({ name: g })) || []
-            },
-            events: {
-                create: data.gamingPreferences?.events?.map((e: string) => ({ name: e })) || []
-            },
-            purchases: {
-                create: data.gamingPreferences?.purchases?.map((p: string) => ({ name: p })) || []
-            },
+    try {
+        const user = await prisma.user.create({
+            data: {
+                fullName: personalInfo.fullName,
+                username: personalInfo.username,
+                email: personalInfo.email,
+                cpf: personalInfo.cpf,
+                phoneNumber: personalInfo.phoneNumber,
+                birthDate: personalInfo.birthDate,
+                address: personalInfo.address,
+                city: personalInfo.city,
+                state: personalInfo.state,
+                zipCode: personalInfo.zipCode,
+                password: personalInfo.password,
+                profileImage: personalInfo.profileImage || null,
+                platform: gamingPreferences?.platform || '',
+                playFrequency: gamingPreferences?.playFrequency || '',
 
-            documents: {
-                create: {
-                    idDocument: typeof data.documents?.idDocument?.file === 'string' ? data.documents.idDocument.file : '',
-                    selfieWithId: typeof data.documents?.selfieWithId?.file === 'string' ? data.documents.selfieWithId.file : ''
-                }
+                settings: {
+                    create: {
+                        language: 'pt-BR',
+                        emailNotifications: true,
+                        pushNotifications: true,
+                        marketingEmails: true,
+                        eventReminders: true
+                    }
+                },
+
+                games: Array.isArray(gamingPreferences?.games) && gamingPreferences.games.length
+                    ? {
+                        create: gamingPreferences.games.map((g: string) => ({ name: g }))
+                    }
+                    : undefined,
+
+                events: Array.isArray(gamingPreferences?.events) && gamingPreferences.events.length
+                    ? {
+                        create: gamingPreferences.events.map((e: string) => ({ name: e }))
+                    }
+                    : undefined,
+
+                purchases: Array.isArray(gamingPreferences?.purchases) && gamingPreferences.purchases.length
+                    ? {
+                        create: gamingPreferences.purchases.map((p: string) => ({ name: p }))
+                    }
+                    : undefined,
+
+                documents: {
+                    create: {
+                        idDocument: '', // Change to link
+                        selfieWithId: '' // Change to link
+                    }
+                },
+
+                socialMedia: socialMedia
+                    ? {
+                        create: {
+                            twitch: null,
+                            discord: null,
+                            HLTV: null
+                        }
+                    }
+                    : undefined
             },
-        },
-        include: {
-            settings: true,
-            games: true,
-            events: true,
-            purchases: true,
-            documents: true,
-            socialMedia: true
+            include: {
+                settings: true,
+                games: true,
+                events: true,
+                purchases: true,
+                documents: true,
+                socialMedia: true
+            }
+        });
+
+        if (user) {
+            console.log('✅ Usuário criado com sucesso:', user);
+            return user;
+        } else {
+            console.warn('⚠️ A criação do usuário retornou vazio.');
+            return null;
         }
-    });
+    } catch (error) {
+        console.error('❌ Erro ao criar usuário:', error);
+        throw error;
+    }
 };
+
 
 export const loginUser = async (cpf: string, password: string): Promise<boolean> => {
     const user = await prisma.user.findUnique({ where: { cpf } });

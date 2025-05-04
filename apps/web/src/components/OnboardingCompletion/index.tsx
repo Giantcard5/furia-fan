@@ -95,11 +95,17 @@ export default function CompletionSummary({ formData, onBack }: CompletionSummar
                 }, totalDelay);
             });
 
-            setTimeout(() => {
+            setTimeout(async () => {
                 setVerificationComplete(true);
-                setTimeout(() => {
-                    window.location.href = '/dashboard'
-                }, 1500);
+                
+                const registerResponse = await registerUser(formData);
+                if (registerResponse) {
+                    setTimeout(() => {
+                        window.location.href = '/dashboard'
+                    }, 1500);
+                } else {
+                    throw new Error('Failed to register user');
+                }
             }, totalDelay + 1000);
 
             // const documentAnalysis = await apiService.analyzeDocument(formData.documents.idDocument.preview);

@@ -84,7 +84,7 @@ model User {
   cpf            String         @unique
   email          String         @unique
   fullName       String
-  username       String         @unique
+  username       String         
   password       String
   address        String
   city           String

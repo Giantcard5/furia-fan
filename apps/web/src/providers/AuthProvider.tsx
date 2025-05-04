@@ -71,8 +71,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setError(null);
 
         try {
-            console.log(cpf, password);
-
             const loginResponse = await apiService.postUserLogin(cpf, password);
 
             if (loginResponse.error || !loginResponse.data.success) {
