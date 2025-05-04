@@ -1,4 +1,4 @@
-# 🖤 FURIA Fan Platform - Complete Technical Overview
+# 🖤 FURIA Fan Platform ( Know Your Fan ) - Complete Technical Overview
 
 A robust full-stack application designed as a monorepo to power an interactive fan experience for the FURIA esports organization. Built with modern technologies across frontend and backend, it integrates live data, user authentication, social interaction, and ecommerce.
 
