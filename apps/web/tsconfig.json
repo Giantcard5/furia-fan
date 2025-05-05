@@ -26,9 +26,6 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ],
-      "@furiafan/types": [
-        "../../packages/types"
       ]
     },
     "baseUrl": ".",

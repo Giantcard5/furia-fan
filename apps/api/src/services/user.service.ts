@@ -4,7 +4,7 @@ import {
     UserOverview,
     UserRegistration,
     UserSettings
-} from '@furiafan/types';
+} from '../types';
 
 const prisma = new PrismaClient();
 

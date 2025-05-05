@@ -13,9 +13,6 @@
         "skipLibCheck": true,
         "moduleResolution": "node",
         "forceConsistentCasingInFileNames": true,
-        "baseUrl": ".",
-        "paths": {
-            "@furiafan/types": ["packages/types"]
-        }
+        "baseUrl": "."
     }
 }

@@ -12,7 +12,7 @@ import {
 
 import { 
     UserRegistration
-} from '@furiafan/types';
+} from '@/types';
 
 import Cookies from 'js-cookie';
 
