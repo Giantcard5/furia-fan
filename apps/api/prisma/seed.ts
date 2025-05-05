@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-    // Create Teams
+    // Criar times (Team)
     const teams = await Promise.all([
         prisma.team.create({
             data: {
@@ -49,201 +49,26 @@ async function main() {
         }),
     ]);
 
-    // Create Stats
-    await Promise.all([
-        prisma.stat.createMany({
-            data: [
-                { value: 5, label: 'Titulos', teamId: teams[0].id },
-                { value: 15, label: 'Top 3', teamId: teams[0].id },
-                { value: 30, label: 'Top 5', teamId: teams[0].id },
-                { value: 3, label: 'Titulos', teamId: teams[1].id },
-                { value: 10, label: 'Top 3', teamId: teams[1].id },
-                { value: 20, label: 'Top 5', teamId: teams[1].id },
-                { value: 1, label: 'Titulos', teamId: teams[2].id },
-                { value: 3, label: 'Top 3', teamId: teams[2].id },
-                { value: 5, label: 'Top 5', teamId: teams[2].id },
-                { value: 1, label: 'Titulos', teamId: teams[3].id },
-                { value: 3, label: 'Top 3', teamId: teams[3].id },
-                { value: 1, label: 'Titulos', teamId: teams[4].id },
-                { value: 3, label: 'Top 3', teamId: teams[4].id },
-                { value: 1, label: 'Titulos', teamId: teams[5].id },
-                { value: 3, label: 'Top 3', teamId: teams[5].id },
-            ],
-        }),
-    ]);
-
-    // Create Users
-    const users = await Promise.all([
-        prisma.user.create({
-            data: {
-                cpf: '000.000.000-00',
-                email: 'john@example.com',
-                fullName: 'John Doe',
-                username: 'JohnDoe01',
-                password: 'hashedPassword123456',
-                address: '123 Main Street',
-                city: 'São Paulo',
-                state: 'SP',
-                zipCode: '01234-567',
-                phoneNumber: '(11) 12345-6789',
-                birthDate: new Date('1990-01-01'),
-                profileImage: 'https://example.com/profile.jpg',
-                platform: 'PC',
-                playFrequency: 'Daily',
-            },
-        }),
-    ]);
-
-    // Create UserSettings
-    await Promise.all([
-        prisma.userSettings.create({
-            data: {
-                cpf: users[0].cpf,
-                language: 'pt-BR',
-                emailNotifications: true,
-                pushNotifications: true,
-                marketingEmails: true,
-                eventReminders: true,
-            },
-        }),
-    ]);
-
-    // Create SocialMedia
-    await prisma.socialMedia.create({
-        data: {
-            twitch: 'johndoe',
-            discord: 'johndoe',
-            HLTV: 'johndoe',
-            userId: users[0].id,
-        },
-    });
-
-    // Create Documents
-    await Promise.all([
-        prisma.document.create({
-            data: {
-                idDocument: 'id_document.jpg',
-                selfieWithId: 'data:image/jpeg;base64,/9j/4AAQSkZJRg...',
-                userId: users[0].id,
-            },
-        }),
-        prisma.document.create({
-            data: {
-                idDocument: 'id_document.jpg',
-                selfieWithId: 'data:image/jpeg;base64,/9j/4AAQSkZJRg...',
-                userId: users[0].id,
-            },
-        }),
-    ]);
-
-    // Create Events
-    await prisma.event.createMany({
+    await prisma.stat.createMany({
         data: [
-            {
-                title: 'FURIA vs MiBR',
-                type: 'match',
-                date: new Date('2025-04-30'),
-                time: '18:00:00',
-                location: 'São Paulo, Brazil',
-                attendees: 156,
-                game: 'CS2',
-                createdAt: new Date('2023-11-15 10:30:00'),
-                updatedAt: new Date('2023-11-15 10:30:00'),
-            },
-            {
-                title: 'CS2 Major Copenhagen',
-                type: 'tournament',
-                date: new Date('2025-05-14'),
-                time: '10:00:00',
-                location: 'Copenhagen, Denmark',
-                attendees: 243,
-                game: 'CS2',
-                createdAt: new Date('2023-11-15 10:30:00'),
-                updatedAt: new Date('2023-11-15 10:30:00'),
-            },
-            {
-                title: 'FURIA Fan Meet',
-                type: 'fan-meet',
-                date: new Date('2025-06-09'),
-                time: '15:00:00',
-                location: 'Rio de Janeiro, Brazil',
-                attendees: 89,
-                createdAt: new Date('2023-11-15 10:30:00'),
-                updatedAt: new Date('2023-11-15 10:30:00'),
-            },
-            {
-                title: 'FURIA vs Liquid',
-                type: 'match',
-                date: new Date('2025-06-15'),
-                time: '19:30:00',
-                location: 'Los Angeles, USA',
-                attendees: 112,
-                game: 'CS2',
-                createdAt: new Date('2023-11-15 10:30:00'),
-                updatedAt: new Date('2023-11-15 10:30:00'),
-            },
-            {
-                title: 'Valorant Champions Tour',
-                type: 'tournament',
-                date: new Date('2025-07-05'),
-                time: '12:00:00',
-                location: 'Berlin, Germany',
-                attendees: 178,
-                game: 'Valorant',
-                createdAt: new Date('2023-11-15 10:30:00'),
-                updatedAt: new Date('2023-11-15 10:30:00'),
-            },
-            {
-                title: 'FURIA Community Day',
-                type: 'fan-meet',
-                date: new Date('2025-07-20'),
-                time: '14:00:00',
-                location: 'São Paulo, Brazil',
-                attendees: 65,
-                createdAt: new Date('2023-11-15 10:30:00'),
-                updatedAt: new Date('2023-11-15 10:30:00'),
-            },
+            { value: 5, label: 'Titulos', teamId: teams[0].id },
+            { value: 15, label: 'Top 3', teamId: teams[0].id },
+            { value: 30, label: 'Top 5', teamId: teams[0].id },
+            { value: 3, label: 'Titulos', teamId: teams[1].id },
+            { value: 10, label: 'Top 3', teamId: teams[1].id },
+            { value: 20, label: 'Top 5', teamId: teams[1].id },
+            { value: 1, label: 'Titulos', teamId: teams[2].id },
+            { value: 3, label: 'Top 3', teamId: teams[2].id },
+            { value: 5, label: 'Top 5', teamId: teams[2].id },
+            { value: 1, label: 'Titulos', teamId: teams[3].id },
+            { value: 3, label: 'Top 3', teamId: teams[3].id },
+            { value: 1, label: 'Titulos', teamId: teams[4].id },
+            { value: 3, label: 'Top 3', teamId: teams[4].id },
+            { value: 1, label: 'Titulos', teamId: teams[5].id },
+            { value: 3, label: 'Top 3', teamId: teams[5].id },
         ],
     });
 
-    // Create EventPreferences
-    await Promise.all([
-        prisma.eventPreference.createMany({
-            data: [
-                { name: 'rio-major', userId: users[0].id },
-                { name: 'vct-champions', userId: users[0].id },
-                { name: 'cs2-major', userId: users[0].id },
-                { name: 'Major Championships', userId: users[0].id },
-                { name: 'Local Tournaments', userId: users[0].id },
-            ],
-        }),
-    ]);
-
-    // Create GamePreferences
-    await Promise.all([
-        prisma.gamePreference.createMany({
-            data: [
-                { name: 'counter-strike-2', userId: users[0].id },
-                { name: 'valorant', userId: users[0].id },
-                { name: 'CS:GO', userId: users[0].id },
-                { name: 'Valorant', userId: users[0].id },
-                { name: 'League of Legends', userId: users[0].id },
-            ],
-        }),
-    ]);
-
-    // Create Purchases
-    await Promise.all([
-        prisma.purchase.createMany({
-            data: [
-                { name: 'furia-jersey', userId: users[0].id },
-                { name: 'Team Jerseys', userId: users[0].id },
-                { name: 'Game Skins', userId: users[0].id },
-            ],
-        }),
-    ]);
-
-    // Create Players
     await prisma.player.createMany({
         data: [
             { name: 'KSCERATO', role: 'Player', image: '/images/players/kscerato.png', teamId: teams[0].id },
@@ -284,36 +109,115 @@ async function main() {
             { name: 'zkrakeN', role: 'Player', image: '/images/players/zkraken.png', teamId: teams[5].id },
             { name: 'rds149', role: 'Coach', image: '/images/players/rds149.png', teamId: teams[5].id },
         ],
-    });
+    }),
 
-    // Create Shop items
+        // Criar eventos (Event)
+        await prisma.event.createMany({
+            data: [
+                {
+                    title: 'FURIA vs MiBR',
+                    type: 'match',
+                    date: new Date('2025-04-30'),
+                    time: '18:00:00',
+                    location: 'São Paulo, Brazil',
+                    attendees: 156,
+                    game: 'CS2',
+                },
+                {
+                    title: 'CS2 Major Copenhagen',
+                    type: 'tournament',
+                    date: new Date('2025-05-14'),
+                    time: '10:00:00',
+                    location: 'Copenhagen, Denmark',
+                    attendees: 243,
+                    game: 'CS2',
+                    createdAt: new Date('2023-11-15 10:30:00'),
+                    updatedAt: new Date('2023-11-15 10:30:00'),
+                },
+                {
+                    title: 'FURIA Fan Meet',
+                    type: 'fan-meet',
+                    date: new Date('2025-06-09'),
+                    time: '15:00:00',
+                    location: 'Rio de Janeiro, Brazil',
+                    attendees: 89,
+                    createdAt: new Date('2023-11-15 10:30:00'),
+                    updatedAt: new Date('2023-11-15 10:30:00'),
+                },
+                {
+                    title: 'FURIA vs Liquid',
+                    type: 'match',
+                    date: new Date('2025-06-15'),
+                    time: '19:30:00',
+                    location: 'Los Angeles, USA',
+                    attendees: 112,
+                    game: 'CS2',
+                    createdAt: new Date('2023-11-15 10:30:00'),
+                    updatedAt: new Date('2023-11-15 10:30:00'),
+                },
+                {
+                    title: 'Valorant Champions Tour',
+                    type: 'tournament',
+                    date: new Date('2025-07-05'),
+                    time: '12:00:00',
+                    location: 'Berlin, Germany',
+                    attendees: 178,
+                    game: 'Valorant',
+                    createdAt: new Date('2023-11-15 10:30:00'),
+                    updatedAt: new Date('2023-11-15 10:30:00'),
+                },
+                {
+                    title: 'FURIA Community Day',
+                    type: 'fan-meet',
+                    date: new Date('2025-07-20'),
+                    time: '14:00:00',
+                    location: 'São Paulo, Brazil',
+                    attendees: 65,
+                    createdAt: new Date('2023-11-15 10:30:00'),
+                    updatedAt: new Date('2023-11-15 10:30:00'),
+                },
+            ],
+        });
+
+    // Criar produtos (Shop)
     await prisma.shop.createMany({
         data: [
             {
-                title: 'Camiseta Furia Oficial 24 Preta',
+                title: 'Camiseta Oficial FURIA',
                 category: 'Apparel',
-                price: 259.00,
+                price: 129.90,
+                oldPrice: 149.90,
+                discount: 13,
+                rating: 4.8,
+                ratingCount: 125,
                 image: 'https://furiagg.fbitsstatic.net/img/p/camiseta-furia-oficial-24-preta-150177/336897-7.jpg?w=468&h=468&v=202502121640',
+                tag: 'New',
                 availability: 'In Stock',
-                productLink: 'https://www.furia.gg/produto/camiseta-furia-oficial-24-preta-150177',
+                productLink: 'https://www.furia.gg/produto/camiseta-furia-oficial-24-preta-150177'
             },
             {
                 title: 'Camiseta Furia | Adidas Preta',
                 category: 'Apparel',
-                price: 299.00,
+                price: 89.90,
+                oldPrice: 99.90,
+                discount: 10,
+                rating: 4.6,
+                ratingCount: 75,
                 image: 'https://furiagg.fbitsstatic.net/img/p/camiseta-furia-adidas-preta-150263/337479-1.jpg?w=468&h=468&v=202503281012',
+                tag: 'New',
                 availability: 'In Stock',
-                productLink: 'https://www.furia.gg/produto/camiseta-furia-adidas-preta-150263',
-            },
-        ],
+                productLink: 'https://www.furia.gg/produto/camiseta-furia-adidas-preta-150263'
+            }
+        ]
     });
+
+    console.log('🌱 Seed realizado com sucesso!');
 }
 
 main()
-    .catch((e) => {
+    .then(async () => await prisma.$disconnect())
+    .catch(async (e) => {
         console.error(e);
-        process.exit(1);
-    })
-    .finally(async () => {
         await prisma.$disconnect();
-    }); 
+        process.exit(1);
+    });
