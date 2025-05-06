@@ -152,7 +152,7 @@ export const getUserProfileOverview = async (cpf: string): Promise<UserOverview 
         profileImage: user.profileImage,
         email: user.email,
         fullName: user.fullName,
-        games: user.games.map(g => g.name),
+        games: user.games.map((g: any) => g.name),
         socialMedia,
     };
 };
